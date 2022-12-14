@@ -1,0 +1,24 @@
+{% extends 'padre/padre.html' %}
+
+{% block title %} TZReport RE PO 001{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-secondary display-3 text-center container mt-5">Agregar nuevo</div>
+
+<div class="container mt-5">
+<form action="" method="post">
+    <table class="table">
+        {{form}}    
+        {% csrf_token %}
+        <tr>
+            <td colspan ="2">
+                <input type="submit" class="btn btn-success btn-block" value="Guardar">
+            </td>
+        </tr>
+    </table>
+</form>
+<div>
+
+
+{% endblock %}
