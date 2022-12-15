@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-  <nav class="navbar navbar-dark bg-dark">
+  <nav class="navbar navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" style="font-size: xx-Large" href="{% url 'index' %}">TZReport</a>
         <form class="d-flex" role="search">
@@ -23,6 +23,7 @@
       </form>
     </div>
   </nav>
+  <br><br><br><br>
       {% block content %}
 
       {% endblock %}

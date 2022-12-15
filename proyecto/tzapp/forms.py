@@ -36,14 +36,6 @@ class TlcForm(forms.ModelForm):
     
     nombre.widget.attrs['class']='form-control'
     
-class SelloForm(forms.ModelForm):
-    class Meta:
-        model=Sello
-        fields = '__all__'
-    numero = forms.CharField()
-    
-    numero.widget.attrs['class']='form-control'
-    
 class Repo001Form(forms.ModelForm):
     class Meta:
         model=DetalleCamionRecepcionLeche
@@ -68,6 +60,7 @@ class Repo001Form(forms.ModelForm):
     placa = forms.ForeignKey(Camion, on_delete=forms.SET_NULL, null = True)
     recorrido = forms.ForeignKey(Recorrido, on_delete=forms.SET_NULL, null = True) """
     numero_guia = forms.IntegerField()
+    sello = forms.CharField(widget=forms.Textarea, label='Sello: separar con la tecla ENTER')
     temperatura_leche_guia = forms.FloatField()
     temperatura_leche_pool = forms.FloatField()
     temperatura_leche_salida_enfriador = forms.FloatField()
@@ -101,6 +94,7 @@ class Repo001Form(forms.ModelForm):
     placa = forms.ForeignKey(Camion, on_delete=forms.SET_NULL, null = True)
     recorrido = forms.ForeignKey(Recorrido, on_delete=forms.SET_NULL, null = True) """
     numero_guia.widget.attrs['class']='form-control'
+    sello.widget.attrs['class']='form-control'
     temperatura_leche_guia.widget.attrs['class']='form-control'
     temperatura_leche_pool.widget.attrs['class']='form-control'
     temperatura_leche_salida_enfriador.widget.attrs['class']='form-control'

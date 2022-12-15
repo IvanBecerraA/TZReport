@@ -34,6 +34,7 @@ class DetalleCamionRecepcionLeche(models.Model):
     recorrido = models.ForeignKey(Recorrido, on_delete=models.CASCADE)
     tlc = models.ManyToManyField(Tlc, through= 'DetalleTlc')
     numero_guia = models.IntegerField()
+    sello = models.CharField(max_length=100)
     temperatura_leche_guia = models.FloatField()
     temperatura_leche_pool = models.FloatField()
     temperatura_leche_salida_enfriador = models.FloatField()
@@ -73,9 +74,6 @@ class DetalleTlc(models.Model):
     def __str__(self):
         return f'{self.tlc} :{self.hora_estandarizacion}'
 
-class Sello(models.Model):
-    numero = models.IntegerField()
-    detalle_camion_recepcion_leche = models.ForeignKey(DetalleCamionRecepcionLeche, on_delete=models.CASCADE)
 #-------------------------------------- Fin de los modelos para la RE PO 001 --------------------------------------
 
     
