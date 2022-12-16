@@ -5,6 +5,7 @@ from tzapp.models import *
 from .import forms
 
 # Create your views here.
+
 @login_required
 def index(request):
     return render(request,'index\index.html')
@@ -150,19 +151,6 @@ def repo013Editar(request, id):
         form=forms.Repo013Form(instance=registro)
     data={'form':form}
     return render(request, 'repo013/editar.html', data)
-
-@login_required
-def operador013Agregar(request):
-    nombre_modelo = Operador.__name__
-    form=forms.OperadorForm()
-    if request.method == 'POST':
-        form=forms.OperadorForm(request.POST)
-        if form.is_valid():
-            form.save()
-            # return repo001Agregar(request)
-            return redirect('/repo013_agregar')
-    data={'form':form, 'nombre_modelo':nombre_modelo}
-    return render(request, 'repo001/agregarabstracto.html', data)
 
 @login_required
 def tctAgregar(request):

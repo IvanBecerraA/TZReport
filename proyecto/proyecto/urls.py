@@ -37,7 +37,6 @@ urlpatterns = [
     path('repo013_agregar/', repo013Agregar, name='repo013_agregar'),
     path('repo013_eliminar/<int:id>', repo013Eliminar, name='repo013_eliminar'),
     path('repo013_editar/<int:id>', repo013Editar, name='repo013_editar'),
-    path('operador013_agregar/', operador013Agregar, name='operador013_agregar'),
     path('tct_agregar/', tctAgregar, name='tct_agregar'),
     path('tlp_agregar/', tlpAgregar, name='tlp_agregar'),
     #-------------------------------------- Termino de las urls para la RE PO 013 --------------------------------------
