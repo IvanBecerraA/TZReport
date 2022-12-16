@@ -2,6 +2,8 @@ from django import forms
 from tzapp.models import *
 
 #-------------------------------------- Inicio de los forms para la RE PO 001 --------------------------------------
+parametrosRepo001Lista = parametrosRepo001.objects.get(pk = 1)
+
 class CamionForm(forms.ModelForm):
     class Meta:
         model=Camion
@@ -61,7 +63,10 @@ class Repo001Form(forms.ModelForm):
     recorrido = forms.ForeignKey(Recorrido, on_delete=forms.SET_NULL, null = True) """
     numero_guia = forms.IntegerField()
     sello = forms.CharField(widget=forms.Textarea, label='Sello: separar con la tecla ENTER')
-    temperatura_leche_guia = forms.FloatField()
+    temperatura_leche_guia = forms.FloatField(
+        min_value=parametrosRepo001Lista.temperatura_leche_guia_minimo, 
+        max_value=parametrosRepo001Lista.temperatura_leche_guia_maximo, 
+        label=f'Temperatura leche guía: (Norma {parametrosRepo001Lista.temperatura_leche_guia_minimo} - {parametrosRepo001Lista.temperatura_leche_guia_maximo})')
     temperatura_leche_pool = forms.FloatField()
     temperatura_leche_salida_enfriador = forms.FloatField()
     litros_camion = forms.FloatField()

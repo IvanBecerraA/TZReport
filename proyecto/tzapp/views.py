@@ -1,9 +1,28 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+
+from django.views.generic import ListView, View
+from tzapp.utils import pdfConvert
 from tzapp.models import *
 from .import forms
 
+
+class ListaRepo001(ListView):
+    model = DetalleCamionRecepcionLeche
+    template_name = "reporte/repo001.html"
+    context_object_name = 'repos001'
+
+class ListaRepo001Pdf(View):
+    
+    def get(self, request, *args, **kwargs):
+        repos001 = DetalleCamionRecepcionLeche.objects.all()
+        data = {
+            'repos001': repos001
+        }
+        pdf = pdfConvert('reporte/repo001pdf.html', data)
+        return HttpResponse(pdf, content_type='application/pdf')
 # Create your views here.
 
 @login_required

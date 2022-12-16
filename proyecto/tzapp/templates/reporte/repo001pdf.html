@@ -1,0 +1,98 @@
+<style>
+    th, td {
+        font-size: 4px;
+      }
+</style>
+{% if repos001 %}
+<div class="container mt-5">
+<div class="alert alert-secondary display-3 text-center container mt-5">Listado de RE PO 001</div>
+
+    <table class="table table-hover table-responsive">
+        <thead class="table-light">
+            <tr>
+                <th>Fecha</th>
+                <th>Operador</th>
+                <th>Placa</th>
+                <th>Recorrido</th>
+                <th>TLC</th>
+                <th>Número de guía</th>
+                <th>Sello/s</th>
+                <th>Temperatura leche guia</th>
+                <th>Temperatura leche pool</th>
+                <th>Temperatura leche salida del enfriador</th>
+                <th>Litros del camión</th>
+                <th>Kilo gramos del camión</th>
+                <th>Litros ingresados en SAP</th>
+                <th>Acidez</th>
+                <th>PH</th>
+                <th>Prueba</th>
+                <th>SNAP</th>
+                <th>MG</th>
+                <th>SNG</th>
+                <th>ST</th>
+                <th>Proteina</th>
+                <th>Densidad</th>
+                <th>Color y olor</th>
+                <th>Hora de ingraso a la planta</th>
+                <th>Hora de muestra</th>
+                <th>Hora de inicio de la descarga</th>
+                <th>Hora de termino de la descarga</th>
+                <th>Hora de inicio del aseo</th>
+                <th>Hora de termino del aseo</th>
+                <th>Hora de salida de la planta</th>
+                <th>Kilo gramos del camión en la salida</th>
+                <th>Tipo de aseo</th>
+                <th>Comentario</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for repo001 in repos001 %}
+            <tr>
+                <td>{{repo001.fecha}}</td>
+                <td>{{repo001.operador}}</td>
+                <td>{{repo001.placa}}</td>
+                <td>{{repo001.recorrido}}</td>
+                <td>
+                    <ul>
+                        {% for tlc in repo001.tlc.all %}
+                            <li>{{tlc.nombre}}</li>
+                        {% endfor %}
+                    <ul>
+                </td>
+                <td>{{repo001.numero_guia}}</td>
+                <td>{{repo001.sello}}</td>
+                <td>{{repo001.temperatura_leche_guia}}</td>
+                <td>{{repo001.temperatura_leche_pool}}</td>
+                <td>{{repo001.temperatura_leche_salida_enfriador}}</td>
+                <td>{{repo001.litros_camion}}</td>
+                <td>{{repo001.kilo_gramos_camion}}</td>
+                <td>{{repo001.litros_sap}}</td>
+                <td>{{repo001.acidez}}</td>
+                <td>{{repo001.ph_camion}}</td>
+                <td>{{repo001.prueba}}</td>
+                <td>{{repo001.snap}}</td>
+                <td>{{repo001.mg}}</td>
+                <td>{{repo001.sng}}</td>
+                <td>{{repo001.st}}</td>
+                <td>{{repo001.proteina}}</td>
+                <td>{{repo001.densidad}}</td>
+                <td>{{repo001.color_y_olor}}</td>
+                <td>{{repo001.hora_ingreso_a_planta}}</td>
+                <td>{{repo001.hora_muestra}}</td>
+                <td>{{repo001.hora_inicio_descarga}}</td>
+                <td>{{repo001.hora_termino_descarga}}</td>
+                <td>{{repo001.hora_inicio_aseo}}</td>
+                <td>{{repo001.hora_termino_aseo}}</td>
+                <td>{{repo001.hora_salida_planta}}</td>
+                <td>{{repo001.kilo_gramos_camion_salida}}</td>
+                <td>{{repo001.tipo_aseo_camion}}</td>
+                <td>{{repo001.comentario}}</td>                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>  
+</div>
+
+{% else %}
+<div class="alert alert-warning text-center container mt-5">No se encuentran datos en el sistema</div>
+{% endif %}

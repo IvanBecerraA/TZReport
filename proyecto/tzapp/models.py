@@ -73,6 +73,30 @@ class DetalleTlc(models.Model):
     
     def __str__(self):
         return f'{self.tlc} :{self.fecha_y_hora_estandarizacion}'
+    
+class parametrosRepo001(models.Model):
+    temperatura_leche_guia_minimo = models.FloatField()
+    temperatura_leche_guia_maximo = models.FloatField()
+    temperatura_leche_pool_minimo = models.FloatField()
+    temperatura_leche_pool_maximo = models.FloatField()
+    temperatura_leche_salida_enfriador_minimo = models.FloatField()
+    temperatura_leche_salida_enfriador_maximo = models.FloatField()
+    acidez_minimo = models.FloatField()
+    acidez_maximo = models.FloatField()
+    ph_camion_minimo = models.FloatField()
+    ph_camion_maximo = models.FloatField()
+    prueba_minimo = models.FloatField()
+    prueba_maximo = models.FloatField()
+    mg_minimo = models.FloatField()
+    mg_maximo = models.FloatField()
+    sng_minimo = models.FloatField()
+    sng_maximo = models.FloatField()
+    st_minimo = models.FloatField()
+    st_maximo = models.FloatField()
+    proteina_minimo = models.FloatField()
+    proteina_maximo = models.FloatField()
+    densidad_minimo = models.FloatField()
+    densidad_maximo = models.FloatField()
 
 #-------------------------------------- Fin de los modelos para la RE PO 001 --------------------------------------
 
