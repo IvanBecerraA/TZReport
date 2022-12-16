@@ -9,6 +9,8 @@ from tzapp.models import *
 from .import forms
 
 
+
+
 class ListaRepo001(ListView):
     model = DetalleCamionRecepcionLeche
     template_name = "reporte/repo001.html"
@@ -24,6 +26,9 @@ class ListaRepo001Pdf(View):
         pdf = pdfConvert('reporte/repo001pdf.html', data)
         return HttpResponse(pdf, content_type='application/pdf')
 # Create your views here.
+@login_required
+def menuReporte(request):
+    return render(request, 'reporte/menureportes.html')
 
 @login_required
 def index(request):

@@ -35,7 +35,7 @@ class DetalleCamionRecepcionLeche(models.Model):
     tlc = models.ManyToManyField(Tlc, through= 'DetalleTlc')
     numero_guia = models.IntegerField()
     sello = models.CharField(max_length=100)
-    temperatura_leche_guia = models.FloatField()
+    temperatura_leche_guia = models.FloatField()######   ELIMINAR   #######
     temperatura_leche_pool = models.FloatField()
     temperatura_leche_salida_enfriador = models.FloatField()
     litros_camion = models.FloatField()
@@ -51,14 +51,14 @@ class DetalleCamionRecepcionLeche(models.Model):
     proteina = models.FloatField()
     densidad = models.FloatField()
     color_y_olor = models.CharField(max_length=30)
-    hora_ingreso_a_planta = models.TimeField()
-    hora_muestra = models.TimeField()
-    hora_inicio_descarga = models.TimeField()
+    hora_ingreso_a_planta = models.TimeField()######   ELIMINAR   #######
+    hora_muestra = models.TimeField()######   ELIMINAR   #######
+    hora_inicio_descarga = models.TimeField()######   ELIMINAR   #######
     hora_termino_descarga = models.TimeField()
     hora_inicio_aseo = models.TimeField()
     hora_termino_aseo = models.TimeField()
-    hora_salida_planta = models.TimeField()
-    kilo_gramos_camion_salida = models.FloatField()
+    hora_salida_planta = models.TimeField()######   ELIMINAR   #######
+    kilo_gramos_camion_salida = models.FloatField()######   ELIMINAR   #######
     tipo_aseo_camion = models.CharField(max_length=30)
     comentario = models.CharField(max_length=100, null = True)
     
@@ -75,8 +75,8 @@ class DetalleTlc(models.Model):
         return f'{self.tlc} :{self.fecha_y_hora_estandarizacion}'
     
 class parametrosRepo001(models.Model):
-    temperatura_leche_guia_minimo = models.FloatField()
-    temperatura_leche_guia_maximo = models.FloatField()
+    temperatura_leche_guia_minimo = models.FloatField()######   ELIMINAR   #######
+    temperatura_leche_guia_maximo = models.FloatField()######   ELIMINAR   #######
     temperatura_leche_pool_minimo = models.FloatField()
     temperatura_leche_pool_maximo = models.FloatField()
     temperatura_leche_salida_enfriador_minimo = models.FloatField()

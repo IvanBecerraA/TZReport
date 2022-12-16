@@ -22,6 +22,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', index, name='index'),
     path('salir/', salir, name='salir'),
+    path('menu_reporte/', menuReporte ,name='menureporte'),
     path('reporte/', ListaRepo001.as_view(), name='reporte'),
     path('reportepdf/', ListaRepo001Pdf.as_view(), name='reportepdf'),
     #-------------------------------------- Inicio de las urls para la RE PO 001 --------------------------------------
