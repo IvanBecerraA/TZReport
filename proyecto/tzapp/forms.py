@@ -123,4 +123,64 @@ class Repo001Form(forms.ModelForm):
     tipo_aseo_camion.widget.attrs['class']='form-control'
     comentario.widget.attrs['class']='form-control'
 #-------------------------------------- Fin de los modelos para la RE PO 001 --------------------------------------
+
+
+
+#-------------------------------------- Inicio de los forms para la RE PO 013 --------------------------------------
+
+class Repo013Form(forms.ModelForm):
+    class Meta: #metadatos
+        model= Detalle_pasteurizacion
+        fields = '__all__'
+    TiposLeches = [
+        ('entera', 'ENTERA'),
+        ('descremada', 'DESCREMADA'),       
+    ]
+    Observaciones = [
+        ('no se vacia', 'NO SE VACIA'),
+        ('vacio', 'VACIO'),
+        ('aseo', 'ASEO'),
+        ('vacio y aseo', 'VACIO Y ASEO'),
+     ]
     
+    fecha_registro = forms.DateField(widget=forms.DateInput) #valida que se ingrese una fecha
+    litros_salida_tlp = forms.IntegerField()
+    saldo= forms.IntegerField()
+    tipo_leche= forms.CharField(widget=forms.Select(choices=TiposLeches)) # 1 : n 
+    #pasteurizacion_id = forms.OneToOneField(Pasteurizacion, on_delete=forms.PROTECT) #1 : 1
+    #operador_id = forms.ForeignKey(Operador, on_delete=forms.PROTECT)
+    observacion = forms.CharField(widget=forms.Select(choices=Observaciones))
+    fecha_pasteurizacion = forms.DateField(widget=forms.DateInput)
+    hora_inicio = forms.TimeField(widget=forms.TimeInput)
+    hora_termino = forms.TimeField(widget=forms.TimeInput)
+    temperatura_salida_pasteurizador = forms.FloatField()
+    
+    fecha_registro.widget.attrs['class']='form-control'
+    litros_salida_tlp.widget.attrs['class']='form-control'
+    saldo.widget.attrs['class']='form-control'
+    tipo_leche.widget.attrs['class']='form-control' # 1 : n 
+    #pasteurizacion_id = forms.OneToOneField(Pasteurizacion, on_delete=forms.PROTECT) #1 : 1
+    #operador_id = forms.ForeignKey(Operador, on_delete=forms.PROTECT)
+    observacion.widget.attrs['class']='form-control'
+    fecha_pasteurizacion.widget.attrs['class']='form-control'
+    hora_inicio.widget.attrs['class']='form-control'
+    hora_termino.widget.attrs['class']='form-control'
+    temperatura_salida_pasteurizador.widget.attrs['class']='form-control'
+    
+class TctForm(forms.ModelForm):
+    class Meta:
+        model=Tct
+        fields = '__all__'
+    nombre = forms.CharField()
+    
+    nombre.widget.attrs['class']='form-control'
+        
+class TlpForm(forms.ModelForm):
+    class Meta:
+        model=Tlp
+        fields = '__all__'
+    nombre = forms.CharField()
+    
+    nombre.widget.attrs['class']='form-control'
+    
+#-------------------------------------- Fin de los modelos para la RE PO 013 --------------------------------------

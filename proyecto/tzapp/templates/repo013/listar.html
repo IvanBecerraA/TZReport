@@ -1,0 +1,64 @@
+{% extends 'padre/padre.html' %}
+
+{% block title %}TZReport RE PO 013{% endblock %}
+
+{% block content %}
+<div class="alert alert-secondary display-3 text-center container mt-5">Listado de RE PO 013</div>
+<div class="container mt-5 text-center">
+<a class="btn btn-success" href="{% url 'repo013_agregar' %}" style="font-size: 20px;">Agregar</a>
+</div>
+{% if repos013 %}
+<div class="container mt-5">
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width:300px">Fecha de registro</th>
+                <th style="width:300px">TLC</th>
+                <th style="width:300px">Operador</th>
+                <th style="width:300px">TCT</th>
+                <th style="width:300px">TLP</th>
+                <th style="width:300px">Litros de salida tlp</th>
+                <th style="width:300px">Saldo</th>
+                <th style="width:300px">Tipo de leche</th>
+                <th style="width:300px">Observación</th>
+                <th style="width:300px">Fecha de pasteurización</th>
+                <th style="width:300px">Hora de inicio</th>
+                <th style="width:300px">Hora de termino</th>
+                <th style="width:300px">Tº de salida pasteurización</th>               
+            </tr>
+        </thead>
+        <tbody>
+            {% for repo013 in repos013 %}
+            <tr>
+                <td>{{repo013.fecha_registro}}</td>
+                <td>{{repo013.tlc}}</td>
+                <td>{{repo013.operador}}</td>
+                <td>{{repo013.tct}}</td>
+                <td>
+                    <ul>
+                        {% for tlp in repo013.tlp.all %}
+                            <li>{{tlp.nombre}}</li>
+                        {% endfor %}
+                    <ul>
+                </td>
+                <td>{{repo013.litros_salida_tlp}}</td>
+                <td>{{repo013.saldo}}</td>
+                <td>{{repo013.tipo_leche}}</td>
+                <td>{{repo013.observacion}}</td>
+                <td>{{repo013.fecha_pasteurizacion}}</td>
+                <td>{{repo013.hora_inicio}}</td>
+                <td>{{repo013.hora_termino}}</td>
+                <td>{{repo013.temperatura_salida_pasteurizador}}</td>
+                <td><a class="btn btn-primary" href='/repo013_editar/{{repo013.id}}'><i class="bi bi-pencil-fill"></a></td>
+                <td><a class="btn btn-danger" href='/repo013_eliminar/{{repo013.id}}'><i class="bi bi-trash-fill"></i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>  
+</div>
+
+{% else %}
+<div class="alert alert-warning text-center container mt-5">No se encuentran datos en el sistema</div>
+{% endif %}
+
+{% endblock %}

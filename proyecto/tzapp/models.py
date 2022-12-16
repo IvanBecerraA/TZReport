@@ -69,11 +69,56 @@ class DetalleTlc(models.Model):
     tlc = models.ForeignKey(Tlc, on_delete=models.CASCADE)
     detalle_camion_recepcion_leche = models.ForeignKey(DetalleCamionRecepcionLeche, on_delete=models.CASCADE)
     """ vacio = models.CharField(max_length=20) """
-    hora_estandarizacion = models.TimeField(auto_now_add=True)
+    fecha_y_hora_estandarizacion = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f'{self.tlc} :{self.hora_estandarizacion}'
+        return f'{self.tlc} :{self.fecha_y_hora_estandarizacion}'
 
 #-------------------------------------- Fin de los modelos para la RE PO 001 --------------------------------------
 
+
+
+#-------------------------------------- Inicio de los modelos para la RE PO 013 --------------------------------------
+
+class Tct(models.Model):
+    nombre = models.CharField(max_length=25)
     
+    def __str__(self):
+        return f'{self.nombre}'
+    
+class Tlp(models.Model):
+    nombre = models.CharField(max_length=25)
+        
+    def __str__(self):
+        return f'{self.nombre}'
+    
+class Detalle_pasteurizacion(models.Model):
+    tlc = models.ForeignKey(DetalleTlc, on_delete=models.CASCADE)
+    operador = models.ForeignKey(Operador, on_delete=models.CASCADE)
+    tct = models.ForeignKey(Tct, on_delete=models.CASCADE)
+    tlp = models.ManyToManyField(Tlp, through= 'DetalleTlp')
+    fecha_registro = models.DateField()
+    litros_salida_tlp = models.IntegerField()
+    saldo= models.IntegerField()
+    tipo_leche= models.CharField(max_length=30) 
+    observacion = models.CharField(max_length=30)
+    fecha_pasteurizacion = models.DateField()
+    hora_inicio = models.TimeField()
+    hora_termino = models.TimeField()
+    temperatura_salida_pasteurizador = models.FloatField()
+
+class DetalleTlp(models.Model):
+    tlp = models.ForeignKey(Tlp, on_delete=models.CASCADE)
+    detalle_pasteurizacion = models.ForeignKey(Detalle_pasteurizacion, on_delete=models.CASCADE)
+    fecha_y_hora_estandarizacion = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f'{self.tlp} :{self.fecha_y_hora_estandarizacion}'
+
+#-------------------------------------- Fin de los modelos para la RE PO 013 --------------------------------------
+
+
+
+#-------------------------------------- Fin de los modelos para la RE PO 003 --------------------------------------
+
+#-------------------------------------- Fin de los modelos para la RE PO 003 --------------------------------------

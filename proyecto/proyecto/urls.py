@@ -22,6 +22,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', index, name='index'),
     path('salir/', salir, name='salir'),
+    #-------------------------------------- Inicio de las urls para la RE PO 001 --------------------------------------
     path('repo001_listar/', repo001Listar, name='repo001_listar'),
     path('repo001_agregar/', repo001Agregar, name='repo001_agregar'),
     path('repo001_eliminar/<int:id>', repo001Eliminar, name='repo001_eliminar'),
@@ -30,5 +31,15 @@ urlpatterns = [
     path('placa_agregar/', placaAgregar, name='placa_agregar'),
     path('recorrido_agregar/', recorridoAgregar, name='recorrido_agregar'),
     path('tlc_agregar/', tlcAgregar, name='tlc_agregar'),
+    #-------------------------------------- Termino de las urls para la RE PO 001 --------------------------------------
+    #-------------------------------------- Inicio de las urls para la RE PO 013 --------------------------------------
+    path('repo013_listar/', repo013Listar, name='repo013_listar'),
+    path('repo013_agregar/', repo013Agregar, name='repo013_agregar'),
+    path('repo013_eliminar/<int:id>', repo013Eliminar, name='repo013_eliminar'),
+    path('repo013_editar/<int:id>', repo013Editar, name='repo013_editar'),
+    path('operador013_agregar/', operador013Agregar, name='operador013_agregar'),
+    path('tct_agregar/', tctAgregar, name='tct_agregar'),
+    path('tlp_agregar/', tlpAgregar, name='tlp_agregar'),
+    #-------------------------------------- Termino de las urls para la RE PO 013 --------------------------------------
     
 ]
