@@ -94,7 +94,7 @@ class Migration(migrations.Migration):
             name='DetalleTlc',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('fecha_y_hora_estandarizacion', models.DateTimeField(auto_now_add=True)),
+                ('fecha_creacion', models.DateTimeField(auto_now_add=True)),
                 ('detalle_camion_recepcion_leche', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='tzapp.detallecamionrecepcionleche')),
                 ('tlc', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='tzapp.tlc')),
             ],

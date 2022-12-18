@@ -39,9 +39,10 @@ class TlcForm(forms.ModelForm):
     nombre.widget.attrs['class']='form-control'
     
 class Repo001Form(forms.ModelForm):
-    class Meta:
-        model=DetalleCamionRecepcionLeche
-        fields = '__all__'
+    class Meta: # Metadatos necesarios para el formulario
+        model=DetalleCamionRecepcionLeche #Modelo a utilizar para el formulario
+        fields = '__all__' # Añadir todos los campos al formulario
+        exclude = ['usuario_del_registro'] # Excluir campo en el formulario
     ColoresYOlores = [
         ('normal', 'NORMAL'),
         ('anormal', 'ANORMAL'),
@@ -58,14 +59,11 @@ class Repo001Form(forms.ModelForm):
     ]
     
     fecha = forms.DateField(widget=forms.DateInput)
-    """ operador = forms.ForeignKey(Operador, on_delete=forms.SET_NULL, null = True)
-    placa = forms.ForeignKey(Camion, on_delete=forms.SET_NULL, null = True)
-    recorrido = forms.ForeignKey(Recorrido, on_delete=forms.SET_NULL, null = True) """
     numero_guia = forms.IntegerField()
     sello = forms.CharField(widget=forms.Textarea, label='Sello: separar con la tecla ENTER')
     temperatura_leche_guia = forms.FloatField(
-        min_value=parametrosRepo001Lista.temperatura_leche_guia_minimo, 
-        max_value=parametrosRepo001Lista.temperatura_leche_guia_maximo, 
+        min_value=parametrosRepo001Lista.temperatura_leche_guia_minimo,
+        max_value=parametrosRepo001Lista.temperatura_leche_guia_maximo,
         label=f'Temperatura leche guía: (Norma {parametrosRepo001Lista.temperatura_leche_guia_minimo} - {parametrosRepo001Lista.temperatura_leche_guia_maximo})')
     temperatura_leche_pool = forms.FloatField(
         min_value=parametrosRepo001Lista.temperatura_leche_pool_minimo, 
@@ -112,7 +110,6 @@ class Repo001Form(forms.ModelForm):
         max_value=parametrosRepo001Lista.densidad_maximo, 
         label=f'Densidad: (Norma {parametrosRepo001Lista.densidad_minimo} - {parametrosRepo001Lista.densidad_maximo})')
     color_y_olor = forms.CharField(widget=forms.Select(choices=ColoresYOlores))
-    """ tlc = forms.ManyToManyField(Tlc, through= 'DetalleTlc') """
     hora_ingreso_a_planta = forms.TimeField(widget=forms.TimeInput)
     hora_muestra = forms.TimeField(widget=forms.TimeInput)
     hora_inicio_descarga = forms.TimeField(widget=forms.TimeInput)
@@ -125,10 +122,6 @@ class Repo001Form(forms.ModelForm):
     comentario = forms.CharField(required=False, widget=forms.Textarea)
     
     fecha.widget.attrs['class']='form-control'
-    """ operador = forms.ForeignKey(Operador, on_delete=forms.SET_NULL, null = True)
-    placa = forms.ForeignKey(Camion, on_delete=forms.SET_NULL, null = True)
-    recorrido = forms.ForeignKey(Recorrido, on_delete=forms.SET_NULL, null = True) """
-    numero_guia.widget.attrs['class']='form-control'
     sello.widget.attrs['class']='form-control'
     temperatura_leche_guia.widget.attrs['class']='form-control'
     temperatura_leche_pool.widget.attrs['class']='form-control'
@@ -146,7 +139,6 @@ class Repo001Form(forms.ModelForm):
     proteina.widget.attrs['class']='form-control'
     densidad.widget.attrs['class']='form-control'
     color_y_olor.widget.attrs['class']='form-control'
-    """ tlc = forms.ManyToManyField(Tlc, through= 'DetalleTlc') """
     hora_ingreso_a_planta.widget.attrs['class']='form-control'
     hora_muestra.widget.attrs['class']='form-control'
     hora_inicio_descarga.widget.attrs['class']='form-control'
@@ -167,6 +159,7 @@ class Repo013Form(forms.ModelForm):
     class Meta: #metadatos
         model= Detalle_pasteurizacion
         fields = '__all__'
+        
     TiposLeches = [
         ('entera', 'ENTERA'),
         ('descremada', 'DESCREMADA'),       
@@ -178,12 +171,15 @@ class Repo013Form(forms.ModelForm):
         ('vacio y aseo', 'VACIO Y ASEO'),
      ]
     
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        #Obtener los datos de DetalleTLC ordenados de forma descendente por su fecha de creación, para ordenarlos en el campo tlc mostrando los nuevos primero
+        self.fields['tlc'].queryset = DetalleTlc.objects.all().order_by('-fecha_creacion')
+    
     fecha_registro = forms.DateField(widget=forms.DateInput) #valida que se ingrese una fecha
     litros_salida_tlp = forms.IntegerField()
     saldo= forms.IntegerField()
-    tipo_leche= forms.CharField(widget=forms.Select(choices=TiposLeches)) # 1 : n 
-    #pasteurizacion_id = forms.OneToOneField(Pasteurizacion, on_delete=forms.PROTECT) #1 : 1
-    #operador_id = forms.ForeignKey(Operador, on_delete=forms.PROTECT)
+    tipo_leche= forms.CharField(widget=forms.Select(choices=TiposLeches))
     observacion = forms.CharField(widget=forms.Select(choices=Observaciones))
     fecha_pasteurizacion = forms.DateField(widget=forms.DateInput)
     hora_inicio = forms.TimeField(widget=forms.TimeInput)
@@ -193,9 +189,7 @@ class Repo013Form(forms.ModelForm):
     fecha_registro.widget.attrs['class']='form-control'
     litros_salida_tlp.widget.attrs['class']='form-control'
     saldo.widget.attrs['class']='form-control'
-    tipo_leche.widget.attrs['class']='form-control' # 1 : n 
-    #pasteurizacion_id = forms.OneToOneField(Pasteurizacion, on_delete=forms.PROTECT) #1 : 1
-    #operador_id = forms.ForeignKey(Operador, on_delete=forms.PROTECT)
+    tipo_leche.widget.attrs['class']='form-control'
     observacion.widget.attrs['class']='form-control'
     fecha_pasteurizacion.widget.attrs['class']='form-control'
     hora_inicio.widget.attrs['class']='form-control'

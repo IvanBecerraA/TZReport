@@ -26,7 +26,7 @@ class ListaRepo001Pdf(View):
         pdf = pdfConvert('reporte/repo001pdf.html', data)
         return HttpResponse(pdf, content_type='application/pdf')
 # Create your views here.
-@login_required
+@login_required #decorador para asegurarnos de que sólo se permita el acceso a esta vista a usuarios autenticados.
 def menuReporte(request):
     return render(request, 'reporte/menureportes.html')
 
@@ -52,7 +52,10 @@ def repo001Agregar(request):
     if request.method == 'POST':
         form=forms.Repo001Form(request.POST)
         if form.is_valid():
-            form.save()
+            #registrar usuario autenticado en el formulario
+            obj = form.save(commit=False)
+            obj.usuario_del_registro = request.user.username
+            obj.save()
             #return repo001Listar(request)
             return redirect('/repo001_listar')
     data={'form':form}
@@ -71,7 +74,9 @@ def repo001Editar(request, id):
     if request.method == 'POST':
         form=forms.Repo001Form(request.POST, instance=registro)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            obj.usuario_del_registro = request.user.username
+            obj.save()
             #return repo001Listar(request)
             return redirect('/repo001_listar')
     else:

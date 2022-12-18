@@ -35,7 +35,7 @@ class DetalleCamionRecepcionLeche(models.Model):
     tlc = models.ManyToManyField(Tlc, through= 'DetalleTlc')
     numero_guia = models.IntegerField()
     sello = models.CharField(max_length=100)
-    temperatura_leche_guia = models.FloatField()######   ELIMINAR   #######
+    temperatura_leche_guia = models.FloatField()
     temperatura_leche_pool = models.FloatField()
     temperatura_leche_salida_enfriador = models.FloatField()
     litros_camion = models.FloatField()
@@ -51,16 +51,17 @@ class DetalleCamionRecepcionLeche(models.Model):
     proteina = models.FloatField()
     densidad = models.FloatField()
     color_y_olor = models.CharField(max_length=30)
-    hora_ingreso_a_planta = models.TimeField()######   ELIMINAR   #######
-    hora_muestra = models.TimeField()######   ELIMINAR   #######
-    hora_inicio_descarga = models.TimeField()######   ELIMINAR   #######
+    hora_ingreso_a_planta = models.TimeField()
+    hora_muestra = models.TimeField()
+    hora_inicio_descarga = models.TimeField()
     hora_termino_descarga = models.TimeField()
     hora_inicio_aseo = models.TimeField()
     hora_termino_aseo = models.TimeField()
-    hora_salida_planta = models.TimeField()######   ELIMINAR   #######
-    kilo_gramos_camion_salida = models.FloatField()######   ELIMINAR   #######
+    hora_salida_planta = models.TimeField()
+    kilo_gramos_camion_salida = models.FloatField()
     tipo_aseo_camion = models.CharField(max_length=30)
     comentario = models.CharField(max_length=100, null = True)
+    usuario_del_registro = models.CharField(max_length=100, null = True)
     
     def __str__(self):
         return f'{self.numero_guia}'
@@ -69,14 +70,14 @@ class DetalleTlc(models.Model):
     tlc = models.ForeignKey(Tlc, on_delete=models.CASCADE)
     detalle_camion_recepcion_leche = models.ForeignKey(DetalleCamionRecepcionLeche, on_delete=models.CASCADE)
     """ vacio = models.CharField(max_length=20) """
-    fecha_y_hora_estandarizacion = models.DateTimeField(auto_now_add=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f'{self.tlc} :{self.fecha_y_hora_estandarizacion}'
+        return f'{self.tlc} :{self.fecha_creacion}'
     
 class parametrosRepo001(models.Model):
-    temperatura_leche_guia_minimo = models.FloatField()######   ELIMINAR   #######
-    temperatura_leche_guia_maximo = models.FloatField()######   ELIMINAR   #######
+    temperatura_leche_guia_minimo = models.FloatField()
+    temperatura_leche_guia_maximo = models.FloatField()
     temperatura_leche_pool_minimo = models.FloatField()
     temperatura_leche_pool_maximo = models.FloatField()
     temperatura_leche_salida_enfriador_minimo = models.FloatField()
@@ -134,10 +135,10 @@ class Detalle_pasteurizacion(models.Model):
 class DetalleTlp(models.Model):
     tlp = models.ForeignKey(Tlp, on_delete=models.CASCADE)
     detalle_pasteurizacion = models.ForeignKey(Detalle_pasteurizacion, on_delete=models.CASCADE)
-    fecha_y_hora_estandarizacion = models.DateTimeField(auto_now_add=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f'{self.tlp} :{self.fecha_y_hora_estandarizacion}'
+        return f'{self.tlp} :{self.fecha_creacion}'
 
 #-------------------------------------- Fin de los modelos para la RE PO 013 --------------------------------------
 
