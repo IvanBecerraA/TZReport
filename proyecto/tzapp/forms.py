@@ -60,7 +60,7 @@ class Repo001Form(forms.ModelForm):
     
     fecha = forms.DateField(widget=forms.DateInput)
     numero_guia = forms.IntegerField()
-    sello = forms.CharField(widget=forms.Textarea, label='Sello: separar con la tecla ENTER')
+    sello = forms.CharField(widget=forms.Textarea, label='Sello: separar con la tecla coma ( , )')
     temperatura_leche_guia = forms.FloatField(
         min_value=parametrosRepo001Lista.temperatura_leche_guia_minimo,
         max_value=parametrosRepo001Lista.temperatura_leche_guia_maximo,

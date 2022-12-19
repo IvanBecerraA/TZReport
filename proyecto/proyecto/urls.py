@@ -27,6 +27,7 @@ urlpatterns = [
     path('reportepdf/', ListaRepo001Pdf.as_view(), name='reportepdf'),
     #-------------------------------------- Inicio de las urls para la RE PO 001 --------------------------------------
     path('repo001_listar/', repo001Listar, name='repo001_listar'),
+    path('repo001_buscar/', repo001Buscar, name='repo001_buscar'),
     path('repo001_agregar/', repo001Agregar, name='repo001_agregar'),
     path('repo001_eliminar/<int:id>', repo001Eliminar, name='repo001_eliminar'),
     path('repo001_editar/<int:id>', repo001Editar, name='repo001_editar'),

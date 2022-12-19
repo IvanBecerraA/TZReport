@@ -1,12 +1,14 @@
-<style>
-    th, td {
-        font-size: 4px;
-      }
-</style>
+{% extends 'padre/padre.html' %}
+
+{% block title %} TZReport RE PO 001{% endblock %}
+
+{% block content %}
+<div class="alert alert-secondary display-6 text-center container mt-5">Búsqueda por fecha de RE PO 001</div>
+<div class="container mt-5 text-center">
+    <p>{{total}} resultados para búsqueda de la fecha {{query}} en RE PO 001</p>
+</div>
 {% if repos001 %}
 <div class="container mt-5">
-<div class="alert alert-secondary display-6 text-center container mt-5">Listado de RE PO 001</div>
-
     <table class="table table-hover table-responsive">
         <thead class="table-light">
             <tr>
@@ -43,6 +45,9 @@
                 <th>Kilo gramos del camión en la salida</th>
                 <th>Tipo de aseo</th>
                 <th>Comentario</th>
+                <th>Usuario del registro</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -86,7 +91,10 @@
                 <td>{{repo001.hora_salida_planta}}</td>
                 <td>{{repo001.kilo_gramos_camion_salida}}</td>
                 <td>{{repo001.tipo_aseo_camion}}</td>
-                <td>{{repo001.comentario}}</td>                
+                <td>{{repo001.comentario}}</td>
+                <td>{{repo001.usuario_del_registro}}</td>
+                <td><a class="btn btn-primary" href='/repo001_editar/{{repo001.id}}'><i class="bi bi-pencil-fill"></a></td>
+                <td><a class="btn btn-danger" href='/repo001_eliminar/{{repo001.id}}'><i class="bi bi-trash-fill"></i></a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -96,3 +104,7 @@
 {% else %}
 <div class="alert alert-warning text-center container mt-5">No se encuentran datos en el sistema</div>
 {% endif %}
+
+
+
+{% endblock %}

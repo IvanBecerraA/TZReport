@@ -2,6 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 from django.views.generic import ListView, View
 from tzapp.utils import pdfConvert
@@ -40,11 +42,34 @@ def salir(request):
 
 #-------------------------------------- Inicio de los views para la RE PO 001 --------------------------------------
 
+#Esta es una función de vista en Django que muestra una lista de objetos "DetalleCamionRecepcionLeche" ordenados por fecha en orden descendente.
 @login_required
 def repo001Listar(request):
     repos001 = DetalleCamionRecepcionLeche.objects.order_by('-fecha')
-    data={'repos001': repos001}
+    # La función utiliza un objeto "Paginator" de Django para dividir la lista de objetos en páginas de tamaño "5", y luego obtiene la página actual a partir de la solicitud GET y obtiene los objetos de esa página.
+    paginator = Paginator(repos001, 5)
+    page = request.GET.get('page') or 1
+    objetos_pagina = paginator.page(page)
+    data = {'repos001': objetos_pagina, 'page':page}
+    #data={'repos001': repos001}
+    # Finalmente, la función renderiza una plantilla HTML llamada "listar.html" y le pasa los objetos de la página actual como el contexto.
     return render(request, 'repo001/listar.html', data)
+
+@login_required
+def repo001Buscar(request):
+    context = {}
+    repos001 = DetalleCamionRecepcionLeche.objects.all()
+    if request.method == "GET":
+        query = request.GET.get('repo001_buscar')
+        queryset = repos001.filter(Q(fecha__icontains = query))
+        #queryset = repos001.filter(Q(fecha__icontains = query) | Q(tcl__icontains = query))
+        total = queryset.count()
+        context.update({
+            'total':total,
+            'query':query,
+            'repos001':queryset,
+        })
+        return render(request, 'repo001/buscar.html', context)
 
 @login_required
 def repo001Agregar(request):
@@ -95,7 +120,7 @@ def operadorAgregar(request):
             # return repo001Agregar(request)
             return redirect('/repo001_agregar')
     data={'form':form, 'nombre_modelo':nombre_modelo}
-    return render(request, 'repo001/agregarabstracto.html', data)
+    return render(request, 'abstracto/agregarabstracto.html', data)
 
 @login_required
 def placaAgregar(request):
@@ -108,7 +133,7 @@ def placaAgregar(request):
             #return repo001Agregar(request)
             return redirect('/repo001_agregar')
     data={'form':form, 'nombre_modelo':nombre_modelo}
-    return render(request, 'repo001/agregarabstracto.html', data)
+    return render(request, 'abstracto/agregarabstracto.html', data)
 
 @login_required
 def recorridoAgregar(request):
@@ -121,7 +146,7 @@ def recorridoAgregar(request):
             #return repo001Agregar(request)
             return redirect('/repo001_agregar')
     data={'form':form, 'nombre_modelo':nombre_modelo}
-    return render(request, 'repo001/agregarabstracto.html', data)
+    return render(request, 'abstracto/agregarabstracto.html', data)
 
 @login_required
 def tlcAgregar(request):
@@ -134,7 +159,7 @@ def tlcAgregar(request):
             #return repo001Agregar(request)
             return redirect('/repo001_agregar')
     data={'form':form, 'nombre_modelo':nombre_modelo}
-    return render(request, 'repo001/agregarabstracto.html', data)
+    return render(request, 'abstracto/agregarabstracto.html', data)
 
 
 #-------------------------------------- Fin de los views para la RE PO 001 --------------------------------------
@@ -192,7 +217,7 @@ def tctAgregar(request):
             #return repo001Agregar(request)
             return redirect('/repo013_agregar')
     data={'form':form, 'nombre_modelo':nombre_modelo}
-    return render(request, 'repo001/agregarabstracto.html', data)
+    return render(request, 'abstracto/agregarabstracto.html', data)
 
 @login_required
 def tlpAgregar(request):
@@ -205,6 +230,6 @@ def tlpAgregar(request):
             #return repo001Agregar(request)
             return redirect('/repo013_agregar')
     data={'form':form, 'nombre_modelo':nombre_modelo}
-    return render(request, 'repo001/agregarabstracto.html', data)
+    return render(request, 'abstracto/agregarabstracto.html', data)
 
 #-------------------------------------- Fin de los views para la RE PO 013 --------------------------------------
