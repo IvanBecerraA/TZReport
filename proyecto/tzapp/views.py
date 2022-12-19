@@ -57,19 +57,23 @@ def repo001Listar(request):
 
 @login_required
 def repo001Buscar(request):
-    context = {}
-    repos001 = DetalleCamionRecepcionLeche.objects.all()
+    repos001 = DetalleCamionRecepcionLeche.objects.order_by('-fecha')
     if request.method == "GET":
         query = request.GET.get('repo001_buscar')
         queryset = repos001.filter(Q(fecha__icontains = query))
+        
+        paginator = Paginator(queryset, 5)
+        page = request.GET.get('page') or 1
+        repos001 = paginator.page(page)
         #queryset = repos001.filter(Q(fecha__icontains = query) | Q(tcl__icontains = query))
         total = queryset.count()
-        context.update({
+        data = {
+            'page':page,
             'total':total,
             'query':query,
-            'repos001':queryset,
-        })
-        return render(request, 'repo001/buscar.html', context)
+            'repos001':repos001,
+        }
+        return render(request, 'repo001/buscar.html', data)
 
 @login_required
 def repo001Agregar(request):

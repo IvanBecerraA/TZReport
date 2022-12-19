@@ -5,52 +5,52 @@
 {% block content %}
 <div class="alert alert-secondary display-6 text-center container mt-5">Búsqueda por fecha de RE PO 001</div>
 <div class="container mt-5 text-center">
-    <p>{{total}} resultados para búsqueda de la fecha {{query}} en RE PO 001</p>
+    <p>{{total}} resultado/s para búsqueda de la fecha {{query}} en RE PO 001</p>
 </div>
 {% if repos001 %}
-<div class="container mt-5">
-    <table class="table table-hover table-responsive">
-        <thead class="table-light">
+<div class="table-responsive container mt-5">
+    <table class="table table-hover table-bordered table-sm">
+        <thead class="table-light align-middle">
             <tr>
-                <th>Fecha</th>
-                <th>Operador</th>
-                <th>Placa</th>
-                <th>Recorrido</th>
-                <th>TLC</th>
-                <th>Número de guía</th>
-                <th>Sello/s</th>
-                <th>Temperatura leche guia</th>
-                <th>Temperatura leche pool</th>
-                <th>Temperatura leche salida del enfriador</th>
-                <th>Litros del camión</th>
-                <th>Kilo gramos del camión</th>
-                <th>Litros ingresados en SAP</th>
-                <th>Acidez</th>
-                <th>PH</th>
-                <th>Prueba</th>
-                <th>SNAP</th>
-                <th>MG</th>
-                <th>SNG</th>
-                <th>ST</th>
-                <th>Proteina</th>
-                <th>Densidad</th>
-                <th>Color y olor</th>
-                <th>Hora de ingraso a la planta</th>
-                <th>Hora de muestra</th>
-                <th>Hora de inicio de la descarga</th>
-                <th>Hora de termino de la descarga</th>
-                <th>Hora de inicio del aseo</th>
-                <th>Hora de termino del aseo</th>
-                <th>Hora de salida de la planta</th>
-                <th>Kilo gramos del camión en la salida</th>
-                <th>Tipo de aseo</th>
-                <th>Comentario</th>
-                <th>Usuario del registro</th>
+                <th>________________________________ Fecha ________________________________</th>
+                <th>________________________________ Operador ________________________________</th>
+                <th>________________________________ Placa ________________________________</th>
+                <th>________________________________ Recorrido ________________________________</th>
+                <th>________________________________ TLC ________________________________</th>
+                <th>________________________________ Número de guía ________________________________</th>
+                <th>________________________________ Sello/s ________________________________</th>
+                <th>________________________________ Temperatura leche guia ________________________________</th>
+                <th>________________________________ Temperatura leche pool ________________________________</th>
+                <th>________________________________ Temperatura leche salida del enfriador ________________________________</th>
+                <th>________________________________ Litros del camión ________________________________</th>
+                <th>________________________________ Kilo gramos del camión ________________________________</th>
+                <th>________________________________ Litros ingresados en SAP ________________________________</th>
+                <th>________________________________ Acidez ________________________________</th>
+                <th>________________________________ PH ________________________________</th>
+                <th>________________________________ Prueba ________________________________</th>
+                <th>________________________________ SNAP ________________________________</th>
+                <th>________________________________ MG ________________________________</th>
+                <th>________________________________ SNG ________________________________</th>
+                <th>________________________________ ST ________________________________</th>
+                <th>________________________________ Proteina ________________________________</th>
+                <th>________________________________ Densidad ________________________________</th>
+                <th>________________________________ Color y olor ________________________________</th>
+                <th>________________________________ Hora de ingraso a la planta ________________________________</th>
+                <th>________________________________ Hora de muestra ________________________________</th>
+                <th>________________________________ Hora de inicio de la descarga ________________________________</th>
+                <th>________________________________ Hora de termino de la descarga ________________________________</th>
+                <th>________________________________ Hora de inicio del aseo ________________________________</th>
+                <th>________________________________ Hora de termino del aseo ________________________________</th>
+                <th>________________________________ Hora de salida de la planta ________________________________</th>
+                <th>________________________________ Kilo gramos del camión en la salida ________________________________</th>
+                <th>________________________________ Tipo de aseo ________________________________</th>
+                <th>________________________________ Comentario ________________________________</th>
+                <th>________________________________ Usuario del registro ________________________________</th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="align-middle">
             {% for repo001 in repos001 %}
             <tr>
                 <td>{{repo001.fecha}}</td>
@@ -98,13 +98,40 @@
             </tr>
             {% endfor %}
         </tbody>
-    </table>  
+    </table>
 </div>
 
-{% else %}
-<div class="alert alert-warning text-center container mt-5">No se encuentran datos en el sistema</div>
-{% endif %}
+<div class="" id="botones de paginacion" style="margin-top: 10px; display: flex; justify-content: center">
+    <div class="pagination">
+        {% if repos001.has_previous %}
+        <a class="btn btn-secondary" style="margin: 0px 3px" href="?repo001_buscar={{query}}&page={{ repos001.previous_page_number }}"><i class="bi bi-arrow-left-square"></i> Anterior</a>
+        {% endif %}
+    
+        {% if 4 in repos001.paginator.page_range %}
+            {% if page|add:"-1" >= 1 %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?repo001_buscar={{query}}&page={{ page|add:"-1" }}">{{ page|add:"-1" }}</a>
+            {%endif%}
+                <a  class="btn btn-dark" style="margin: 0px 1px" href="?repo001_buscar={{query}}&page={{ page }}">{{ page }}</a>
+            {% if page|add:"1" in repos001.paginator.page_range %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?repo001_buscar={{query}}&page={{ page|add:"1" }}">{{ page|add:"1" }}</a>
+            {%endif%}
+        {% else %}
+            {% for numero in repos001.paginator.page_range %}
+            {% if numero == repos001.number %}
+                <strong  class="btn btn-dark" style="margin: 0px 1px">{{ numero }}</strong>
+            {% else %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?repo001_buscar={{query}}&page={{ numero }}">{{ numero }}</a>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+    
+        {% if repos001.has_next %}
+        <a  class="btn btn-secondary" style="margin: 0px 3px" href="?repo001_buscar={{query}}&page={{ repos001.next_page_number }}">Siguiente <i class="bi bi-arrow-right-square"></i></a>
+        {% endif %}
+    </div>
 
-
-
+    {% else %}
+    <div class="alert alert-warning text-center container mt-5">No se encuentran datos para la búsqueda {{query}}</div>
+    {% endif %}
+</div>
 {% endblock %}
