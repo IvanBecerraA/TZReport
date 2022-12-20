@@ -150,9 +150,9 @@ class Repo001Form(forms.ModelForm):
     tipo_aseo_camion.widget.attrs['class']='form-control'
     comentario.widget.attrs['class']='form-control'
 #-------------------------------------- Fin de los modelos para la RE PO 001 --------------------------------------
-
-
-
+#
+#
+#
 #-------------------------------------- Inicio de los forms para la RE PO 013 --------------------------------------
 
 class Repo013Form(forms.ModelForm):

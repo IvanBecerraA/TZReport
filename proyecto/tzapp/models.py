@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+
 #-------------------------------------- Inicio de los modelos para la RE PO 001 --------------------------------------
 class Camion(models.Model):
     placa = models.CharField(max_length=20)
@@ -98,11 +98,12 @@ class parametrosRepo001(models.Model):
     proteina_maximo = models.FloatField()
     densidad_minimo = models.FloatField()
     densidad_maximo = models.FloatField()
+    
 
 #-------------------------------------- Fin de los modelos para la RE PO 001 --------------------------------------
-
-
-
+#
+#
+#
 #-------------------------------------- Inicio de los modelos para la RE PO 013 --------------------------------------
 
 class Tct(models.Model):
@@ -131,6 +132,8 @@ class Detalle_pasteurizacion(models.Model):
     hora_inicio = models.TimeField()
     hora_termino = models.TimeField()
     temperatura_salida_pasteurizador = models.FloatField()
+    comentario = models.CharField(max_length=100, null = True)
+    usuario_del_registro = models.CharField(max_length=100, null = True)
 
 class DetalleTlp(models.Model):
     tlp = models.ForeignKey(Tlp, on_delete=models.CASCADE)
@@ -141,9 +144,105 @@ class DetalleTlp(models.Model):
         return f'{self.tlp} :{self.fecha_creacion}'
 
 #-------------------------------------- Fin de los modelos para la RE PO 013 --------------------------------------
-
-
-
+#
+#
+#
 #-------------------------------------- Fin de los modelos para la RE PO 003 --------------------------------------
 
+class Tmy(models.Model):
+    nombre = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return f'{self.nombre}'
+
+class Producto(models.Model):
+    nombre = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return f'{self.nombre}'
+
+class Sabor(models.Model):
+    nombre = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return f'{self.nombre}'
+
+class Maquina(models.Model):
+    nombre = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return f'{self.nombre}'
+
+class OrdenProceso(models.Model):
+    tlp = models.ForeignKey(DetalleTlp, on_delete=models.CASCADE)
+    tct = models.ForeignKey(Tct, on_delete=models.CASCADE)
+    tmy = models.ForeignKey(Tmy, on_delete=models.CASCADE)
+    orden_proceso_base_blanca = models.IntegerField()
+    orden_proceso = models.IntegerField()
+    sabor = models.ForeignKey(Sabor, on_delete=models.CASCADE)
+    litros = models.FloatField()
+    fecha = models.DateField()
+    hora = models.TimeField()
+    operador_pasteurizacion = models.CharField(max_length=50, null = True)
+    operador_fermentacion = models.CharField(max_length=50, null = True)
+    operador_dosimetria = models.CharField(max_length=50, null = True)
+    cantidad_tlp = models.FloatField()
+    cantidad_crema= models.FloatField()
+    litros_agua = models.FloatField()
+    litros_total_llenado = models.FloatField()
+    comentario = models.CharField(max_length=100, null = True)
+    usuario_del_registro = models.CharField(max_length=100, null = True)
+
 #-------------------------------------- Fin de los modelos para la RE PO 003 --------------------------------------
+#
+#
+#
+#-------------------------------------- Inicio de los modelos para la RE PO 004 --------------------------------------
+
+class MateriaPrima(models.Model):
+    codigo_sap = models.IntegerField()
+    nombre = models.CharField(max_length=100)
+
+class DetallePasteurizacion(models.Model):
+    orden_proceso = models.OneToOneField(OrdenProceso, on_delete=models.CASCADE)
+    operador = models.ForeignKey(Operador, on_delete=models.CASCADE)
+    fecha_fabricacion = models.DateField()
+    hora_fabricacion = models.TimeField()
+    fecha_formulacion = models.DateField()
+    hora_formulacion = models.TimeField()
+
+class DetalleReceta(models.Model):
+    detalle_pasteurizacion = models.ForeignKey(DetallePasteurizacion, on_delete=models.CASCADE)
+    materia_prima = models.ForeignKey(MateriaPrima, on_delete=models.CASCADE)
+    kilos = models.IntegerField()
+    lote = models.CharField(max_length=50)
+    fecha_vencimiento = models.DateField()
+
+#-------------------------------------- Fin de los modelos para la RE PO 004 --------------------------------------
+#
+#
+#
+#-------------------------------------- Inicio de los modelos para la RE PO 068  --------------------------------------
+
+
+
+
+#-------------------------------------- Fin de los modelos para la RE PO 068 --------------------------------------
+#
+#
+#
+#-------------------------------------- Inicio de los modelos para la RE PO 005  --------------------------------------
+
+
+
+
+#-------------------------------------- Fin de los modelos para la RE PO 005 --------------------------------------
+#
+#
+#
+#-------------------------------------- Inicio de los modelos para la RE PO 017  --------------------------------------
+
+
+
+
+#-------------------------------------- Fin de los modelos para la RE PO 017 --------------------------------------
