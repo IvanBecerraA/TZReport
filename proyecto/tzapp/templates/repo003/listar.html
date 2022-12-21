@@ -1,0 +1,123 @@
+{% extends 'padre/padre.html' %}
+
+{% block title %} TZReport{% endblock %}
+
+{% block content %}
+<div class="alert alert-secondary display-6 text-center container mt-5">Listado de RE PO 003</div>
+
+
+<div class="container mt-5 text-center">
+    <h6 class="sidebar-title">
+        <i class="bi bi-search"></i> Búsqueda por fecha
+    </h6>
+    <form class="input-group" action="{% url 'repo003_buscar' %}" method="GET" role="form">
+        <input type="date" name="repo003_buscar" id="" class="form-control" placeholder="Buscar">
+        <div class="input-group-addon">
+            <input type="submit" class="btn btn-primary"  icons="bi bi-search" value="Buscar">
+        </div>
+    </form>
+</div>
+
+
+{% if repos003 %}
+<div class="table-responsive container mt-5">
+    <table class="table table-hover table-bordered table-sm">
+        <thead class="table-light align-middle">
+            <tr>
+                <th>________________________________ TLP ________________________________</th>
+                <th>________________________________ TCT ________________________________</th>
+                <th>________________________________ TMY ________________________________</th>
+                <th>________________________________ Orden de Proceso ________________________________</th>
+                <th>________________________________ Orden de Proceso de Base Blanca ________________________________</th>
+                <th>________________________________ Sabor ________________________________</th>
+                <th>________________________________ Producto ________________________________</th>
+                <th>________________________________ Litros ________________________________</th>
+                <th>________________________________ Máquina ________________________________</th>
+                <th>________________________________ Fecha ________________________________</th>
+                <th>________________________________ Hora ________________________________</th>
+                <th>________________________________ Operador de Pasteurización ________________________________</th>
+                <th>________________________________ Operador de Fermentación ________________________________</th>
+                <th>________________________________ Operador de Dosimetria ________________________________</th>
+                <th>________________________________ Cantidad descremada del TLP ________________________________</th>
+                <th>________________________________ Cantidad de crema ________________________________</th>
+                <th>________________________________ Litros de agua ________________________________</th>
+                <th>________________________________ litros total llenado ________________________________</th>
+                <th>________________________________ Comentario ________________________________</th>
+                <th>________________________________ Usuario del registro ________________________________</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="align-middle">
+            {% for repo003 in repos003 %}
+            <tr>
+                <td>{{repo003.tlp}}</td>
+                <td>{{repo003.tct}}</td>
+                <td>{{repo003.tmy}}</td>
+                <td>{{repo003.orden_proceso}}</td>
+                <td>{{repo003.orden_proceso_base_blanca}}</td>
+                <td>{{repo003.producto}}</td>
+                <td>{{repo003.sabor}}</td>
+                <td>{{repo003.litros}}</td>
+                <td>{{repo003.maquina}}</td>
+                <td>{{repo003.fecha }}</td>
+                <td>{{repo003.hora}}</td>
+                <td>{{repo003.operador_pasteurizacion}}</td>
+                <td>{{repo003.operador_fermentacion}}</td>
+                <td>{{repo003.operador_dosimetria}}</td>
+                <td>{{repo003.cantidad_tlp}}</td>
+                <td>{{repo003.cantidad_crema}}</td>
+                <td>{{repo003.litros_agua}}</td>
+                <td>{{repo003.litros_total_llenado}}</td>
+                <td>{{repo003.comentario}}</td>
+                <td>{{repo003.usuario_del_registro}}</td>
+                <td><a class="btn btn-primary" href='/repo003_editar/{{repo003.id}}'><i class="bi bi-pencil-fill"></a></td>
+                <td><a class="btn btn-danger" href='/repo003_eliminar/{{repo003.id}}'><i class="bi bi-trash-fill"></i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<div class="" id="botones de paginacion" style="margin-top: 10px; display: flex; justify-content: center">
+    <div class="pagination">
+        {% if repos003.has_previous %}
+        <a class="btn btn-secondary" style="margin: 0px 3px" href="?page={{ repos003.previous_page_number }}"><i class="bi bi-arrow-left-square"></i> Anterior</a>
+        {% endif %}
+    
+        {% if 4 in repos003.paginator.page_range %}
+            {% if page|add:"-1" >= 1 %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?page={{ page|add:"-1" }}">{{ page|add:"-1" }}</a>
+            {%endif%}
+                <a  class="btn btn-dark" style="margin: 0px 1px" href="?page={{ page }}">{{ page }}</a>
+            {% if page|add:"1" in repos003.paginator.page_range %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?page={{ page|add:"1" }}">{{ page|add:"1" }}</a>
+            {%endif%}
+        {% else %}
+            {% for numero in repos003.paginator.page_range %}
+            {% if numero == repos003.number %}
+                <strong  class="btn btn-dark" style="margin: 0px 1px">{{ numero }}</strong>
+            {% else %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?page={{ numero }}">{{ numero }}</a>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+    
+        {% if repos003.has_next %}
+        <a  class="btn btn-secondary" style="margin: 0px 3px" href="?page={{ repos003.next_page_number }}">Siguiente <i class="bi bi-arrow-right-square"></i></a>
+        {% endif %}
+    </div>
+
+
+{% else %}
+<div class="alert alert-warning text-center container mt-5">No se encuentran datos en el sistema</div>
+{% endif %}
+</div>
+
+
+<div class="container mt-5 text-center">
+    <a class="btn btn-success" href="{% url 'repo003_agregar' %}" style="font-size: 20px;"><i class="bi bi-clipboard2-plus"></i> Agregar</a>
+</div>
+
+{% endblock %}

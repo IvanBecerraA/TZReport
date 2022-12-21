@@ -5,6 +5,7 @@
 {% block content %}
 <div class="alert alert-secondary display-6 text-center container mt-5">Listado de RE PO 001</div>
 
+
 <div class="container mt-5 text-center">
     <h6 class="sidebar-title">
         <i class="bi bi-search"></i> Búsqueda por fecha
@@ -16,6 +17,8 @@
         </div>
     </form>
 </div>
+
+
 {% if repos001 %}
 <div class="table-responsive container mt-5">
     <table class="table table-hover table-bordered table-sm">
@@ -110,6 +113,7 @@
     </table>
 </div>
 
+
 <div class="" id="botones de paginacion" style="margin-top: 10px; display: flex; justify-content: center">
     <div class="pagination">
         {% if repos001.has_previous %}
@@ -139,34 +143,12 @@
         {% endif %}
     </div>
 
-    {% else %}
-    <div class="alert alert-warning text-center container mt-5">No se encuentran datos en el sistema</div>
-    {% endif %}
+
+{% else %}
+<div class="alert alert-warning text-center container mt-5">No se encuentran datos en el sistema</div>
+{% endif %}
 </div>
 
-{% comment %} <div class="container mt-5" style="display: flex; justify-content: center">
-    <div class="pagination">
-        {% if repos001.has_previous %}
-        <a class="btn btn-secondary" style="margin: 0px 2px" href="?page={{ repos001.previous_page_number }}"><i class="bi bi-arrow-left-square"></i> Anterior</a>
-        {% endif %}
-    
-        {% for numero in repos001.paginator.page_range %}
-        {% if numero == repos001.number %}
-            <strong  class="btn btn-dark" style="margin: 0px 2px">{{ numero }}</strong>
-        {% else %}
-            <a  class="btn btn-secondary" style="margin: 0px 2px" href="?page={{ numero }}">{{ numero }}</a>
-        {% endif %}
-        {% endfor %}
-    
-        {% if repos001.has_next %}
-        <a  class="btn btn-secondary" style="margin: 0px 2px" href="?page={{ repos001.next_page_number }}">Siguiente <i class="bi bi-arrow-right-square"></i></a>
-        {% endif %}
-    </div>
-
-    {% else %}
-    <div class="alert alert-warning text-center container mt-5">No se encuentran datos en el sistema</div>
-    {% endif %}
-</div> {% endcomment %}
 
 <div class="container mt-5 text-center">
     <a class="btn btn-success" href="{% url 'repo001_agregar' %}" style="font-size: 20px;"><i class="bi bi-clipboard2-plus"></i> Agregar</a>

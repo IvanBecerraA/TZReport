@@ -1,0 +1,27 @@
+{% extends 'padre/padre.html' %}
+
+{% block title %} TZReport{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-secondary display-6 text-center container mt-5">Editar registro de RE PO 003</div>
+
+<div class="container mt-5">
+<form action="" method="post">
+    <table class="table">
+        {{form}}    
+        {% csrf_token %}
+        
+    </table>
+    <div class="fixed-bottom" style="text-align: center; background-color: snow; opacity: 0.9">
+    <tr>
+        <td colspan ="2">
+            <input type="submit" class="btn btn-success btn-block" style="font-size: 30px" value="Guardar!">
+        </td>
+        <span style="display: block; height: 5px; width: 100%"></span>
+    </div>
+</form>
+<div>
+
+
+{% endblock %}

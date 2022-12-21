@@ -38,11 +38,19 @@ urlpatterns = [
     #-------------------------------------- Termino de las urls para la RE PO 001 --------------------------------------
     #-------------------------------------- Inicio de las urls para la RE PO 013 --------------------------------------
     path('repo013_listar/', repo013Listar, name='repo013_listar'),
+    path('repo013_buscar/', repo013Buscar, name='repo013_buscar'),
     path('repo013_agregar/', repo013Agregar, name='repo013_agregar'),
     path('repo013_eliminar/<int:id>', repo013Eliminar, name='repo013_eliminar'),
     path('repo013_editar/<int:id>', repo013Editar, name='repo013_editar'),
     path('tct_agregar/', tctAgregar, name='tct_agregar'),
     path('tlp_agregar/', tlpAgregar, name='tlp_agregar'),
     #-------------------------------------- Termino de las urls para la RE PO 013 --------------------------------------
-    
+    #-------------------------------------- Termino de las urls para la RE PO 003 --------------------------------------
+    path('repo003_listar/', repo003Listar, name='repo003_listar'),
+    path('repo003_buscar/', repo003Buscar, name='repo003_buscar'),
+    path('repo003_agregar/', repo003Agregar, name='repo003_agregar'),
+    path('repo003_eliminar/<int:id>', repo003Eliminar, name='repo003_eliminar'),
+    path('repo003_editar/<int:id>', repo003Editar, name='repo003_editar'),
+    path('tmy_agregar/', tmyAgregar, name='tmy_agregar'),
+    path('maquina_agregar/', maquinaAgregar, name='maquina_agregar'),
 ]

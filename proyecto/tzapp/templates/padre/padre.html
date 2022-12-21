@@ -40,15 +40,24 @@
               Agregar datos
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
+              <li>
+                <hr class="dropdown-divider"><p style="text-align:center">RE PO 001</p>
+              </li>
               <li><a class="dropdown-item" href="{% url 'operador_agregar' %}"><i class="bi bi-plus"></i> Operador</a></li>
               <li><a class="dropdown-item" href="{% url 'placa_agregar' %}"><i class="bi bi-plus"></i> Camión</a></li>
               <li><a class="dropdown-item" href="{% url 'recorrido_agregar' %}"><i class="bi bi-plus"></i> Recorrido</a></li>
               <li><a class="dropdown-item" href="{% url 'tlc_agregar' %}"><i class="bi bi-plus"></i> TLC</a></li>
+              <li>
+                <hr class="dropdown-divider"><p style="text-align:center">RE PO 013</p>
+              </li>
               <li><a class="dropdown-item" href="{% url 'tct_agregar' %}"><i class="bi bi-plus"></i> TCT</a></li>
               <li><a class="dropdown-item" href="{% url 'tlp_agregar' %}"><i class="bi bi-plus"></i> TLP</a></li>
               <li>
-                <hr class="dropdown-divider">
+                <hr class="dropdown-divider"><p style="text-align:center">RE PO 003</p>
               </li>
+              <li><a class="dropdown-item" href="{% url 'tmy_agregar' %}"><i class="bi bi-plus"></i> TMY</a></li>
+              <li><a class="dropdown-item" href="{% url 'maquina_agregar' %}"><i class="bi bi-plus"></i> Máquina</a></li>
+
               {% comment %} <li><a class="dropdown-item" href="#">Ayuda</a></li> {% endcomment %}
             </ul>
           </li>

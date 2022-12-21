@@ -2,7 +2,7 @@ from django import forms
 from tzapp.models import *
 
 #-------------------------------------- Inicio de los forms para la RE PO 001 --------------------------------------
-parametrosRepo001Lista = parametrosRepo001.objects.get(pk = 1)
+""" parametrosRepo001Lista = parametrosRepo001.objects.get(pk = 1) """
 
 class CamionForm(forms.ModelForm):
     class Meta:
@@ -43,6 +43,7 @@ class Repo001Form(forms.ModelForm):
         model=DetalleCamionRecepcionLeche #Modelo a utilizar para el formulario
         fields = '__all__' # Añadir todos los campos al formulario
         exclude = ['usuario_del_registro'] # Excluir campo en el formulario
+        
     ColoresYOlores = [
         ('normal', 'NORMAL'),
         ('anormal', 'ANORMAL'),
@@ -61,54 +62,21 @@ class Repo001Form(forms.ModelForm):
     fecha = forms.DateField(widget=forms.DateInput)
     numero_guia = forms.IntegerField()
     sello = forms.CharField(widget=forms.Textarea, label='Sello: separar con la tecla coma ( , )')
-    temperatura_leche_guia = forms.FloatField(
-        min_value=parametrosRepo001Lista.temperatura_leche_guia_minimo,
-        max_value=parametrosRepo001Lista.temperatura_leche_guia_maximo,
-        label=f'Temperatura leche guía: (Norma {parametrosRepo001Lista.temperatura_leche_guia_minimo} - {parametrosRepo001Lista.temperatura_leche_guia_maximo})')
-    temperatura_leche_pool = forms.FloatField(
-        min_value=parametrosRepo001Lista.temperatura_leche_pool_minimo, 
-        max_value=parametrosRepo001Lista.temperatura_leche_pool_maximo, 
-        label=f'Temperatura leche pool: (Norma {parametrosRepo001Lista.temperatura_leche_pool_minimo} - {parametrosRepo001Lista.temperatura_leche_pool_maximo})')
-    temperatura_leche_salida_enfriador = forms.FloatField(
-        min_value=parametrosRepo001Lista.temperatura_leche_salida_enfriador_minimo, 
-        max_value=parametrosRepo001Lista.temperatura_leche_salida_enfriador_maximo, 
-        label=f'Temperatura leche salida enfriador: (Norma {parametrosRepo001Lista.temperatura_leche_salida_enfriador_minimo} - {parametrosRepo001Lista.temperatura_leche_salida_enfriador_maximo})')
+    temperatura_leche_guia = forms.FloatField()
+    temperatura_leche_pool = forms.FloatField()
+    temperatura_leche_salida_enfriador = forms.FloatField()
     litros_camion = forms.FloatField()
     kilo_gramos_camion = forms.FloatField()
     litros_sap = forms.IntegerField()
-    acidez = forms.FloatField(
-        min_value=parametrosRepo001Lista.acidez_minimo, 
-        max_value=parametrosRepo001Lista.acidez_maximo, 
-        label=f'Acidez: (Norma {parametrosRepo001Lista.acidez_minimo} - {parametrosRepo001Lista.acidez_maximo})')
-    ph_camion = forms.FloatField(
-        min_value=parametrosRepo001Lista.ph_camion_minimo, 
-        max_value=parametrosRepo001Lista.ph_camion_maximo, 
-        label=f'PH: (Norma {parametrosRepo001Lista.ph_camion_minimo} - {parametrosRepo001Lista.ph_camion_maximo})')
-    prueba = forms.FloatField(
-        min_value=parametrosRepo001Lista.prueba_minimo, 
-        max_value=parametrosRepo001Lista.prueba_maximo, 
-        label=f'Prueba: (Norma {parametrosRepo001Lista.prueba_minimo} - {parametrosRepo001Lista.prueba_maximo})')
+    acidez = forms.FloatField()
+    ph_camion = forms.FloatField()
+    prueba = forms.FloatField()
     snap = forms.CharField(widget=forms.Select(choices=Snaps))
-    mg = forms.FloatField(
-        min_value=parametrosRepo001Lista.mg_minimo, 
-        max_value=parametrosRepo001Lista.mg_maximo, 
-        label=f'MG: (Norma {parametrosRepo001Lista.mg_minimo} - {parametrosRepo001Lista.mg_maximo})')
-    sng = forms.FloatField(
-        min_value=parametrosRepo001Lista.sng_minimo, 
-        max_value=parametrosRepo001Lista.sng_maximo, 
-        label=f'SNG: (Norma {parametrosRepo001Lista.sng_minimo} - {parametrosRepo001Lista.sng_maximo})')
-    st = forms.FloatField(
-        min_value=parametrosRepo001Lista.st_minimo, 
-        max_value=parametrosRepo001Lista.st_maximo, 
-        label=f'ST: (Norma {parametrosRepo001Lista.st_minimo} - {parametrosRepo001Lista.st_maximo})')
-    proteina = forms.FloatField(
-        min_value=parametrosRepo001Lista.proteina_minimo, 
-        max_value=parametrosRepo001Lista.proteina_maximo, 
-        label=f'Proteina: (Norma {parametrosRepo001Lista.proteina_minimo} - {parametrosRepo001Lista.proteina_maximo})')
-    densidad = forms.FloatField(
-        min_value=parametrosRepo001Lista.densidad_minimo, 
-        max_value=parametrosRepo001Lista.densidad_maximo, 
-        label=f'Densidad: (Norma {parametrosRepo001Lista.densidad_minimo} - {parametrosRepo001Lista.densidad_maximo})')
+    mg = forms.FloatField()
+    sng = forms.FloatField()
+    st = forms.FloatField()
+    proteina = forms.FloatField()
+    densidad = forms.FloatField()
     color_y_olor = forms.CharField(widget=forms.Select(choices=ColoresYOlores))
     hora_ingreso_a_planta = forms.TimeField(widget=forms.TimeInput)
     hora_muestra = forms.TimeField(widget=forms.TimeInput)
@@ -154,11 +122,28 @@ class Repo001Form(forms.ModelForm):
 #
 #
 #-------------------------------------- Inicio de los forms para la RE PO 013 --------------------------------------
+    
+class TctForm(forms.ModelForm):
+    class Meta:
+        model=Tct
+        fields = '__all__'
+    nombre = forms.CharField()
+    
+    nombre.widget.attrs['class']='form-control'
+        
+class TlpForm(forms.ModelForm):
+    class Meta:
+        model=Tlp
+        fields = '__all__'
+    nombre = forms.CharField()
+    
+    nombre.widget.attrs['class']='form-control'
 
 class Repo013Form(forms.ModelForm):
     class Meta: #metadatos
         model= Detalle_pasteurizacion
         fields = '__all__'
+        exclude = ['usuario_del_registro']
         
     TiposLeches = [
         ('entera', 'ENTERA'),
@@ -185,6 +170,7 @@ class Repo013Form(forms.ModelForm):
     hora_inicio = forms.TimeField(widget=forms.TimeInput)
     hora_termino = forms.TimeField(widget=forms.TimeInput)
     temperatura_salida_pasteurizador = forms.FloatField()
+    comentario = forms.CharField(required=False, widget=forms.Textarea)
     
     fecha_registro.widget.attrs['class']='form-control'
     litros_salida_tlp.widget.attrs['class']='form-control'
@@ -195,21 +181,75 @@ class Repo013Form(forms.ModelForm):
     hora_inicio.widget.attrs['class']='form-control'
     hora_termino.widget.attrs['class']='form-control'
     temperatura_salida_pasteurizador.widget.attrs['class']='form-control'
-    
-class TctForm(forms.ModelForm):
-    class Meta:
-        model=Tct
-        fields = '__all__'
-    nombre = forms.CharField()
-    
-    nombre.widget.attrs['class']='form-control'
-        
-class TlpForm(forms.ModelForm):
-    class Meta:
-        model=Tlp
-        fields = '__all__'
-    nombre = forms.CharField()
-    
-    nombre.widget.attrs['class']='form-control'
+    comentario.widget.attrs['class']='form-control'
     
 #-------------------------------------- Fin de los modelos para la RE PO 013 --------------------------------------
+#
+#
+#
+#
+#-------------------------------------- Fin de los modelos para la RE PO 003 --------------------------------------
+
+
+
+#-------------------------------------- Fin de los modelos para la RE PO 003 --------------------------------------
+
+class TmyForm(forms.ModelForm):
+    class Meta:
+        model=Tmy
+        fields = '__all__'
+    
+    nombre = forms.CharField()
+    
+    nombre.widget.attrs['class']='form-control'
+
+class MaquinaForm(forms.ModelForm):
+    class Meta:
+        model=Maquina
+        fields = '__all__'
+    
+    nombre = forms.CharField()
+    
+    nombre.widget.attrs['class']='form-control'
+    
+class Repo003Form(forms.ModelForm):
+    class Meta:
+        model=OrdenProceso
+        fields = '__all__'
+        exclude = ['usuario_del_registro']
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tlp'].queryset = DetalleTlp.objects.all().order_by('-fecha_creacion')
+        
+    orden_proceso = forms.IntegerField()
+    orden_proceso_base_blanca = forms.IntegerField()
+    producto = forms.CharField()
+    sabor = forms.CharField()
+    litros = forms.FloatField()
+    fecha = forms.DateField(widget=forms.DateInput)
+    hora = forms.TimeField(widget=forms.TimeInput)
+    operador_pasteurizacion = forms.CharField()
+    operador_fermentacion = forms.CharField()
+    operador_dosimetria = forms.CharField()
+    cantidad_tlp = forms.FloatField()
+    cantidad_crema= forms.FloatField()
+    litros_agua = forms.FloatField()
+    litros_total_llenado = forms.FloatField()
+    comentario = forms.CharField(required=False, widget=forms.Textarea)
+    
+    orden_proceso.widget.attrs['class']='form-control'
+    orden_proceso_base_blanca.widget.attrs['class']='form-control'
+    producto.widget.attrs['class']='form-control'
+    sabor.widget.attrs['class']='form-control'
+    litros.widget.attrs['class']='form-control'
+    fecha.widget.attrs['class']='form-control'
+    hora.widget.attrs['class']='form-control'
+    operador_pasteurizacion.widget.attrs['class']='form-control'
+    operador_fermentacion.widget.attrs['class']='form-control'
+    operador_dosimetria.widget.attrs['class']='form-control'
+    cantidad_tlp.widget.attrs['class']='form-control'
+    cantidad_crema.widget.attrs['class']='form-control'
+    litros_agua.widget.attrs['class']='form-control'
+    litros_total_llenado.widget.attrs['class']='form-control'
+    comentario.widget.attrs['class']='form-control'

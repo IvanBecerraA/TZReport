@@ -73,7 +73,7 @@ class DetalleTlc(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f'{self.tlc} :{self.fecha_creacion}'
+        return f'{self.tlc}: {self.fecha_creacion:%Y-%m-%d %H:%M}'
     
 class parametrosRepo001(models.Model):
     temperatura_leche_guia_minimo = models.FloatField()
@@ -141,7 +141,7 @@ class DetalleTlp(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f'{self.tlp} :{self.fecha_creacion}'
+        return f'{self.tlp}: {self.fecha_creacion:%Y-%m-%d %H:%M}'
 
 #-------------------------------------- Fin de los modelos para la RE PO 013 --------------------------------------
 #
@@ -150,18 +150,6 @@ class DetalleTlp(models.Model):
 #-------------------------------------- Fin de los modelos para la RE PO 003 --------------------------------------
 
 class Tmy(models.Model):
-    nombre = models.CharField(max_length=50)
-    
-    def __str__(self):
-        return f'{self.nombre}'
-
-class Producto(models.Model):
-    nombre = models.CharField(max_length=50)
-    
-    def __str__(self):
-        return f'{self.nombre}'
-
-class Sabor(models.Model):
     nombre = models.CharField(max_length=50)
     
     def __str__(self):
@@ -177,21 +165,26 @@ class OrdenProceso(models.Model):
     tlp = models.ForeignKey(DetalleTlp, on_delete=models.CASCADE)
     tct = models.ForeignKey(Tct, on_delete=models.CASCADE)
     tmy = models.ForeignKey(Tmy, on_delete=models.CASCADE)
-    orden_proceso_base_blanca = models.IntegerField()
     orden_proceso = models.IntegerField()
-    sabor = models.ForeignKey(Sabor, on_delete=models.CASCADE)
+    orden_proceso_base_blanca = models.IntegerField()
+    producto = models.CharField(max_length=50, null = True)
+    sabor = models.CharField(max_length=50, null = True)
     litros = models.FloatField()
+    maquina = models.ForeignKey(Maquina, on_delete=models.CASCADE)
     fecha = models.DateField()
     hora = models.TimeField()
     operador_pasteurizacion = models.CharField(max_length=50, null = True)
     operador_fermentacion = models.CharField(max_length=50, null = True)
     operador_dosimetria = models.CharField(max_length=50, null = True)
     cantidad_tlp = models.FloatField()
-    cantidad_crema= models.FloatField()
+    cantidad_crema = models.FloatField()
     litros_agua = models.FloatField()
     litros_total_llenado = models.FloatField()
     comentario = models.CharField(max_length=100, null = True)
     usuario_del_registro = models.CharField(max_length=100, null = True)
+        
+    def __str__(self):
+        return f'Orden de proceso: {self.orden_proceso}'
 
 #-------------------------------------- Fin de los modelos para la RE PO 003 --------------------------------------
 #
@@ -199,11 +192,7 @@ class OrdenProceso(models.Model):
 #
 #-------------------------------------- Inicio de los modelos para la RE PO 004 --------------------------------------
 
-class MateriaPrima(models.Model):
-    codigo_sap = models.IntegerField()
-    nombre = models.CharField(max_length=100)
-
-class DetallePasteurizacion(models.Model):
+class DetalleInsumosFormulacion(models.Model):
     orden_proceso = models.OneToOneField(OrdenProceso, on_delete=models.CASCADE)
     operador = models.ForeignKey(Operador, on_delete=models.CASCADE)
     fecha_fabricacion = models.DateField()
@@ -211,9 +200,9 @@ class DetallePasteurizacion(models.Model):
     fecha_formulacion = models.DateField()
     hora_formulacion = models.TimeField()
 
-class DetalleReceta(models.Model):
-    detalle_pasteurizacion = models.ForeignKey(DetallePasteurizacion, on_delete=models.CASCADE)
-    materia_prima = models.ForeignKey(MateriaPrima, on_delete=models.CASCADE)
+class MateriaPrima(models.Model):
+    detalle_pasteurizacion = models.ForeignKey(DetalleInsumosFormulacion, on_delete=models.CASCADE)
+    nombre = models.CharField(max_length=100)
     kilos = models.IntegerField()
     lote = models.CharField(max_length=50)
     fecha_vencimiento = models.DateField()
@@ -224,17 +213,87 @@ class DetalleReceta(models.Model):
 #
 #-------------------------------------- Inicio de los modelos para la RE PO 068  --------------------------------------
 
+class EstanqueFermentacion(models.Model):
+    nombre = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return f'{self.nombre}'
 
+class EstanqueLanzamiento(models.Model):
+    nombre = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return f'{self.nombre}'
 
-
+class DetalleRepo068(models.Model):
+    orden_proceso = models.OneToOneField(OrdenProceso, on_delete=models.CASCADE)
+    fecha_estandarizacion = models.DateField()
+    hora_estandarizacion = models.TimeField()
+    acidez_leche = models.FloatField()
+    temperatura_leche = models.FloatField()
+    materia_grasa_leche = models.FloatField()
+    densidad_leche = models.FloatField()
+    proteina_leche = models.FloatField()
+    operador_muestra_leche = models.CharField(max_length=50)
+    acidez_mezcla = models.FloatField()
+    temperatura_mezcla = models.FloatField()
+    materia_grasa_mezcla = models.FloatField()
+    densidad_mezcla = models.FloatField()
+    solidos_totales_mezcla = models.FloatField()
+    operador_muestra_mezcla = models.CharField(max_length=50)
+    filtro_pasteurizador = models.CharField(max_length=20)
+    filtro_311 = models.CharField(max_length=20)
+    filtro_312 = models.CharField(max_length=20)
+    filtro_313 = models.CharField(max_length=20)
+    filtro_314 = models.CharField(max_length=20)
+    filtro_316 = models.CharField(max_length=20)
+    estanque_fermentacion = models.ForeignKey(EstanqueFermentacion, on_delete=models.CASCADE)
+    hora_inicio_pasteurizacion = models.TimeField()
+    hora_adicion_fermentos = models.TimeField()
+    fermento = models.CharField(max_length=50)
+    fermento_lote = models.CharField(max_length=50)
+    temperatura_pasteurizador = models.FloatField()
+    presion_pasteurizador = models.FloatField()
+    hora_termino_pasteurizacion = models.TimeField()
+    litros_pasteurizados = models.FloatField()
+    ph_corte = models.FloatField()
+    tiempo_fermentacion = models.TimeField()
+    inicio_enfriamiento = models.TimeField()
+    termino_enfriamiento = models.TimeField()
+    tiempo_enfriamiento = models.TimeField()
+    presion_enfriamiento = models.FloatField()
+    ystral_enfriamiento = models.IntegerField()
+    viscosidad = models.IntegerField()    
+    estanque_lanzamiento = models.ForeignKey(EstanqueLanzamiento, on_delete=models.CASCADE)
+    grumos = models.CharField(max_length=10)
+    espuma = models.CharField(max_length=10)
+    desuerado = models.CharField(max_length=10)
+    sabor = models.CharField(max_length=10)
+    temperatura_frio = models.FloatField()
+    comentario = models.CharField(max_length=100, null = True)
+    usuario_del_registro = models.CharField(max_length=100, null = True)
+    
+    
 #-------------------------------------- Fin de los modelos para la RE PO 068 --------------------------------------
 #
 #
 #
 #-------------------------------------- Inicio de los modelos para la RE PO 005  --------------------------------------
 
+class DetalleInsumosEnvasado(models.Model):
+    orden_proceso = models.OneToOneField(OrdenProceso, on_delete=models.CASCADE)
+    operador = models.ForeignKey(Operador, on_delete=models.CASCADE)
+    fecha = models.DateField()
 
-
+class MateriaPrima(models.Model):
+    detalle_insumo_envasado = models.ForeignKey(DetalleInsumosEnvasado, on_delete=models.CASCADE)
+    nombre = models.CharField(max_length=100)
+    kilos_consumo = models.IntegerField()
+    lote = models.CharField(max_length=50)
+    numero_contenedor = models.IntegerField()
+    numero_usos = models.IntegerField()
+    fecha_vencimiento = models.DateField()
+    hora_uso = models.TimeField()
 
 #-------------------------------------- Fin de los modelos para la RE PO 005 --------------------------------------
 #

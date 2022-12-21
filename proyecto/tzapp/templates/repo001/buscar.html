@@ -4,9 +4,13 @@
 
 {% block content %}
 <div class="alert alert-secondary display-6 text-center container mt-5">Búsqueda por fecha de RE PO 001</div>
+
+
 <div class="container mt-5 text-center">
     <p>{{total}} resultado/s para búsqueda de la fecha {{query}} en RE PO 001</p>
 </div>
+
+
 {% if repos001 %}
 <div class="table-responsive container mt-5">
     <table class="table table-hover table-bordered table-sm">
@@ -130,8 +134,9 @@
         {% endif %}
     </div>
 
-    {% else %}
-    <div class="alert alert-warning text-center container mt-5">No se encuentran datos para la búsqueda {{query}}</div>
-    {% endif %}
+{% else %}
+<div class="alert alert-warning text-center container mt-5">No se encuentran datos para la búsqueda {{query}}</div>
+{% endif %}
 </div>
+
 {% endblock %}

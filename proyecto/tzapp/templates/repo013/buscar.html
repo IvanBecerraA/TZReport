@@ -1,23 +1,12 @@
 {% extends 'padre/padre.html' %}
 
-{% block title %}TZReport{% endblock %}
+{% block title %} TZReport{% endblock %}
 
 {% block content %}
-<div class="alert alert-secondary display-6 text-center container mt-5">Listado de RE PO 013</div>
-
+<div class="alert alert-secondary display-6 text-center container mt-5">Búsqueda por fecha de RE PO 013</div>
 <div class="container mt-5 text-center">
-    <h6 class="sidebar-title">
-        <i class="bi bi-search"></i> Búsqueda por fecha
-    </h6>
-    <form class="input-group" action="{% url 'repo013_buscar' %}" method="GET" role="form">
-        <input type="date" name="repo013_buscar" id="" class="form-control" placeholder="Buscar">
-        <div class="input-group-addon">
-            <input type="submit" class="btn btn-primary"  icons="bi bi-search" value="Buscar">
-        </div>
-    </form>
+    <p>{{total}} resultado/s para búsqueda de la fecha {{query}} en RE PO 013</p>
 </div>
-
-
 {% if repos013 %}
 <div class="table-responsive container mt-5">
     <table class="table table-hover table-bordered table-sm">
@@ -78,41 +67,36 @@
 <div class="" id="botones de paginacion" style="margin-top: 10px; display: flex; justify-content: center">
     <div class="pagination">
         {% if repos013.has_previous %}
-        <a class="btn btn-secondary" style="margin: 0px 3px" href="?page={{ repos013.previous_page_number }}"><i class="bi bi-arrow-left-square"></i> Anterior</a>
+        <a class="btn btn-secondary" style="margin: 0px 3px " href="?repo013_buscar={{query}}&page={{ repos013.previous_page_number }}"><i class="bi bi-arrow-left-square"></i> Anterior</a>
         {% endif %}
     
         {% if 4 in repos013.paginator.page_range %}
             {% if page|add:"-1" >= 1 %}
-                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?page={{ page|add:"-1" }}">{{ page|add:"-1" }}</a>
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?repo013_buscar={{query}}&page={{ page|add:"-1" }}">{{ page|add:"-1" }}</a>
             {%endif%}
-                <a  class="btn btn-dark" style="margin: 0px 1px" href="?page={{ page }}">{{ page }}</a>
+                <a  class="btn btn-dark" style="margin: 0px 1px" href="?repo013_buscar={{query}}&page={{ page }}">{{ page }}</a>
             {% if page|add:"1" in repos013.paginator.page_range %}
-                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?page={{ page|add:"1" }}">{{ page|add:"1" }}</a>
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?repo013_buscar={{query}}&page={{ page|add:"1" }}">{{ page|add:"1" }}</a>
             {%endif%}
         {% else %}
             {% for numero in repos013.paginator.page_range %}
             {% if numero == repos013.number %}
                 <strong  class="btn btn-dark" style="margin: 0px 1px">{{ numero }}</strong>
             {% else %}
-                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?page={{ numero }}">{{ numero }}</a>
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?repo013_buscar={{query}}&page={{ numero }}">{{ numero }}</a>
             {% endif %}
             {% endfor %}
         {% endif %}
     
         {% if repos013.has_next %}
-        <a  class="btn btn-secondary" style="margin: 0px 3px" href="?page={{ repos013.next_page_number }}">Siguiente <i class="bi bi-arrow-right-square"></i></a>
+        <a  class="btn btn-secondary" style="margin: 0px 3px" href="?repo013_buscar={{query}}&page={{ repos013.next_page_number }}">Siguiente <i class="bi bi-arrow-right-square"></i></a>
         {% endif %}
     </div>
 
-
 {% else %}
-<div class="alert alert-warning text-center container mt-5">No se encuentran datos en el sistema</div>
+<div class="alert alert-warning text-center container mt-5">No se encuentran datos para la búsqueda {{query}}</div>
 {% endif %}
 </div>
 
-
-<div class="container mt-5 text-center">
-    <a class="btn btn-success" href="{% url 'repo013_agregar' %}" style="font-size: 20px;"><i class="bi bi-clipboard2-plus"></i> Agregar</a>
-</div>
 
 {% endblock %}

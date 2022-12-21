@@ -47,7 +47,7 @@ def salir(request):
 def repo001Listar(request):
     repos001 = DetalleCamionRecepcionLeche.objects.order_by('-fecha')
     # La función utiliza un objeto "Paginator" de Django para dividir la lista de objetos en páginas de tamaño "5", y luego obtiene la página actual a partir de la solicitud GET y obtiene los objetos de esa página.
-    paginator = Paginator(repos001, 5)
+    paginator = Paginator(repos001, 1)
     page = request.GET.get('page') or 1
     objetos_pagina = paginator.page(page)
     data = {'repos001': objetos_pagina, 'page':page}
@@ -85,6 +85,7 @@ def repo001Agregar(request):
             obj = form.save(commit=False)
             obj.usuario_del_registro = request.user.username
             obj.save()
+            form.save_m2m()
             #return repo001Listar(request)
             return redirect('/repo001_listar')
     data={'form':form}
@@ -106,6 +107,7 @@ def repo001Editar(request, id):
             obj = form.save(commit=False)
             obj.usuario_del_registro = request.user.username
             obj.save()
+            form.save_m2m()
             #return repo001Listar(request)
             return redirect('/repo001_listar')
     else:
@@ -122,7 +124,7 @@ def operadorAgregar(request):
         if form.is_valid():
             form.save()
             # return repo001Agregar(request)
-            return redirect('/repo001_agregar')
+            return redirect('index')
     data={'form':form, 'nombre_modelo':nombre_modelo}
     return render(request, 'abstracto/agregarabstracto.html', data)
 
@@ -135,7 +137,7 @@ def placaAgregar(request):
         if form.is_valid():
             form.save()
             #return repo001Agregar(request)
-            return redirect('/repo001_agregar')
+            return redirect('index')
     data={'form':form, 'nombre_modelo':nombre_modelo}
     return render(request, 'abstracto/agregarabstracto.html', data)
 
@@ -148,7 +150,7 @@ def recorridoAgregar(request):
         if form.is_valid():
             form.save()
             #return repo001Agregar(request)
-            return redirect('/repo001_agregar')
+            return redirect('index')
     data={'form':form, 'nombre_modelo':nombre_modelo}
     return render(request, 'abstracto/agregarabstracto.html', data)
 
@@ -161,31 +163,57 @@ def tlcAgregar(request):
         if form.is_valid():
             form.save()
             #return repo001Agregar(request)
-            return redirect('/repo001_agregar')
+            return redirect('index')
     data={'form':form, 'nombre_modelo':nombre_modelo}
     return render(request, 'abstracto/agregarabstracto.html', data)
 
 
 #-------------------------------------- Fin de los views para la RE PO 001 --------------------------------------
-
-
-
+#
+#
+#
 #-------------------------------------- Inicio de los views para la RE PO 013 --------------------------------------
 
 @login_required #si o si estar logeafo
 def repo013Listar(request):
     repos013 = Detalle_pasteurizacion.objects.order_by('-fecha_registro')
-    data={'repos013': repos013}
+    paginator = Paginator(repos013, 5)
+    page = request.GET.get('page') or 1
+    objetos_pagina = paginator.page(page)
+    data={'repos013': objetos_pagina, 'page': page}
     return render(request, 'repo013/listar.html', data)
 
+@login_required
+def repo013Buscar(request):
+    repos013 = Detalle_pasteurizacion.objects.order_by('-fecha_registro')
+    if request.method == "GET":
+        query = request.GET.get('repo013_buscar')
+        queryset = repos013.filter(Q(fecha_registro__icontains = query))
+        
+        paginator = Paginator(queryset, 5)
+        page = request.GET.get('page') or 1
+        repos013 = paginator.page(page)
+        #queryset = repos013.filter(Q(fecha__icontains = query) | Q(tcl__icontains = query))
+        total = queryset.count()
+        data = {
+            'page':page,
+            'total':total,
+            'query':query,
+            'repos013':repos013,
+        }
+        return render(request, 'repo013/buscar.html', data)
+     
 @login_required
 def repo013Agregar(request):
     form=forms.Repo013Form()
     if request.method == 'POST':
         form=forms.Repo013Form(request.POST)
         if form.is_valid():
-            form.save()
-            return repo013Listar(request)
+            obj = form.save(commit=False)
+            obj.usuario_del_registro = request.user.username
+            obj.save()
+            form.save_m2m()
+            return redirect('/repo013_listar')
     data={'form':form}
     return render(request, 'repo013/agregar.html', data)
 
@@ -202,7 +230,10 @@ def repo013Editar(request, id):
     if request.method == 'POST':
         form=forms.Repo013Form(request.POST, instance=registro)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            obj.usuario_del_registro = request.user.username
+            obj.save()
+            form.save_m2m()
             #return repo001Listar(request)
             return redirect('/repo013_listar')
     else:
@@ -219,7 +250,7 @@ def tctAgregar(request):
         if form.is_valid():
             form.save()
             #return repo001Agregar(request)
-            return redirect('/repo013_agregar')
+            return redirect('index')
     data={'form':form, 'nombre_modelo':nombre_modelo}
     return render(request, 'abstracto/agregarabstracto.html', data)
 
@@ -231,9 +262,103 @@ def tlpAgregar(request):
         form=forms.TlpForm(request.POST)
         if form.is_valid():
             form.save()
-            #return repo001Agregar(request)
-            return redirect('/repo013_agregar')
+            return redirect('index')
     data={'form':form, 'nombre_modelo':nombre_modelo}
     return render(request, 'abstracto/agregarabstracto.html', data)
 
 #-------------------------------------- Fin de los views para la RE PO 013 --------------------------------------
+#
+#
+#
+#-------------------------------------- Inicio de los views para la RE PO 003 --------------------------------------
+
+@login_required
+def repo003Listar(request):
+    repos003 = OrdenProceso.objects.order_by('-fecha')
+    paginator = Paginator(repos003, 5)
+    page = request.GET.get('page') or 1
+    objetos_pagina = paginator.page(page)
+    data = {'repos003': objetos_pagina, 'page':page}
+    return render(request, 'repo003/listar.html', data)
+
+
+@login_required
+def repo003Buscar(request):
+    repos003 = OrdenProceso.objects.order_by('-fecha')
+    if request.method == "GET":
+        query = request.GET.get('repo003_buscar')
+        queryset = repos003.filter(Q(fecha__icontains = query))
+        
+        paginator = Paginator(queryset, 5)
+        page = request.GET.get('page') or 1
+        repos003 = paginator.page(page)
+        total = queryset.count()
+        data = {
+            'page':page,
+            'total':total,
+            'query':query,
+            'repos003':repos003,
+        }
+        return render(request, 'repo003/buscar.html', data)
+
+@login_required
+def repo003Agregar(request):
+    form=forms.Repo003Form()
+    if request.method == 'POST':
+        form=forms.Repo003Form(request.POST)
+        if form.is_valid():
+            #registrar usuario autenticado en el formulario
+            obj = form.save(commit=False)
+            obj.usuario_del_registro = request.user.username
+            obj.save()
+            #return repo003Listar(request)
+            return redirect('/repo003_listar')
+    data={'form':form}
+    return render(request, 'repo003/agregar.html', data)
+
+@login_required
+def repo003Eliminar(request, id):
+    registro = get_object_or_404(OrdenProceso, pk=id)
+    registro.delete()
+    return redirect('repo003_listar')
+
+@login_required
+def repo003Editar(request, id):
+    registro = get_object_or_404(OrdenProceso, pk=id)
+    
+    if request.method == 'POST':
+        form=forms.Repo003Form(request.POST, instance=registro)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.usuario_del_registro = request.user.username
+            obj.save()
+            #return repo003Listar(request)
+            return redirect('/repo003_listar')
+    else:
+        form=forms.Repo003Form(instance=registro)
+    data={'form':form}
+    return render(request, 'repo003/editar.html', data)
+
+@login_required
+def tmyAgregar(request):
+    nombre_modelo = Tmy.__name__
+    form=forms.TmyForm()
+    if request.method == 'POST':
+        form=forms.TmyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    data={'form':form, 'nombre_modelo':nombre_modelo}
+    return render(request, 'abstracto/agregarabstracto.html', data)
+
+@login_required
+def maquinaAgregar(request):
+    nombre_modelo = Maquina.__name__
+    form=forms.MaquinaForm()
+    if request.method == 'POST':
+        form=forms.MaquinaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    data={'form':form, 'nombre_modelo':nombre_modelo}
+    return render(request, 'abstracto/agregarabstracto.html', data)
