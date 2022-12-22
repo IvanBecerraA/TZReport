@@ -199,6 +199,8 @@ class DetalleInsumosFormulacion(models.Model):
     hora_fabricacion = models.TimeField()
     fecha_formulacion = models.DateField()
     hora_formulacion = models.TimeField()
+    comentario = models.CharField(max_length=100, null = True)
+    usuario_del_registro = models.CharField(max_length=100, null = True)
 
 class MateriaPrima(models.Model):
     detalle_pasteurizacion = models.ForeignKey(DetalleInsumosFormulacion, on_delete=models.CASCADE)
@@ -285,7 +287,7 @@ class DetalleInsumosEnvasado(models.Model):
     operador = models.ForeignKey(Operador, on_delete=models.CASCADE)
     fecha = models.DateField()
 
-class MateriaPrima(models.Model):
+class MateriaPrimaEnvasado(models.Model):
     detalle_insumo_envasado = models.ForeignKey(DetalleInsumosEnvasado, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100)
     kilos_consumo = models.IntegerField()

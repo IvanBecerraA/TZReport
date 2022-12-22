@@ -1,0 +1,105 @@
+{% extends 'padre/padre.html' %}
+
+{% block title %} TZReport{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-secondary display-6 text-center container mt-5">Editar registro de RE PO 004</div>
+
+<div class="container mt-5">
+<form action="" method="post">
+    <table class="table">
+
+        <h5 style="text-align: center">Receta fabricación</h5>
+        {{form.as_p}}
+
+
+        <h5 style="text-align: center">Materias primas</h5>
+        {{ formMateriaPrima.management_form }}
+        {% for f in formMateriaPrima %}
+
+        <div id="formulario_materia_prima" class="card" style="padding: 20px;">
+            {{ f.as_p }}
+            </div>
+            <br>
+        {% endfor %}
+
+
+    </table>
+    
+    
+    
+    
+    <div class="fixed-bottom" style="text-align: center; background-color: snow; opacity: 0.9">
+        <tr>
+            <td colspan ="2">
+                <input type="submit" class="btn btn-success btn-block" style="font-size: 30px" value="Guardar">
+            </td>
+            <span style="display: block; height: 5px; width: 100%"></span>
+    </div>
+    
+
+   
+    {% csrf_token %}
+</form>
+
+<button type="button" onclick="agregar_inputs();" class="btn btn-primary">Añadir Materia Prima</button>
+
+
+<script>
+    function agregar_inputs(){
+        var total_form = document.querySelector('#id_form-TOTAL_FORMS');
+
+        // nuevo label e input para nombre
+        var nuevo_label_nombre = document.createElement('label');
+        nuevo_label_nombre.innerHTML = 'Nombre:';
+        var nuevo_input_nombre = document.querySelector('#id_form-0-nombre').cloneNode(true);
+        nuevo_input_nombre.value = '';
+        nuevo_input_nombre.name = 'form-'+total_form.value+'-nombre';
+        nuevo_input_nombre.id = 'id_form-'+total_form.value+'-nombre';
+        // nuevo label e input para kilos
+        var nuevo_label_kilos = document.createElement('label');
+        nuevo_label_kilos.innerHTML = 'Kilos:';
+        var nuevo_input_kilos = document.querySelector('#id_form-0-kilos').cloneNode(true);
+        nuevo_input_kilos.value = '';
+        nuevo_input_kilos.name = 'form-'+total_form.value+'-kilos';
+        nuevo_input_kilos.id = 'id_form-'+total_form.value+'-kilos';
+        // nuevo label e input para lote
+        var nuevo_label_lote = document.createElement('label');
+        nuevo_label_lote.innerHTML = 'Lote:';
+        var nuevo_input_lote = document.querySelector('#id_form-0-lote').cloneNode(true);
+        nuevo_input_lote.value = '';
+        nuevo_input_lote.name = 'form-'+total_form.value+'-lote';
+        nuevo_input_lote.id = 'id_form-'+total_form.value+'-lote';
+        // nuevo label e input para fecha_vencimiento
+        var nuevo_label_fecha_vencimiento = document.createElement('label');
+        nuevo_label_fecha_vencimiento.innerHTML = 'fecha_vencimiento:';
+        var nuevo_input_fecha_vencimiento = document.querySelector('#id_form-0-fecha_vencimiento').cloneNode(true);
+        nuevo_input_fecha_vencimiento.value = '';
+        nuevo_input_fecha_vencimiento.name = 'form-'+total_form.value+'-fecha_vencimiento';
+        nuevo_input_fecha_vencimiento.id = 'id_form-'+total_form.value+'-fecha_vencimiento';
+
+        // agregamos los elementos creados
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_label_nombre);
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_input_nombre);
+        
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_label_kilos);
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_input_kilos);
+        
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_label_lote);
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_input_lote);
+        
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_label_fecha_vencimiento);
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_input_fecha_vencimiento);
+
+        // aumentar contador de formularios
+        total_form.value = parseInt(total_form.value) + 1;
+    }
+</script>
+
+
+<br>
+<br>
+<br>
+<br>
+{% endblock %}

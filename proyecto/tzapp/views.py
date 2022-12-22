@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.core.paginator import Paginator
 from django.db.models import Q
-
+from django.forms import formset_factory
 from django.views.generic import ListView, View
 from tzapp.utils import pdfConvert
 from tzapp.models import *
@@ -47,7 +47,7 @@ def salir(request):
 def repo001Listar(request):
     repos001 = DetalleCamionRecepcionLeche.objects.order_by('-fecha')
     # La función utiliza un objeto "Paginator" de Django para dividir la lista de objetos en páginas de tamaño "5", y luego obtiene la página actual a partir de la solicitud GET y obtiene los objetos de esa página.
-    paginator = Paginator(repos001, 1)
+    paginator = Paginator(repos001, 5)
     page = request.GET.get('page') or 1
     objetos_pagina = paginator.page(page)
     data = {'repos001': objetos_pagina, 'page':page}
@@ -168,7 +168,7 @@ def tlcAgregar(request):
     return render(request, 'abstracto/agregarabstracto.html', data)
 
 
-#-------------------------------------- Fin de los views para la RE PO 001 --------------------------------------
+#-------------------------------------- Termino de los views para la RE PO 001 --------------------------------------
 #
 #
 #
@@ -266,7 +266,7 @@ def tlpAgregar(request):
     data={'form':form, 'nombre_modelo':nombre_modelo}
     return render(request, 'abstracto/agregarabstracto.html', data)
 
-#-------------------------------------- Fin de los views para la RE PO 013 --------------------------------------
+#-------------------------------------- Termino de los views para la RE PO 013 --------------------------------------
 #
 #
 #
@@ -362,3 +362,96 @@ def maquinaAgregar(request):
             return redirect('index')
     data={'form':form, 'nombre_modelo':nombre_modelo}
     return render(request, 'abstracto/agregarabstracto.html', data)
+
+#-------------------------------------- Termino de los views para la RE PO 003 --------------------------------------
+#
+#
+#
+#-------------------------------------- Inicio de los views para la RE PO 004 --------------------------------------
+
+@login_required
+def repo004Listar(request):
+    repos004 = DetalleInsumosFormulacion.objects.order_by('-fecha_fabricacion')
+    listaMateriaPrima = MateriaPrima.objects.all()
+    
+    paginator = Paginator(repos004, 1)
+    page = request.GET.get('page') or 1
+    objetos_pagina = paginator.page(page)
+
+    data = {'repos004': objetos_pagina, 'page':page, 'listaMateriaPrima':listaMateriaPrima}
+    return render(request, 'repo004/listar.html', data)
+
+
+@login_required
+def repo004Buscar(request):
+    repos004 = DetalleInsumosFormulacion.objects.order_by('-fecha_fabricacion')
+    listaMateriaPrima = MateriaPrima.objects.all()
+    if request.method == "GET":
+        query = request.GET.get('repo004_buscar')
+        queryset = repos004.filter(Q(fecha_fabricacion__icontains = query))
+        
+        paginator = Paginator(queryset, 1)
+        page = request.GET.get('page') or 1
+        repos004 = paginator.page(page)
+        #queryset = repos004.filter(Q(fecha__icontains = query) | Q(tcl__icontains = query))
+        total = queryset.count()
+        data = {
+            'page':page,
+            'total':total,
+            'query':query,
+            'repos004':repos004,
+            'listaMateriaPrima':listaMateriaPrima,
+        }
+        return render(request, 'repo004/buscar.html', data)
+
+ 
+@login_required
+def repo004Agregar(request):
+    form=forms.Repo004Form(request.POST or None)
+    
+    formMateriaPrima = formset_factory(forms.MateriaPrimaForm, extra=1)
+    
+    if request.method == 'POST':
+        
+        formMateriaPrima = formMateriaPrima(request.POST)
+        
+        if form.is_valid() & formMateriaPrima.is_valid():
+            obj2 = form.save(commit=False)
+            obj2.usuario_del_registro = request.user.username
+            obj2.save()
+            for f in formMateriaPrima:
+                if formMateriaPrima.is_valid():
+                    obj = f.save(commit=False)
+                    obj.detalle_pasteurizacion_id = form.instance.id
+                    obj.save()
+                    
+            return redirect('/repo004_listar')
+        
+    data={'form':form, 'formMateriaPrima':formMateriaPrima}
+    return render(request, 'repo004/agregar.html', data)
+
+@login_required
+def repo004Eliminar(request, id):
+    registro = get_object_or_404(DetalleInsumosFormulacion, pk=id)
+    registro.delete()
+    return redirect('repo004_listar')
+
+
+#Falta obtener los datos del formset 
+@login_required
+def repo004Editar(request, id):
+    registro = get_object_or_404(DetalleInsumosFormulacion, pk=id)
+    #f2 = MateriaPrima.objects.filter(detalle_pasteurizacion = registro.id)
+    
+    if request.method == 'POST':
+        form=forms.Repo004Form(request.POST, instance=registro)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.usuario_del_registro = request.user.username
+            obj.save()
+            #return repo004Listar(request)
+            return redirect('/repo004_listar')
+    else:
+        form=forms.Repo004Form(instance=registro)
+    data={'form':form}
+    return render(request, 'repo004/editar.html', data)

@@ -1,0 +1,111 @@
+{% extends 'padre/padre.html' %}
+
+{% block title %} TZReport{% endblock %}
+
+{% block content %}
+<div class="alert alert-secondary display-6 text-center container mt-5">Listado de RE PO 004</div>
+
+
+<div class="container mt-5 text-center">
+    <h6 class="sidebar-title">
+        <i class="bi bi-search"></i> Búsqueda por fecha
+    </h6>
+    <form class="input-group" action="{% url 'repo004_buscar' %}" method="GET" role="form">
+        <input type="date" name="repo004_buscar" id="" class="form-control" placeholder="Buscar">
+        <div class="input-group-addon">
+            <input type="submit" class="btn btn-primary"  icons="bi bi-search" value="Buscar">
+        </div>
+    </form>
+</div>
+
+
+{% if repos004 %}
+<div class="table-responsive container mt-5">
+    <table class="table table-hover table-bordered table-sm">
+        <thead class="table-light align-middle">
+            <tr>
+                <th>________________________________ Orden de Proceso ________________________________</th>
+                <th>________________________________ Operador ________________________________</th>
+                <th>________________________________ Fecha de fabricación ________________________________</th>
+                <th>________________________________ Hora de fabricación ________________________________</th>
+                <th>________________________________ Fecha de formulación ________________________________</th>
+                <th>________________________________ Hora de formulación ________________________________</th>
+                <th>________________________________________________________________________________________________ Materia prima ________________________________________________________________________________________________</th>
+                <th>________________________________ Comentario ________________________________</th>
+                <th>________________________________ Usuario del registro ________________________________</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="align-middle">
+            {% for repo004 in repos004 %}
+            <tr>
+                <td>{{repo004.orden_proceso}}</td>
+                <td>{{repo004.operador}}</td>
+                <td>{{repo004.fecha_fabricacion}}</td>
+                <td>{{repo004.hora_fabricacion}}</td>
+                <td>{{repo004.fecha_formulacion}}</td>
+                <td>{{repo004.hora_formulacion}}</td>
+                <td>
+                    <ul>
+                        {% for materiaPrima in listaMateriaPrima %}
+                            {% if repo004.id == materiaPrima.detalle_pasteurizacion_id %}
+                                <li>{{materiaPrima.nombre}}: {{materiaPrima.kilos}}kgs. lote: {{materiaPrima.lote}} f.ven. {{materiaPrima.fecha_vencimiento}}</li>                                
+                            {% endif %}
+                        {% endfor %}
+                    <ul>
+                </td>
+                <td>{{repo004.comentario}}</td>
+                <td>{{repo004.usuario_del_registro}}</td>
+                <td><a class="btn btn-primary" href='/repo004_editar/{{repo004.id}}'><i class="bi bi-pencil-fill"></a></td>
+                <td><a class="btn btn-danger" href='/repo004_eliminar/{{repo004.id}}'><i class="bi bi-trash-fill"></i></a></td>
+            </tr>
+            {% endfor %}
+
+
+        </tbody>
+    </table>
+</div>
+
+
+<div class="" id="botones de paginacion" style="margin-top: 10px; display: flex; justify-content: center">
+    <div class="pagination">
+        {% if repos004.has_previous %}
+        <a class="btn btn-secondary" style="margin: 0px 3px" href="?page={{ repos004.previous_page_number }}"><i class="bi bi-arrow-left-square"></i> Anterior</a>
+        {% endif %}
+    
+        {% if 4 in repos004.paginator.page_range %}
+            {% if page|add:"-1" >= 1 %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?page={{ page|add:"-1" }}">{{ page|add:"-1" }}</a>
+            {%endif%}
+                <a  class="btn btn-dark" style="margin: 0px 1px" href="?page={{ page }}">{{ page }}</a>
+            {% if page|add:"1" in repos004.paginator.page_range %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?page={{ page|add:"1" }}">{{ page|add:"1" }}</a>
+            {%endif%}
+        {% else %}
+            {% for numero in repos004.paginator.page_range %}
+            {% if numero == repos004.number %}
+                <strong  class="btn btn-dark" style="margin: 0px 1px">{{ numero }}</strong>
+            {% else %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?page={{ numero }}">{{ numero }}</a>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+    
+        {% if repos004.has_next %}
+        <a  class="btn btn-secondary" style="margin: 0px 3px" href="?page={{ repos004.next_page_number }}">Siguiente <i class="bi bi-arrow-right-square"></i></a>
+        {% endif %}
+    </div>
+
+
+{% else %}
+<div class="alert alert-warning text-center container mt-5">No se encuentran datos en el sistema</div>
+{% endif %}
+</div>
+
+
+<div class="container mt-5 text-center">
+    <a class="btn btn-success" href="{% url 'repo004_agregar' %}" style="font-size: 20px;"><i class="bi bi-clipboard2-plus"></i> Agregar</a>
+</div>
+
+{% endblock %}

@@ -117,7 +117,7 @@ class Repo001Form(forms.ModelForm):
     kilo_gramos_camion_salida.widget.attrs['class']='form-control'
     tipo_aseo_camion.widget.attrs['class']='form-control'
     comentario.widget.attrs['class']='form-control'
-#-------------------------------------- Fin de los modelos para la RE PO 001 --------------------------------------
+#-------------------------------------- Termino de los modelos para la RE PO 001 --------------------------------------
 #
 #
 #
@@ -183,16 +183,11 @@ class Repo013Form(forms.ModelForm):
     temperatura_salida_pasteurizador.widget.attrs['class']='form-control'
     comentario.widget.attrs['class']='form-control'
     
-#-------------------------------------- Fin de los modelos para la RE PO 013 --------------------------------------
+#-------------------------------------- Termino de los modelos para la RE PO 013 --------------------------------------
 #
 #
 #
-#
-#-------------------------------------- Fin de los modelos para la RE PO 003 --------------------------------------
-
-
-
-#-------------------------------------- Fin de los modelos para la RE PO 003 --------------------------------------
+#-------------------------------------- Inicio de los modelos para la RE PO 003 --------------------------------------
 
 class TmyForm(forms.ModelForm):
     class Meta:
@@ -253,3 +248,51 @@ class Repo003Form(forms.ModelForm):
     litros_agua.widget.attrs['class']='form-control'
     litros_total_llenado.widget.attrs['class']='form-control'
     comentario.widget.attrs['class']='form-control'
+    
+#-------------------------------------- Termino de los modelos para la RE PO 003 --------------------------------------
+#
+#
+#
+#-------------------------------------- Inicio de los modelos para la RE PO 004 --------------------------------------
+
+class MateriaPrimaForm(forms.ModelForm):
+    class Meta:
+        model = MateriaPrima
+        fields = '__all__'
+        exclude = ['detalle_pasteurizacion']
+        
+    nombre = forms.CharField()
+    kilos = forms.IntegerField()
+    lote = forms.CharField()
+    fecha_vencimiento = forms.DateField(widget=forms.DateInput)
+    
+    nombre.widget.attrs['class']='form-control'
+    kilos.widget.attrs['class']='form-control'
+    lote.widget.attrs['class']='form-control'
+    fecha_vencimiento.widget.attrs['class']='form-control'
+    
+    
+class Repo004Form(forms.ModelForm):
+    class Meta:
+        model = DetalleInsumosFormulacion
+        fields = '__all__'
+        exclude = ['usuario_del_registro']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['orden_proceso'].queryset = OrdenProceso.objects.all().order_by('-orden_proceso')
+    
+    fecha_fabricacion = forms.DateField(widget=forms.DateInput)
+    hora_fabricacion = forms.TimeField(widget=forms.TimeInput)
+    fecha_formulacion = forms.DateField(widget=forms.DateInput)
+    hora_formulacion = forms.TimeField(widget=forms.TimeInput)
+    comentario = forms.CharField(required=False, widget=forms.Textarea)
+    
+    fecha_fabricacion.widget.attrs['class']='form-control'
+    hora_fabricacion.widget.attrs['class']='form-control'
+    fecha_formulacion.widget.attrs['class']='form-control'
+    hora_formulacion.widget.attrs['class']='form-control'
+    comentario.widget.attrs['class']='form-control'
+    
+#-------------------------------------- Termino de los modelos para la RE PO 004 --------------------------------------
+    
