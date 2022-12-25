@@ -470,3 +470,95 @@ def repo004Editar2(request, id):
     data={'form':form}
     return render(request, 'repo004/editar2.html', data)
 
+#-------------------------------------- Termino de los views para la RE PO 004 --------------------------------------
+#
+#
+#
+#-------------------------------------- Inicio de los views para la RE PO 068 --------------------------------------
+
+@login_required
+def repo068Listar(request):
+    repos068 = DetalleRepo068.objects.order_by('-fecha_estandarizacion')
+    paginator = Paginator(repos068, 5)
+    page = request.GET.get('page') or 1
+    objetos_pagina = paginator.page(page)
+    data = {'repos068': objetos_pagina, 'page':page}
+    return render(request, 'repo068/listar.html', data)
+
+@login_required
+def repo068Buscar(request):
+    repos068 = DetalleRepo068.objects.order_by('-fecha_estandarizacion')
+    if request.method == "GET":
+        query = request.GET.get('repo068_buscar')
+        queryset = repos068.filter(Q(fecha_estandarizacion__icontains = query))
+        
+        paginator = Paginator(queryset, 5)
+        page = request.GET.get('page') or 1
+        repos068 = paginator.page(page)
+        total = queryset.count()
+        data = {
+            'page':page,
+            'total':total,
+            'query':query,
+            'repos068':repos068,
+        }
+        return render(request, 'repo068/buscar.html', data)
+
+@login_required
+def repo068Agregar(request):
+    form=forms.Repo068Form()
+    if request.method == 'POST':
+        form=forms.Repo068Form(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.usuario_del_registro = request.user.username
+            obj.save()
+            return redirect('/repo068_listar')
+    data={'form':form}
+    return render(request, 'repo068/agregar.html', data)
+
+@login_required
+def repo068Eliminar(request, id):
+    registro = get_object_or_404(DetalleRepo068, pk=id)
+    registro.delete()
+    return redirect('repo068_listar')
+
+@login_required
+def repo068Editar(request, id):
+    registro = get_object_or_404(DetalleRepo068, pk=id)
+    
+    if request.method == 'POST':
+        form=forms.Repo068Form(request.POST, instance=registro)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.usuario_del_registro = request.user.username
+            obj.save()
+            return redirect('/repo068_listar')
+    else:
+        form=forms.Repo068Form(instance=registro)
+    data={'form':form}
+    return render(request, 'repo068/editar.html', data)
+
+@login_required
+def estanqueFermentacionAgregar(request):
+    nombre_modelo = EstanqueFermentacion.__name__
+    form=forms.EstanqueFermentacionForm()
+    if request.method == 'POST':
+        form=forms.EstanqueFermentacionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    data={'form':form, 'nombre_modelo':nombre_modelo}
+    return render(request, 'abstracto/agregarabstracto.html', data)
+
+@login_required
+def estanqueLanzamientoAgregar(request):
+    nombre_modelo = EstanqueLanzamiento.__name__
+    form=forms.EstanqueLanzamientoForm()
+    if request.method == 'POST':
+        form=forms.EstanqueLanzamientoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    data={'form':form, 'nombre_modelo':nombre_modelo}
+    return render(request, 'abstracto/agregarabstracto.html', data)

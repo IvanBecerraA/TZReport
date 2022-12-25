@@ -275,7 +275,6 @@ class DetalleRepo068(models.Model):
     comentario = models.CharField(max_length=100, null = True)
     usuario_del_registro = models.CharField(max_length=100, null = True)
     
-    
 #-------------------------------------- Fin de los modelos para la RE PO 068 --------------------------------------
 #
 #

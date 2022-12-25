@@ -61,6 +61,15 @@ urlpatterns = [
     path('repo004_eliminar/<int:id>', repo004Eliminar, name='repo004_eliminar'),
     path('repo004_editar/<int:id>', repo004Editar, name='repo004_editar'),
     path('repo004_editar2/<int:id>', repo004Editar2, name='repo004_editar2'),
+    #-------------------------------------- Termino de las urls para la RE PO 004 --------------------------------------
+    #-------------------------------------- Inicio de las urls para la RE PO 068 --------------------------------------
+    path('repo068_listar/', repo068Listar, name='repo068_listar'),
+    path('repo068_buscar/', repo068Buscar, name='repo068_buscar'),
+    path('repo068_agregar/', repo068Agregar, name='repo068_agregar'),
+    path('repo068_eliminar/<int:id>', repo068Eliminar, name='repo068_eliminar'),
+    path('repo068_editar/<int:id>', repo068Editar, name='repo068_editar'),
+    path('estanque_fermentacion_agregar/', estanqueFermentacionAgregar, name='estanque_fermentacion_agregar'),
+    path('estanque_lanzamiento_agregar/', estanqueLanzamientoAgregar, name='estanque_lanzamiento_agregar'),
     
     
 

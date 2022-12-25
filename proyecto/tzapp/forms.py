@@ -295,4 +295,135 @@ class Repo004Form(forms.ModelForm):
     comentario.widget.attrs['class']='form-control'
     
 #-------------------------------------- Termino de los modelos para la RE PO 004 --------------------------------------
+#
+#
+#
+#-------------------------------------- Inicio de los modelos para la RE PO 068 --------------------------------------
+
+
+class EstanqueFermentacionForm(forms.ModelForm):
+    class Meta:
+        model=EstanqueFermentacion
+        fields = '__all__'
+    nombre = forms.CharField()
+    
+    nombre.widget.attrs['class']='form-control'
+
+class EstanqueLanzamientoForm(forms.ModelForm):
+    class Meta:
+        model=EstanqueLanzamiento
+        fields = '__all__'
+    nombre = forms.CharField()
+    
+    nombre.widget.attrs['class']='form-control'
+    
+    
+class Repo068Form(forms.ModelForm):
+    class Meta:
+        model = DetalleRepo068
+        fields = '__all__'
+        exclude = ['usuario_del_registro']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['orden_proceso'].queryset = OrdenProceso.objects.all().order_by('-orden_proceso')
+    
+    Cumple = [
+        ('ok', 'OK'),
+        ('no cumple', 'NO CUMPLE'),
+    ]
+    Revision = [
+        ('produccion', 'PRODUCCION'),
+        ('cumple', 'CUMPLE'),
+    ]    
+    Estado = [
+        ('no', 'NO'),
+        ('si', 'SI'),
+    ]
+    
+    fecha_estandarizacion = forms.DateField(widget=forms.DateInput)
+    hora_estandarizacion = forms.TimeField(widget=forms.TimeInput)
+    acidez_leche = forms.FloatField()
+    temperatura_leche = forms.FloatField()
+    materia_grasa_leche = forms.FloatField()
+    densidad_leche = forms.FloatField()
+    proteina_leche = forms.FloatField()
+    operador_muestra_leche = forms.CharField()
+    acidez_mezcla = forms.FloatField()
+    temperatura_mezcla = forms.FloatField()
+    materia_grasa_mezcla = forms.FloatField()
+    densidad_mezcla = forms.FloatField()
+    solidos_totales_mezcla = forms.FloatField()
+    operador_muestra_mezcla = forms.CharField()
+    filtro_pasteurizador = forms.CharField(widget=forms.Select(choices=Cumple))
+    filtro_311 = forms.CharField(widget=forms.Select(choices=Revision))
+    filtro_312 = forms.CharField(widget=forms.Select(choices=Revision))
+    filtro_313 = forms.CharField(widget=forms.Select(choices=Revision))
+    filtro_314 = forms.CharField(widget=forms.Select(choices=Revision))
+    filtro_316 = forms.CharField(widget=forms.Select(choices=Revision))
+    hora_inicio_pasteurizacion = forms.TimeField(widget=forms.TimeInput)
+    hora_adicion_fermentos = forms.TimeField(widget=forms.TimeInput)
+    fermento = forms.CharField()
+    fermento_lote = forms.CharField()
+    temperatura_pasteurizador = forms.FloatField()
+    presion_pasteurizador = forms.FloatField()
+    hora_termino_pasteurizacion = forms.TimeField(widget=forms.TimeInput)
+    litros_pasteurizados = forms.FloatField()
+    ph_corte = forms.FloatField()
+    tiempo_fermentacion = forms.TimeField(widget=forms.TimeInput)
+    inicio_enfriamiento = forms.TimeField(widget=forms.TimeInput)
+    termino_enfriamiento = forms.TimeField(widget=forms.TimeInput)
+    tiempo_enfriamiento = forms.TimeField(widget=forms.TimeInput)
+    presion_enfriamiento = forms.FloatField()
+    ystral_enfriamiento = forms.IntegerField()
+    viscosidad = forms.IntegerField()    
+    grumos = forms.CharField(widget=forms.Select(choices=Estado))
+    espuma = forms.CharField(widget=forms.Select(choices=Estado))
+    desuerado = forms.CharField(widget=forms.Select(choices=Estado))
+    sabor = forms.CharField(widget=forms.Select(choices=Cumple))
+    temperatura_frio = forms.FloatField()
+    comentario = forms.CharField(required=False, widget=forms.Textarea)
+    
+    fecha_estandarizacion.widget.attrs['class']='form-control'
+    hora_estandarizacion.widget.attrs['class']='form-control'
+    acidez_leche.widget.attrs['class']='form-control'
+    temperatura_leche.widget.attrs['class']='form-control'
+    materia_grasa_leche.widget.attrs['class']='form-control'
+    densidad_leche.widget.attrs['class']='form-control'
+    proteina_leche.widget.attrs['class']='form-control'
+    operador_muestra_leche.widget.attrs['class']='form-control'
+    acidez_mezcla.widget.attrs['class']='form-control'
+    temperatura_mezcla.widget.attrs['class']='form-control'
+    materia_grasa_mezcla.widget.attrs['class']='form-control'
+    densidad_mezcla.widget.attrs['class']='form-control'
+    solidos_totales_mezcla.widget.attrs['class']='form-control'
+    operador_muestra_mezcla.widget.attrs['class']='form-control'
+    filtro_pasteurizador.widget.attrs['class']='form-control'
+    filtro_311.widget.attrs['class']='form-control'
+    filtro_312.widget.attrs['class']='form-control'
+    filtro_313.widget.attrs['class']='form-control'
+    filtro_314.widget.attrs['class']='form-control'
+    filtro_316.widget.attrs['class']='form-control'
+    hora_inicio_pasteurizacion.widget.attrs['class']='form-control'
+    hora_adicion_fermentos.widget.attrs['class']='form-control'
+    fermento.widget.attrs['class']='form-control'
+    fermento_lote.widget.attrs['class']='form-control'
+    temperatura_pasteurizador.widget.attrs['class']='form-control'
+    presion_pasteurizador.widget.attrs['class']='form-control'
+    hora_termino_pasteurizacion.widget.attrs['class']='form-control'
+    litros_pasteurizados.widget.attrs['class']='form-control'
+    ph_corte.widget.attrs['class']='form-control'
+    tiempo_fermentacion.widget.attrs['class']='form-control'
+    inicio_enfriamiento.widget.attrs['class']='form-control'
+    termino_enfriamiento.widget.attrs['class']='form-control'
+    tiempo_enfriamiento.widget.attrs['class']='form-control'
+    presion_enfriamiento.widget.attrs['class']='form-control'
+    ystral_enfriamiento.widget.attrs['class']='form-control'
+    viscosidad.widget.attrs['class']='form-control'
+    grumos.widget.attrs['class']='form-control'
+    espuma.widget.attrs['class']='form-control'
+    desuerado.widget.attrs['class']='form-control'
+    sabor.widget.attrs['class']='form-control'
+    temperatura_frio.widget.attrs['class']='form-control'
+    comentario.widget.attrs['class']='form-control'
     
