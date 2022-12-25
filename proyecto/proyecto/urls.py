@@ -60,6 +60,7 @@ urlpatterns = [
     path('repo004_agregar/', repo004Agregar, name='repo004_agregar'),
     path('repo004_eliminar/<int:id>', repo004Eliminar, name='repo004_eliminar'),
     path('repo004_editar/<int:id>', repo004Editar, name='repo004_editar'),
+    path('repo004_editar2/<int:id>', repo004Editar2, name='repo004_editar2'),
     
     
 

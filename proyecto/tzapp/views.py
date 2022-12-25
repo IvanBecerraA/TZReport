@@ -374,7 +374,7 @@ def repo004Listar(request):
     repos004 = DetalleInsumosFormulacion.objects.order_by('-fecha_fabricacion')
     listaMateriaPrima = MateriaPrima.objects.all()
     
-    paginator = Paginator(repos004, 1)
+    paginator = Paginator(repos004, 5)
     page = request.GET.get('page') or 1
     objetos_pagina = paginator.page(page)
 
@@ -390,7 +390,7 @@ def repo004Buscar(request):
         query = request.GET.get('repo004_buscar')
         queryset = repos004.filter(Q(fecha_fabricacion__icontains = query))
         
-        paginator = Paginator(queryset, 1)
+        paginator = Paginator(queryset, 5)
         page = request.GET.get('page') or 1
         repos004 = paginator.page(page)
         #queryset = repos004.filter(Q(fecha__icontains = query) | Q(tcl__icontains = query))
@@ -415,7 +415,7 @@ def repo004Agregar(request):
         
         formMateriaPrima = formMateriaPrima(request.POST)
         
-        if form.is_valid() & formMateriaPrima.is_valid():
+        if form.is_valid() and formMateriaPrima.is_valid():
             obj2 = form.save(commit=False)
             obj2.usuario_del_registro = request.user.username
             obj2.save()
@@ -436,12 +436,10 @@ def repo004Eliminar(request, id):
     registro.delete()
     return redirect('repo004_listar')
 
-
-#Falta obtener los datos del formset 
+#Editar detalle de la formulación
 @login_required
 def repo004Editar(request, id):
     registro = get_object_or_404(DetalleInsumosFormulacion, pk=id)
-    #f2 = MateriaPrima.objects.filter(detalle_pasteurizacion = registro.id)
     
     if request.method == 'POST':
         form=forms.Repo004Form(request.POST, instance=registro)
@@ -449,9 +447,26 @@ def repo004Editar(request, id):
             obj = form.save(commit=False)
             obj.usuario_del_registro = request.user.username
             obj.save()
-            #return repo004Listar(request)
             return redirect('/repo004_listar')
     else:
         form=forms.Repo004Form(instance=registro)
+        
     data={'form':form}
     return render(request, 'repo004/editar.html', data)
+
+#Editar una materia prima del detalle de la formulación
+@login_required
+def repo004Editar2(request, id):
+    registro = get_object_or_404(MateriaPrima, pk=id)
+    
+    if request.method == 'POST':
+        form=forms.MateriaPrimaForm(request.POST, instance=registro)
+        if form.is_valid():
+            form.save()
+            return redirect('/repo004_listar')
+    else:
+        form=forms.MateriaPrimaForm(instance=registro)
+        
+    data={'form':form}
+    return render(request, 'repo004/editar2.html', data)
+
