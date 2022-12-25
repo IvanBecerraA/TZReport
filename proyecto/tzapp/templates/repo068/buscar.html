@@ -1,0 +1,159 @@
+{% extends 'padre/padre.html' %}
+
+{% block title %} TZReport{% endblock %}
+
+{% block content %}
+<div class="alert alert-secondary display-6 text-center container mt-5">Búsqueda por fecha de RE PO 068</div>
+
+<div class="container mt-5 text-center">
+    <p>{{total}} resultado/s para búsqueda de la fecha {{query}} en RE PO 068</p>
+</div>
+
+{% if repos068 %}
+<div class="table-responsive container mt-5">
+    <table class="table table-hover table-bordered table-sm">
+        <thead class="table-light align-middle">
+            <tr>
+                <th>________________________________ Orden de proceso ________________________________</th>
+                <th>________________________________ Fecha estandarización ________________________________</th>
+                <th>________________________________ Hora estandarización ________________________________</th>
+                <th>________________________________ Ácidez leche ________________________________</th>
+                <th>________________________________ Temperatura de leche ________________________________</th>
+                <th>________________________________ Materia grasa de leche ________________________________</th>
+                <th>________________________________ Densidad de leche ________________________________</th>
+                <th>________________________________ Proteína de leche ________________________________</th>
+                <th>________________________________ Operador de la muestra de la leche ________________________________</th>
+                <th>________________________________ Ácidez de la mezcla ________________________________</th>
+                <th>________________________________ Temperatura de la mezcla ________________________________</th>
+                <th>________________________________ Materia grasa de la mezcla ________________________________</th>
+                <th>________________________________ Densidad de la mezcla ________________________________</th>
+                <th>________________________________ Solidos totales de la mezcla ________________________________</th>
+                <th>________________________________ Operador de la muestra de la mezcla ________________________________</th>
+                <th>________________________________ Filtro pasteurizador ________________________________</th>
+                <th>________________________________ Filtro 311 ________________________________</th>
+                <th>________________________________ Filtro 312 ________________________________</th>
+                <th>________________________________ Filtro 313 ________________________________</th>
+                <th>________________________________ Filtro 314 ________________________________</th>
+                <th>________________________________ Filtro 316 ________________________________</th>
+                <th>________________________________ Estanque fermentación ________________________________</th>
+                <th>________________________________ Hora inicio pasterización ________________________________</th>
+                <th>________________________________ Hora adición del fermento ________________________________</th>
+                <th>________________________________ Fermento ________________________________</th>
+                <th>________________________________ Lote del fermento ________________________________</th>
+                <th>________________________________ Temperatura pasteurizador ________________________________</th>
+                <th>________________________________ Presión pasterizador ________________________________</th>
+                <th>________________________________ Hora de termino de la pasteurización ________________________________</th>
+                <th>________________________________ Litros pasteurizados ________________________________</th>
+                <th>________________________________ PH del corte ________________________________</th>
+                <th>________________________________ Tiempo fermentación ________________________________</th>
+                <th>________________________________ Inicio enfriamiento ________________________________</th>
+                <th>________________________________ Termino enfriamiento ________________________________</th>
+                <th>________________________________ Tiempo enfriamiento ________________________________</th>
+                <th>________________________________ Presión enfriamiento ________________________________</th>
+                <th>________________________________ ystral enfriamiento ________________________________</th>
+                <th>________________________________ Viscosidad ________________________________</th>
+                <th>________________________________ Estanque lanzamiento ________________________________</th>
+                <th>________________________________ Grumos ________________________________</th>
+                <th>________________________________ Espuma ________________________________</th>
+                <th>________________________________ Desuerado ________________________________</th>
+                <th>________________________________ Sabor ________________________________</th>
+                <th>________________________________ Temperatura frío ________________________________</th>
+                <th>________________________________ Comentario ________________________________</th>
+                <th>________________________________ Usuario del registro ________________________________</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="align-middle">
+            {% for repo068 in repos068 %}
+            <tr>
+                <td>{{repo068.orden_proceso}}</td>
+                <td>{{repo068.fecha_estandarizacion}}</td>
+                <td>{{repo068.hora_estandarizacion}}</td>
+                <td>{{repo068.acidez_leche}}</td>
+                <td>{{repo068.temperatura_leche}}</td>
+                <td>{{repo068.materia_grasa_leche}}</td>
+                <td>{{repo068.densidad_leche}}</td>
+                <td>{{repo068.proteina_leche}}</td>
+                <td>{{repo068.operador_muestra_leche}}</td>
+                <td>{{repo068.acidez_mezcla}}</td>
+                <td>{{repo068.temperatura_mezcla}}</td>
+                <td>{{repo068.materia_grasa_mezcla}}</td>
+                <td>{{repo068.densidad_mezcla}}</td>
+                <td>{{repo068.solidos_totales_mezcla}}</td>
+                <td>{{repo068.operador_muestra_mezcla}}</td>
+                <td>{{repo068.filtro_pasteurizador}}</td>
+                <td>{{repo068.filtro_311}}</td>
+                <td>{{repo068.filtro_312}}</td>
+                <td>{{repo068.filtro_313}}</td>
+                <td>{{repo068.filtro_314}}</td>
+                <td>{{repo068.filtro_316}}</td>
+                <td>{{repo068.estanque_fermentacion}}</td>
+                <td>{{repo068.hora_inicio_pasteurizacion}}</td>
+                <td>{{repo068.hora_adicion_fermentos}}</td>
+                <td>{{repo068.fermento}}</td>
+                <td>{{repo068.fermento_lote}}</td>
+                <td>{{repo068.temperatura_pasteurizador}}</td>
+                <td>{{repo068.presion_pasteurizador}}</td>
+                <td>{{repo068.hora_termino_pasteurizacion}}</td>
+                <td>{{repo068.litros_pasteurizados}}</td>
+                <td>{{repo068.ph_corte}}</td>
+                <td>{{repo068.tiempo_fermentacion}}</td>
+                <td>{{repo068.inicio_enfriamiento}}</td>
+                <td>{{repo068.termino_enfriamiento}}</td>
+                <td>{{repo068.tiempo_enfriamiento}}</td>
+                <td>{{repo068.presion_enfriamiento}}</td>
+                <td>{{repo068.ystral_enfriamiento}}</td>
+                <td>{{repo068.viscosidad}}</td>
+                <td>{{repo068.estanque_lanzamiento}}</td>
+                <td>{{repo068.grumos}}</td>
+                <td>{{repo068.espuma}}</td>
+                <td>{{repo068.desuerado}}</td>
+                <td>{{repo068.sabor}}</td>
+                <td>{{repo068.temperatura_frio}}</td>
+                <td>{{repo068.comentario}}</td>
+                <td>{{repo068.usuario_del_registro}}</td>
+                <td><a class="btn btn-primary" href='/repo068_editar/{{repo068.id}}'><i class="bi bi-pencil-fill"></a></td>
+                <td><a class="btn btn-danger" href='/repo068_eliminar/{{repo068.id}}'><i class="bi bi-trash-fill"></i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<div class="" id="botones de paginacion" style="margin-top: 10px; display: flex; justify-content: center">
+    <div class="pagination">
+        {% if repos068.has_previous %}
+        <a class="btn btn-secondary" style="margin: 0px 3px" href="?repo068_buscar={{query}}&page={{ repos068.previous_page_number }}"><i class="bi bi-arrow-left-square"></i> Anterior</a>
+        {% endif %}
+    
+        {% if 4 in repos068.paginator.page_range %}
+            {% if page|add:"-1" >= 1 %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?repo068_buscar={{query}}&page={{ page|add:"-1" }}">{{ page|add:"-1" }}</a>
+            {%endif%}
+                <a  class="btn btn-dark" style="margin: 0px 1px" href="?repo068_buscar={{query}}&page={{ page }}">{{ page }}</a>
+            {% if page|add:"1" in repos068.paginator.page_range %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?repo068_buscar={{query}}&page={{ page|add:"1" }}">{{ page|add:"1" }}</a>
+            {%endif%}
+        {% else %}
+            {% for numero in repos068.paginator.page_range %}
+            {% if numero == repos068.number %}
+                <strong  class="btn btn-dark" style="margin: 0px 1px">{{ numero }}</strong>
+            {% else %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?repo068_buscar={{query}}&page={{ numero }}">{{ numero }}</a>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+    
+        {% if repos068.has_next %}
+        <a  class="btn btn-secondary" style="margin: 0px 3px" href="?repo068_buscar={{query}}&page={{ repos068.next_page_number }}">Siguiente <i class="bi bi-arrow-right-square"></i></a>
+        {% endif %}
+    </div>
+
+{% else %}
+<div class="alert alert-warning text-center container mt-5">No se encuentran datos para la búsqueda {{query}}</div>
+{% endif %}
+</div>
+
+{% endblock %}
