@@ -22,7 +22,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', index, name='index'),
     path('salir/', salir, name='salir'),
-    path('menu_reporte/', menuReporte ,name='menureporte'),
     path('reporte/', ListaRepo001.as_view(), name='reporte'),
     path('reportepdf/', ListaRepo001Pdf.as_view(), name='reportepdf'),
     #-------------------------------------- Inicio de las urls para la RE PO 001 --------------------------------------
@@ -70,7 +69,27 @@ urlpatterns = [
     path('repo068_editar/<int:id>', repo068Editar, name='repo068_editar'),
     path('estanque_fermentacion_agregar/', estanqueFermentacionAgregar, name='estanque_fermentacion_agregar'),
     path('estanque_lanzamiento_agregar/', estanqueLanzamientoAgregar, name='estanque_lanzamiento_agregar'),
-    
-    
+    #-------------------------------------- Termino de las urls para la RE PO 068 --------------------------------------
+    #-------------------------------------- Inicio de las urls para la RE PO 005 --------------------------------------
+    path('repo005_listar/', repo005Listar, name='repo005_listar'),
+    path('repo005_buscar/', repo005Buscar, name='repo005_buscar'),
+    path('repo005_agregar/', repo005Agregar, name='repo005_agregar'),
+    path('repo005_eliminar/<int:id>', repo005Eliminar, name='repo005_eliminar'),
+    path('repo005_editar/<int:id>', repo005Editar, name='repo005_editar'),
+    path('repo005_editar2/<int:id>', repo005Editar2, name='repo005_editar2'),
+    #-------------------------------------- Termino de las urls para la RE PO 005 --------------------------------------
+    #-------------------------------------- Inicio de las urls para la RE PO 017 --------------------------------------
+    path('repo017_listar/', repo017Listar, name='repo017_listar'),
+    path('repo017_buscar/', repo017Buscar, name='repo017_buscar'),
+    path('repo017_agregar/', repo017Agregar, name='repo017_agregar'),
+    path('repo017_eliminar/<int:id>', repo017Eliminar, name='repo017_eliminar'),
+    path('repo017_editar/<int:id>', repo017Editar, name='repo017_editar'),
+    path('repo017_editar2/<int:id>', repo017Editar2, name='repo017_editar2'),
+    #-------------------------------------- Termino de las urls para la RE PO 017 --------------------------------------
+    #-------------------------------------- Inicio de las urls para reportes --------------------------------------
+    path('menu_reporte/', menuReporte ,name='menureporte'),
+    path('buscar_op/', buscarOp ,name='buscar_op'),
+    path('generar_reporte/<int:id>', generarReporte ,name='generar_reporte'),
+ 
 
 ]
