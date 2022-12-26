@@ -1,0 +1,135 @@
+{% extends 'padre/padre.html' %}
+
+{% block title %} TZReport{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-secondary display-6 text-center container mt-5">Agregar registro de RE PO 005</div>
+
+<div class="container mt-5">
+<form action="" method="post">
+    <table class="table">
+
+        <h5 style="text-align: center">Receta fabricación PLF</h5>
+        {{form.as_p}}
+
+
+        <h5 style="text-align: center">Materias primas</h5>
+        {{ formMateriaPrima.management_form }}
+        {% for f in formMateriaPrima %}
+
+        <div id="formulario_materia_prima" class="card" style="padding: 20px;">
+            {{ f.as_p }}
+            </div>
+            <br>
+        {% endfor %}
+
+
+    </table>
+    
+    
+    
+    
+    <div class="fixed-bottom" style="text-align: center; background-color: snow; opacity: 0.9">
+        <tr>
+            <td colspan ="2">
+                <input type="submit" class="btn btn-success btn-block" style="font-size: 30px" value="Guardar">
+            </td>
+            <span style="display: block; height: 5px; width: 100%"></span>
+    </div>
+    
+
+   
+    {% csrf_token %}
+</form>
+
+<button type="button" onclick="agregar_inputs();" class="btn btn-primary">Añadir Materia Prima</button>
+
+
+<script>
+    function agregar_inputs(){
+        var total_form = document.querySelector('#id_form-TOTAL_FORMS');
+
+        // nuevo label e input para nombre
+        var nuevo_label_nombre = document.createElement('label');
+        nuevo_label_nombre.innerHTML = 'Nombre:';
+        var nuevo_input_nombre = document.querySelector('#id_form-0-nombre').cloneNode(true);
+        nuevo_input_nombre.value = '';
+        nuevo_input_nombre.name = 'form-'+total_form.value+'-nombre';
+        nuevo_input_nombre.id = 'id_form-'+total_form.value+'-nombre';
+        // nuevo label e input para kilos_consumo
+        var nuevo_label_kilos_consumo = document.createElement('label');
+        nuevo_label_kilos_consumo.innerHTML = 'kilos_consumo:';
+        var nuevo_input_kilos_consumo = document.querySelector('#id_form-0-kilos_consumo').cloneNode(true);
+        nuevo_input_kilos_consumo.value = '';
+        nuevo_input_kilos_consumo.name = 'form-'+total_form.value+'-kilos_consumo';
+        nuevo_input_kilos_consumo.id = 'id_form-'+total_form.value+'-kilos_consumo';
+        // nuevo label e input para lote
+        var nuevo_label_lote = document.createElement('label');
+        nuevo_label_lote.innerHTML = 'Lote:';
+        var nuevo_input_lote = document.querySelector('#id_form-0-lote').cloneNode(true);
+        nuevo_input_lote.value = '';
+        nuevo_input_lote.name = 'form-'+total_form.value+'-lote';
+        nuevo_input_lote.id = 'id_form-'+total_form.value+'-lote';
+        // nuevo label e input para numero_contenedor
+        var nuevo_label_numero_contenedor = document.createElement('label');
+        nuevo_label_numero_contenedor.innerHTML = 'numero_contenedor:';
+        var nuevo_input_numero_contenedor = document.querySelector('#id_form-0-numero_contenedor').cloneNode(true);
+        nuevo_input_numero_contenedor.value = '';
+        nuevo_input_numero_contenedor.name = 'form-'+total_form.value+'-numero_contenedor';
+        nuevo_input_numero_contenedor.id = 'id_form-'+total_form.value+'-numero_contenedor';
+        // nuevo label e input para numero_usos
+        var nuevo_label_numero_usos = document.createElement('label');
+        nuevo_label_numero_usos.innerHTML = 'numero_usos:';
+        var nuevo_input_numero_usos = document.querySelector('#id_form-0-numero_usos').cloneNode(true);
+        nuevo_input_numero_usos.value = '';
+        nuevo_input_numero_usos.name = 'form-'+total_form.value+'-numero_usos';
+        nuevo_input_numero_usos.id = 'id_form-'+total_form.value+'-numero_usos';
+        // nuevo label e input para fecha_vencimiento
+        var nuevo_label_fecha_vencimiento = document.createElement('label');
+        nuevo_label_fecha_vencimiento.innerHTML = 'fecha_vencimiento:';
+        var nuevo_input_fecha_vencimiento = document.querySelector('#id_form-0-fecha_vencimiento').cloneNode(true);
+        nuevo_input_fecha_vencimiento.value = '';
+        nuevo_input_fecha_vencimiento.name = 'form-'+total_form.value+'-fecha_vencimiento';
+        nuevo_input_fecha_vencimiento.id = 'id_form-'+total_form.value+'-fecha_vencimiento';
+        // nuevo label e input para hora_uso
+        var nuevo_label_hora_uso = document.createElement('label');
+        nuevo_label_hora_uso.innerHTML = 'hora_uso:';
+        var nuevo_input_hora_uso = document.querySelector('#id_form-0-hora_uso').cloneNode(true);
+        nuevo_input_hora_uso.value = '';
+        nuevo_input_hora_uso.name = 'form-'+total_form.value+'-hora_uso';
+        nuevo_input_hora_uso.id = 'id_form-'+total_form.value+'-hora_uso';
+
+        // agregamos los elementos creados
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_label_nombre);
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_input_nombre);
+        
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_label_kilos_consumo);
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_input_kilos_consumo);
+        
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_label_lote);
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_input_lote);
+             
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_label_numero_contenedor);
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_input_numero_contenedor);
+            
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_label_numero_usos);
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_input_numero_usos);
+        
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_label_fecha_vencimiento);
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_input_fecha_vencimiento);
+        
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_label_hora_uso);
+        document.querySelector('#formulario_materia_prima').appendChild(nuevo_input_hora_uso);
+
+        // aumentar contador de formularios
+        total_form.value = parseInt(total_form.value) + 1;
+    }
+</script>
+
+
+<br>
+<br>
+<br>
+<br>
+{% endblock %}
