@@ -253,7 +253,7 @@ class Repo003Form(forms.ModelForm):
 #
 #
 #
-#-------------------------------------- Inicio de los modelos para la RE PO 004 --------------------------------------
+#-------------------------------------- Inicio de los modelos para la RE PO 5 --------------------------------------
 
 class MateriaPrimaForm(forms.ModelForm):
     class Meta:
@@ -427,3 +427,93 @@ class Repo068Form(forms.ModelForm):
     temperatura_frio.widget.attrs['class']='form-control'
     comentario.widget.attrs['class']='form-control'
     
+    
+#-------------------------------------- Termino de los modelos para la RE PO 068 --------------------------------------
+#
+#
+#
+#-------------------------------------- Inicio de los modelos para la RE PO 005 --------------------------------------
+
+class MateriaPrimaEnvasadoForm(forms.ModelForm):
+    class Meta:
+        model = MateriaPrimaEnvasado
+        fields = '__all__'
+        exclude = ['detalle_insumo_envasado']
+        
+    nombre = forms.CharField()
+    kilos_consumo = forms.IntegerField()
+    lote = forms.CharField()
+    numero_contenedor = forms.IntegerField()
+    numero_usos = forms.IntegerField()
+    fecha_vencimiento = forms.DateField(widget=forms.DateInput)
+    hora_uso = forms.TimeField(widget=forms.TimeInput)
+        
+    nombre.widget.attrs['class']='form-control'
+    kilos_consumo.widget.attrs['class']='form-control'
+    lote.widget.attrs['class']='form-control'
+    numero_contenedor.widget.attrs['class']='form-control'
+    numero_usos.widget.attrs['class']='form-control'
+    fecha_vencimiento.widget.attrs['class']='form-control'
+    hora_uso.widget.attrs['class']='form-control'
+    
+class Repo005Form(forms.ModelForm):
+    class Meta:
+        model = DetalleInsumosEnvasado
+        fields = '__all__'
+        exclude = ['usuario_del_registro']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['orden_proceso'].queryset = OrdenProceso.objects.all().order_by('-orden_proceso')
+    
+    fecha = forms.DateField(widget=forms.DateInput)
+    comentario = forms.CharField(required=False, widget=forms.Textarea)
+    
+    fecha.widget.attrs['class']='form-control'
+    comentario.widget.attrs['class']='form-control'
+    
+#-------------------------------------- Termino de los modelos para la RE PO 005 --------------------------------------
+#
+#
+#
+#-------------------------------------- Inicio de los modelos para la RE PO 017 --------------------------------------
+
+class MaterialEnvasadoForm(forms.ModelForm):
+    class Meta:
+        model = MaterialEnvasado
+        fields = '__all__'
+        exclude = ['detalle_repo017']
+    
+    Material = [
+        ('rollos pai', 'ROLLOS PAI'),
+        ('rollos decor', 'ROLLOS DECOR'),
+        ('rollos tapa', 'ROLLOS TAPA'),
+    ]
+        
+    nombre = forms.CharField(widget=forms.Select(choices=Material))
+    kilos_consumo = forms.IntegerField()
+    lote = forms.CharField()
+    fecha_elaboracion = forms.DateField(widget=forms.DateInput)
+        
+    nombre.widget.attrs['class']='form-control'
+    kilos_consumo.widget.attrs['class']='form-control'
+    lote.widget.attrs['class']='form-control'
+    fecha_elaboracion.widget.attrs['class']='form-control'
+
+class Repo017Form(forms.ModelForm):
+    class Meta:
+        model = DetalleRepo017
+        fields = '__all__'
+        exclude = ['usuario_del_registro']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['orden_proceso'].queryset = OrdenProceso.objects.all().order_by('-orden_proceso')
+    
+    fecha = forms.DateField(widget=forms.DateInput)
+    comentario = forms.CharField(required=False, widget=forms.Textarea)
+    
+    fecha.widget.attrs['class']='form-control'
+    comentario.widget.attrs['class']='form-control'
+
+#-------------------------------------- Termino de los modelos para la RE PO 017 --------------------------------------
