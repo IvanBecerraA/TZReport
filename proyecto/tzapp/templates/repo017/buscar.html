@@ -1,0 +1,91 @@
+{% extends 'padre/padre.html' %}
+
+{% block title %} TZReport{% endblock %}
+
+{% block content %}
+<div class="alert alert-secondary display-6 text-center container mt-5">Listado de RE PO 017</div>
+
+<div class="container mt-5 text-center">
+    <p>{{total}} resultado/s para búsqueda de la fecha {{query}} en RE PO 017</p>
+</div>
+
+{% if repos017 %}
+<div class="table-responsive container mt-5">
+    <table class="table table-hover table-bordered table-sm">
+        <thead class="table-light align-middle">
+            <tr>
+                <th>________________________________ Orden de Proceso ________________________________</th>
+                <th>________________________________ Operador ________________________________</th>
+                <th>________________________________ Fecha ________________________________</th>
+                <th>________________________________________________________________________________________________________________________________ Material de envase termoformadoras ________________________________________________________________________________________________________________________________</th>
+                <th>________________________________ Comentario ________________________________</th>
+                <th>________________________________ Usuario del registro ________________________________</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="align-middle">
+            {% for repo017 in repos017 %}
+            <tr>
+                <td>{{repo017.orden_proceso}}</td>
+                <td>{{repo017.operador}}</td>
+                <td>{{repo017.fecha}}</td>
+                <td>
+                    <ul>
+                        {% for materiaPrima in listaMateriaPrima %}
+                            {% if repo017.id == materiaPrima.detalle_repo017_id %}
+                                <li>{{materiaPrima.nombre}}: consumo ({{materiaPrima.kilos_consumo}}kgs.) lote: {{materiaPrima.lote}}, f.elab. {{materiaPrima.fecha_elaboracion}} <a class="btn btn-primary" href='/repo017_editar2/{{materiaPrima.id}}'><i class="bi bi-pencil-fill"></i></a></li>                                
+                            {% endif %}
+                        {% endfor %}
+                    <ul>
+                </td>
+                <td>{{repo017.comentario}}</td>
+                <td>{{repo017.usuario_del_registro}}</td>
+                <td><a class="btn btn-primary" href='/repo017_editar/{{repo017.id}}'><i class="bi bi-pencil-fill"></i></a></td>
+                <td><a class="btn btn-danger" href='/repo017_eliminar/{{repo017.id}}'><i class="bi bi-trash-fill"></i></a></td>
+            </tr>
+            {% endfor %}
+
+
+        </tbody>
+    </table>
+</div>
+
+
+<div class="" id="botones de paginacion" style="margin-top: 10px; display: flex; justify-content: center">
+    <div class="pagination">
+        {% if repos017.has_previous %}
+        <a class="btn btn-secondary" style="margin: 0px 3px" href="?repo017_buscar={{query}}&page={{ repos017.previous_page_number }}"><i class="bi bi-arrow-left-square"></i> Anterior</a>
+        {% endif %}
+    
+        {% if 4 in repos017.paginator.page_range %}
+            {% if page|add:"-1" >= 1 %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?repo017_buscar={{query}}&page={{ page|add:"-1" }}">{{ page|add:"-1" }}</a>
+            {%endif%}
+                <a  class="btn btn-dark" style="margin: 0px 1px" href="?repo017_buscar={{query}}&page={{ page }}">{{ page }}</a>
+            {% if page|add:"1" in repos017.paginator.page_range %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?repo017_buscar={{query}}&page={{ page|add:"1" }}">{{ page|add:"1" }}</a>
+            {%endif%}
+        {% else %}
+            {% for numero in repos017.paginator.page_range %}
+            {% if numero == repos017.number %}
+                <strong  class="btn btn-dark" style="margin: 0px 1px">{{ numero }}</strong>
+            {% else %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?repo017_buscar={{query}}&page={{ numero }}">{{ numero }}</a>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+    
+        {% if repos017.has_next %}
+        <a  class="btn btn-secondary" style="margin: 0px 3px" href="?repo017_buscar={{query}}&page={{ repos017.next_page_number }}">Siguiente <i class="bi bi-arrow-right-square"></i></a>
+        {% endif %}
+    </div>
+
+
+{% else %}
+<div class="alert alert-warning text-center container mt-5">No se encuentran datos en el sistema</div>
+{% endif %}
+</div>
+
+
+{% endblock %}
