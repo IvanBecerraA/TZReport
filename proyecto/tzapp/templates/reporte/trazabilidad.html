@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TZReport</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<div id="repo">
+
+<div class="alert alert-secondary display-6 text-center container mt-5">Control de Trazabilidad</div>
+
+<div class="container mt-5" style="border: outset">
+    <div>
+        <h5>1. Información del Producto</h5><br>
+        <div class="row">
+            <div class="col"><p>Producto</p></div>
+            <div class="col"><p>{{repo003.producto}} sabor {{repo003.sabor}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Orden de proceso</p></div>
+            <div class="col"><p>{{repo003.orden_proceso}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Orden de proceso de base blanca</p></div>
+            <div class="col"><p>{{repo003.orden_proceso_base_blanca}}</p></div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5" style="border: outset">
+    <div>
+        <h5>2. Proceso Recepción de leche</h5><br>
+        <div class="row">
+            <div class="col"><p>Recorrido</p></div>
+            <div class="col"><p>{{repo001.recorrido}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p><span style="color: red;">PCC1</span> Inhibidores</p></div>
+            <div class="col"><p>{{repo001.snap}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Registro</p></div>
+            <div class="col"><p>RE PO 001</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Patente</p></div>
+            <div class="col"><p>{{repo001.placa}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>N° predios</p></div>
+            <div class="col"><p>{{tlc.tlc}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Fecha</p></div>
+            <div class="col"><p>{{repo001.fecha}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Inicio descarga</p></div>
+            <div class="col"><p>{{repo001.hora_inicio_descarga}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Termino descarga</p></div>
+            <div class="col"><p>{{repo001.hora_termino_descarga}}</p></div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5" style="border: outset">
+    <div>
+        <h5>3. Información de Pasteurización</h5><br>
+        <div class="row">
+            <div class="col"><p>Estanque leche Pasteurizada</p></div>
+            <div class="col"><p>{{tlp.tlp}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Hora de inicio</p></div>
+            <div class="col"><p>{{repo013.hora_inicio}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Hora de Termino</p></div>
+            <div class="col"><p>{{repo013.hora_termino}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Fecha</p></div>
+            <div class="col"><p>{{repo013.fecha_pasteurizacion}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Registro</p></div>
+            <div class="col"><p>RE PO 013</p></div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5" style="border: outset">
+    <div>
+        <h5>4. Mezcla Dosimetria</h5><br>
+        {% if repo004 %}
+        {% for r004 in repo004 %}
+        <div class="row">
+            <div class="col"><p>Estanque Mezcla</p></div>
+            <div class="col"><p>{{repo003.tmy}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Hora</p></div>
+            <div class="col"><p>{{r004.hora_formulacion}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Fecha</p></div>
+            <div class="col"><p>{{r004.fecha_formulacion}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Registro</p></div>
+            <div class="col"><p>RE PO 004</p></div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="alert alert-warning text-center">No se encuentran datos en el sistema</div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container mt-5" style="border: outset">
+        <h5>5. Adición de insumos a la formulación (mezcla formulada)</h5><br>
+        {% if repo004 %}
+        {% for r004 in repo004 %}
+            <div class="row">
+                <div class="col" style="background-color: rgb(152, 179, 228)">Nombre</div>
+                <div class="col" style="background-color: rgb(152, 179, 228)">Lote</div>
+                <div class="col" style="background-color: rgb(152, 179, 228)">Fecha de vencimiento</div>
+            </div>
+            {% for materiaPrima in listaMateriaPrima %}
+                {% if r004.id == materiaPrima.detalle_pasteurizacion_id %}
+                    <div class="row">
+                        <div class="col">{{materiaPrima.nombre}}</div>
+                        <div class="col">{{materiaPrima.lote}}</div>
+                        <div class="col">{{materiaPrima.fecha_vencimiento}}</div>
+                    </div> 
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        {% else %}
+        <div class="alert alert-warning text-center">No se encuentran datos en el sistema</div>
+        {% endif %}
+</div>
+
+<div class="container mt-5" style="border: outset">
+    <div>
+        <div class="row">
+            <div class="col" style="background-color: rgb(152, 179, 228)"><p>Parametros</p></div>
+            <div class="col" style="background-color: rgb(152, 179, 228)"><p>Dato RE PO</p></div>
+            <div class="col" style="background-color: rgb(152, 179, 228)"><p>Rango</p></div>
+        </div>
+        {% if repo068 %}
+        {% for r068 in repo068 %}
+        <div class="row">
+            <div class="col"><p>Acidez</p></div>
+            <div class="col"><p>{{r068.acidez_mezcla}}</p></div>
+            <div class="col"><p>18-20</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>% MG</p></div>
+            <div class="col"><p>{{r068.materia_grasa_mezcla}}</p></div>
+            <div class="col"><p>0,8-1,2</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>ST</p></div>
+            <div class="col"><p>{{r068.solidos_totales_mezcla}}</p></div>
+            <div class="col"><p>10-13</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Densidad (gr/Lt)</p></div>
+            <div class="col"><p>{{r068.densidad_mezcla}}</p></div>
+            <div class="col"><p>1030-1060</p></div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="alert alert-warning text-center">No se encuentran datos en el sistema</div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container mt-5" style="border: outset">
+    <div>
+        <h5>6. Pasteurización de la Mezcla</h5><br>
+        {% if repo068 %}
+        {% for r068 in repo068 %}
+        <div class="row">
+            <div class="col" style="text-align: center"><p><span style="color: red;">PCC2</span> 95°C +/- 3°C por 6 minutos</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Pasteurización</p></div>
+            <div class="col"><p>{{r068.temperatura_pasteurizador}}°C</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Inicio</p></div>
+            <div class="col"><p>{{r068.hora_inicio_pasteurizacion}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Termino</p></div>
+            <div class="col"><p>{{r068.hora_termino_pasteurizacion}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Fecha</p></div>
+            <div class="col"><p>{{r068.fecha_estandarizacion}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Registro</p></div>
+            <div class="col"><p>RE PO 068</p></div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="alert alert-warning text-center">No se encuentran datos en el sistema</div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container mt-5" style="border: outset">
+    <div>
+        <h5>7. Fermentación de la Mezcla</h5><br>
+        {% if repo068 %}
+        {% for r068 in repo068 %}
+        <div class="row">
+            <div class="col" style="text-align: center"><p><span style="color: red;">PCC3</span> Cumple si ph < 5,5 en 5 horas</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Estanque Fermentación</p></div>
+            <div class="col"><p>{{r068.estanque_fermentacion}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Inicio</p></div>
+            <div class="col"><p>{{r068.hora_termino_pasteurizacion}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Termino</p></div>
+            <div class="col"><p>{{r068.inicio_enfriamiento}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Fecha</p></div>
+            <div class="col"><p>{{r068.fecha_estandarizacion}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Registro</p></div>
+            <div class="col"><p>RE PO 068</p></div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="alert alert-warning text-center">No se encuentran datos en el sistema</div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container mt-5" style="border: outset">
+    <div>
+        <h5>8. Insumos Fermentación</h5><br>
+        {% if repo068 %}
+        {% for r068 in repo068 %}
+        <div class="row">
+            <div class="col"><p>Cultivos</p></div>
+            <div class="col"><p>{{r068.fermento}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Lote</p></div>
+            <div class="col"><p>{{r068.fermento_lote}}</p></div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="alert alert-warning text-center">No se encuentran datos en el sistema</div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container mt-5" style="border: outset">
+    <h5>9. Enfriamiento y Lanzamiento</h5><br>
+    {% if repo068 %}
+    {% for r068 in repo068 %}
+    <div class="row">
+        <div class="col"><p>Estanque Enfriamiento</p></div>
+        <div class="col"><p>{{r068.estanque_lanzamiento}}</p></div>
+    </div>
+    <div class="row">
+        <div class="col"><p>Inicio</p></div>
+        <div class="col"><p>{{r068.inicio_enfriamiento}}</p></div>
+    </div>
+    <div class="row">
+        <div class="col"><p>Termino</p></div>
+        <div class="col"><p>{{r068.termino_enfriamiento}}</p></div>
+    </div>
+    <div class="row">
+        <div class="col"><p>Fecha</p></div>
+        <div class="col"><p>{{r068.fecha_estandarizacion}}</p></div>
+    </div>
+    <div class="row">
+        <div class="col"><p>Registro</p></div>
+        <div class="col"><p>RE PO 068</p></div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="alert alert-warning text-center">No se encuentran datos en el sistema</div>
+    {% endif %}
+</div>
+
+<div class="container mt-5" style="border: outset;">
+    <h5>10. Insumos envasado</h5><br>
+    {% if repo005 %}
+    {% for r005 in repo005 %}
+    <div class="row">
+        <div class="col" style="background-color: rgb(152, 179, 228)">Nombre</div>
+        <div class="col" style="background-color: rgb(152, 179, 228)">Lote</div>
+        <div class="col" style="background-color: rgb(152, 179, 228)">Fecha de vencimiento</div>
+    </div>
+        {% for materiaPrima in listaMateriaPrimaEnvasado %}
+            {% if r005.id == materiaPrima.detalle_insumo_envasado_id %}
+                <div class="row">
+                    <div class="col">{{materiaPrima.nombre}}</div>
+                    <div class="col">{{materiaPrima.lote}}</div>
+                    <div class="col">{{materiaPrima.fecha_vencimiento}}</div>
+                </div>                             
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    {% else %}
+    <div class="alert alert-warning text-center">No se encuentran datos en el sistema</div>
+    {% endif %}
+</div>
+
+<div class="container mt-5" style="border: outset">
+    <h5>11. Material de envasado</h5><br>
+    {% if repo017 %}
+    {% for r017 in repo017 %}
+        <div class="row">
+            <div class="col" style="background-color: rgb(152, 179, 228)">Nombre</div>
+            <div class="col" style="background-color: rgb(152, 179, 228)">Lote</div>
+            <div class="col" style="background-color: rgb(152, 179, 228)">Fecha de elaboración</div>
+        </div>
+        {% for materiaPrima in listaMaterialEnvasado %}
+            {% if r017.id == materiaPrima.detalle_repo017_id %}
+                <div class="row">
+                    <div class="col">{{materiaPrima.nombre}}</div>
+                    <div class="col">{{materiaPrima.lote}}</div>
+                    <div class="col">{{materiaPrima.fecha_elaboracion}}</div>
+                </div>                        
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    {% else %}
+    <div class="alert alert-warning text-center">No se encuentran datos en el sistema</div>
+    {% endif %}
+</div>
+</div>
+
+<br>
+<br>
+<br>
+<div class="container mt-5">
+    <button type="button" onclick="imprimir();" class="btn btn-success"><i class="bi bi-printer"></i> Imprimir</button>
+    <a href="{% url 'menureporte' %}" class="btn btn-success"><i class="bi bi-arrow-counterclockwise"></i> Volver</a>
+</div>
+
+<br>
+<br>
+<br>
+</body>
+
+<script>
+    function imprimir(){
+        var total_form = document.querySelector('#repo');
+        print(total_form)
+    }
+</script>

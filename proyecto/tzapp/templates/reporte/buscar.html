@@ -1,0 +1,84 @@
+{% extends 'padre/padre.html' %}
+
+{% block title %} TZReport{% endblock %}
+
+{% block content %}
+<div class="alert alert-secondary display-6 text-center container mt-5">Búsqueda de trazabilidad</div>
+
+
+<div class="container mt-5 text-center">
+    <p>{{total}} resultado/s para la búsqueda de la orden de proceso que contenga ({{query}})</p>
+</div>
+
+
+{% if repos003 %}
+<div class="table-responsive container mt-5">
+    <table class="table table-hover table-bordered table-sm">
+        <thead class="table-light align-middle">
+            <tr>
+                <th>________________________________ Orden de Proceso ________________________________</th>
+                <th>________________________________ Orden de Proceso de Base Blanca ________________________________</th>
+                <th>________________________________ Sabor ________________________________</th>
+                <th>________________________________ Producto ________________________________</th>
+                <th>________________________________ Litros ________________________________</th>
+                <th>________________________________ Máquina ________________________________</th>
+                <th>________________________________ Fecha ________________________________</th>
+                <th>________________________________ Hora ________________________________</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="align-middle">
+            {% for repo003 in repos003 %}
+            <tr>
+                <td>{{repo003.orden_proceso}}</td>
+                <td>{{repo003.orden_proceso_base_blanca}}</td>
+                <td>{{repo003.producto}}</td>
+                <td>{{repo003.sabor}}</td>
+                <td>{{repo003.litros}}</td>
+                <td>{{repo003.maquina}}</td>
+                <td>{{repo003.fecha }}</td>
+                <td>{{repo003.hora}}</td>
+                <td><a class="btn btn-primary" href='/generar_reporte/{{repo003.id}}'><i class="bi bi-clipboard-data"></i>Reporte</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<div class="" id="botones de paginacion" style="margin-top: 10px; display: flex; justify-content: center">
+    <div class="pagination">
+        {% if repos003.has_previous %}
+        <a class="btn btn-secondary" style="margin: 0px 3px" href="?buscar_op={{query}}&page={{ repos003.previous_page_number }}"><i class="bi bi-arrow-left-square"></i> Anterior</a>
+        {% endif %}
+    
+        {% if 4 in repos003.paginator.page_range %}
+            {% if page|add:"-1" >= 1 %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?buscar_op={{query}}&page={{ page|add:"-1" }}">{{ page|add:"-1" }}</a>
+            {%endif%}
+                <a  class="btn btn-dark" style="margin: 0px 1px" href="?buscar_op={{query}}&page={{ page }}">{{ page }}</a>
+            {% if page|add:"1" in repos003.paginator.page_range %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?buscar_op={{query}}&page={{ page|add:"1" }}">{{ page|add:"1" }}</a>
+            {%endif%}
+        {% else %}
+            {% for numero in repos003.paginator.page_range %}
+            {% if numero == repos003.number %}
+                <strong  class="btn btn-dark" style="margin: 0px 1px">{{ numero }}</strong>
+            {% else %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?buscar_op={{query}}&page={{ numero }}">{{ numero }}</a>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+    
+        {% if repos003.has_next %}
+        <a  class="btn btn-secondary" style="margin: 0px 3px" href="?buscar_op={{query}}&page={{ repos003.next_page_number }}">Siguiente <i class="bi bi-arrow-right-square"></i></a>
+        {% endif %}
+    </div>
+
+
+{% else %}
+<div class="alert alert-warning text-center container mt-5">No se encuentran datos en el sistema</div>
+{% endif %}
+</div>
+
+{% endblock %}
