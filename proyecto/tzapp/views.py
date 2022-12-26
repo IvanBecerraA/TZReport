@@ -27,10 +27,6 @@ class ListaRepo001Pdf(View):
         }
         pdf = pdfConvert('reporte/repo001pdf.html', data)
         return HttpResponse(pdf, content_type='application/pdf')
-# Create your views here.
-@login_required #decorador para asegurarnos de que sólo se permita el acceso a esta vista a usuarios autenticados.
-def menuReporte(request):
-    return render(request, 'reporte/menureportes.html')
 
 @login_required
 def index(request):
@@ -562,3 +558,259 @@ def estanqueLanzamientoAgregar(request):
             return redirect('index')
     data={'form':form, 'nombre_modelo':nombre_modelo}
     return render(request, 'abstracto/agregarabstracto.html', data)
+
+#-------------------------------------- Termino de los views para la RE PO 068 --------------------------------------
+#
+#
+#
+#-------------------------------------- Inicio de los views para la RE PO 005 --------------------------------------
+
+@login_required
+def repo005Listar(request):
+    repos005 = DetalleInsumosEnvasado.objects.order_by('-fecha')
+    listaMateriaPrima = MateriaPrimaEnvasado.objects.all()
+    
+    paginator = Paginator(repos005, 5)
+    page = request.GET.get('page') or 1
+    objetos_pagina = paginator.page(page)
+
+    data = {'repos005': objetos_pagina, 'page':page, 'listaMateriaPrima':listaMateriaPrima}
+    return render(request, 'repo005/listar.html', data)
+
+@login_required
+def repo005Buscar(request):
+    repos005 = DetalleInsumosEnvasado.objects.order_by('-fecha')
+    listaMateriaPrima = MateriaPrimaEnvasado.objects.all()
+    if request.method == "GET":
+        query = request.GET.get('repo005_buscar')
+        queryset = repos005.filter(Q(fecha__icontains = query))
+        
+        paginator = Paginator(queryset, 5)
+        page = request.GET.get('page') or 1
+        repos005 = paginator.page(page)
+        total = queryset.count()
+        data = {
+            'page':page,
+            'total':total,
+            'query':query,
+            'repos005':repos005,
+            'listaMateriaPrima':listaMateriaPrima,
+        }
+        return render(request, 'repo005/buscar.html', data)
+
+@login_required
+def repo005Agregar(request):
+    form=forms.Repo005Form(request.POST or None)
+    
+    formMateriaPrima = formset_factory(forms.MateriaPrimaEnvasadoForm, extra=1)
+    
+    if request.method == 'POST':
+        
+        formMateriaPrima = formMateriaPrima(request.POST)
+        
+        if form.is_valid() and formMateriaPrima.is_valid():
+            obj2 = form.save(commit=False)
+            obj2.usuario_del_registro = request.user.username
+            obj2.save()
+            for f in formMateriaPrima:
+                if formMateriaPrima.is_valid():
+                    obj = f.save(commit=False)
+                    obj.detalle_insumo_envasado_id = form.instance.id
+                    obj.save()
+                    
+            return redirect('/repo005_listar')
+        
+    data={'form':form, 'formMateriaPrima':formMateriaPrima}
+    return render(request, 'repo005/agregar.html', data)
+
+@login_required
+def repo005Eliminar(request, id):
+    registro = get_object_or_404(DetalleInsumosEnvasado, pk=id)
+    registro.delete()
+    return redirect('repo005_listar')
+
+#Editar detalle de la formulación
+@login_required
+def repo005Editar(request, id):
+    registro = get_object_or_404(DetalleInsumosEnvasado, pk=id)
+    
+    if request.method == 'POST':
+        form=forms.Repo005Form(request.POST, instance=registro)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.usuario_del_registro = request.user.username
+            obj.save()
+            return redirect('/repo005_listar')
+    else:
+        form=forms.Repo005Form(instance=registro)
+        
+    data={'form':form}
+    return render(request, 'repo005/editar.html', data)
+
+#Editar una materia prima del detalle de la formulación
+@login_required
+def repo005Editar2(request, id):
+    registro = get_object_or_404(MateriaPrimaEnvasado, pk=id)
+    
+    if request.method == 'POST':
+        form=forms.MateriaPrimaEnvasadoForm(request.POST, instance=registro)
+        if form.is_valid():
+            form.save()
+            return redirect('/repo005_listar')
+    else:
+        form=forms.MateriaPrimaEnvasadoForm(instance=registro)
+        
+    data={'form':form}
+    return render(request, 'repo005/editar2.html', data)
+
+#-------------------------------------- Termino de los views para la RE PO 005 --------------------------------------
+#
+#
+#
+#-------------------------------------- Inicio de los views para la RE PO 017 --------------------------------------
+
+@login_required
+def repo017Listar(request):
+    repos017 = DetalleRepo017.objects.order_by('-fecha')
+    listaMateriaPrima = MaterialEnvasado.objects.all()
+    
+    paginator = Paginator(repos017, 5)
+    page = request.GET.get('page') or 1
+    objetos_pagina = paginator.page(page)
+
+    data = {'repos017': objetos_pagina, 'page':page, 'listaMateriaPrima':listaMateriaPrima}
+    return render(request, 'repo017/listar.html', data)
+
+@login_required
+def repo017Buscar(request):
+    repos017 = DetalleRepo017.objects.order_by('-fecha')
+    listaMateriaPrima = MaterialEnvasado.objects.all()
+    if request.method == "GET":
+        query = request.GET.get('repo017_buscar')
+        queryset = repos017.filter(Q(fecha__icontains = query))
+        
+        paginator = Paginator(queryset, 5)
+        page = request.GET.get('page') or 1
+        repos017 = paginator.page(page)
+        total = queryset.count()
+        data = {
+            'page':page,
+            'total':total,
+            'query':query,
+            'repos017':repos017,
+            'listaMateriaPrima':listaMateriaPrima,
+        }
+        return render(request, 'repo017/buscar.html', data)
+
+@login_required
+def repo017Agregar(request):
+    form=forms.Repo017Form(request.POST or None)
+    
+    formMateriaPrima = formset_factory(forms.MaterialEnvasadoForm, extra=1)
+    
+    if request.method == 'POST':
+        
+        formMateriaPrima = formMateriaPrima(request.POST)
+        
+        if form.is_valid() and formMateriaPrima.is_valid():
+            obj2 = form.save(commit=False)
+            obj2.usuario_del_registro = request.user.username
+            obj2.save()
+            for f in formMateriaPrima:
+                if formMateriaPrima.is_valid():
+                    obj = f.save(commit=False)
+                    obj.detalle_repo017_id = form.instance.id
+                    obj.save()
+                    
+            return redirect('/repo017_listar')
+        
+    data={'form':form, 'formMateriaPrima':formMateriaPrima}
+    return render(request, 'repo017/agregar.html', data)
+
+@login_required
+def repo017Eliminar(request, id):
+    registro = get_object_or_404(DetalleRepo017, pk=id)
+    registro.delete()
+    return redirect('repo017_listar')
+
+#Editar detalle de la formulación
+@login_required
+def repo017Editar(request, id):
+    registro = get_object_or_404(DetalleRepo017, pk=id)
+    
+    if request.method == 'POST':
+        form=forms.Repo017Form(request.POST, instance=registro)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.usuario_del_registro = request.user.username
+            obj.save()
+            return redirect('/repo017_listar')
+    else:
+        form=forms.Repo017Form(instance=registro)
+        
+    data={'form':form}
+    return render(request, 'repo017/editar.html', data)
+
+#Editar una materia prima del detalle de la formulación
+@login_required
+def repo017Editar2(request, id):
+    registro = get_object_or_404(MaterialEnvasado, pk=id)
+    
+    if request.method == 'POST':
+        form=forms.MaterialEnvasadoForm(request.POST, instance=registro)
+        if form.is_valid():
+            form.save()
+            return redirect('/repo017_listar')
+    else:
+        form=forms.MaterialEnvasadoForm(instance=registro)
+        
+    data={'form':form}
+    return render(request, 'repo017/editar2.html', data)
+
+#-------------------------------------- Termino de los views para la RE PO 017 --------------------------------------
+#
+#
+#
+#-------------------------------------- Inicio de los views para reportes --------------------------------------
+
+# Create your views here.
+@login_required #decorador para asegurarnos de que sólo se permita el acceso a esta vista a usuarios autenticados.
+def menuReporte(request):
+    return render(request, 'reporte/menureportes.html')
+
+@login_required
+def buscarOp(request):
+    repos003 = OrdenProceso.objects.order_by('-fecha')
+    if request.method == "GET":
+        query = request.GET.get('buscar_op')
+        queryset = repos003.filter(Q(orden_proceso__icontains = query))
+        
+        paginator = Paginator(queryset, 5)
+        page = request.GET.get('page') or 1
+        repos003 = paginator.page(page)
+        total = queryset.count()
+        data = {
+            'page':page,
+            'total':total,
+            'query':query,
+            'repos003':repos003,
+        }
+        return render(request, 'reporte/buscar.html', data)
+    
+@login_required
+def generarReporte(request, id):
+    repo003 = get_object_or_404(OrdenProceso, pk=id)
+    tlp = get_object_or_404(DetalleTlp, pk=repo003.tlp_id)
+    repo013 = get_object_or_404(Detalle_pasteurizacion, pk=tlp.detalle_pasteurizacion_id)
+    tlc = get_object_or_404(DetalleTlc, pk=repo013.tlc_id)
+    repo001 = get_object_or_404(DetalleCamionRecepcionLeche, pk=tlc.detalle_camion_recepcion_leche_id)
+    repo004 = DetalleInsumosFormulacion.objects.filter(orden_proceso_id = repo003.id)
+    listaMateriaPrima = MateriaPrima.objects.all()
+    repo068 = DetalleRepo068.objects.filter(orden_proceso_id = repo003.id)
+    repo005 = DetalleInsumosEnvasado.objects.filter(orden_proceso_id = repo003.id)
+    listaMateriaPrimaEnvasado = MateriaPrimaEnvasado.objects.all()
+    repo017 = DetalleRepo017.objects.filter(orden_proceso_id = repo003.id)
+    listaMaterialEnvasado = MaterialEnvasado.objects.all()
+    
+    data={'repo003':repo003, 'tlp':tlp, 'repo013':repo013, 'tlc':tlc, 'repo001':repo001, 'repo004':repo004, 'listaMateriaPrima':listaMateriaPrima, 'repo068':repo068, 'repo005':repo005, 'listaMateriaPrimaEnvasado':listaMateriaPrimaEnvasado, 'repo017':repo017, 'listaMaterialEnvasado':listaMaterialEnvasado}
+    return render(request, 'reporte/trazabilidad.html', data)
