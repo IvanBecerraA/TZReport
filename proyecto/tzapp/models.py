@@ -100,7 +100,7 @@ class parametrosRepo001(models.Model):
     densidad_maximo = models.FloatField()
     
 
-#-------------------------------------- Fin de los modelos para la RE PO 001 --------------------------------------
+#-------------------------------------- Termino de los modelos para la RE PO 001 --------------------------------------
 #
 #
 #
@@ -143,11 +143,11 @@ class DetalleTlp(models.Model):
     def __str__(self):
         return f'{self.tlp}: {self.fecha_creacion:%Y-%m-%d %H:%M}'
 
-#-------------------------------------- Fin de los modelos para la RE PO 013 --------------------------------------
+#-------------------------------------- Termino de los modelos para la RE PO 013 --------------------------------------
 #
 #
 #
-#-------------------------------------- Fin de los modelos para la RE PO 003 --------------------------------------
+#-------------------------------------- Termino de los modelos para la RE PO 003 --------------------------------------
 
 class Tmy(models.Model):
     nombre = models.CharField(max_length=50)
@@ -186,7 +186,7 @@ class OrdenProceso(models.Model):
     def __str__(self):
         return f'Orden de proceso: {self.orden_proceso}'
 
-#-------------------------------------- Fin de los modelos para la RE PO 003 --------------------------------------
+#-------------------------------------- Termino de los modelos para la RE PO 003 --------------------------------------
 #
 #
 #
@@ -209,7 +209,7 @@ class MateriaPrima(models.Model):
     lote = models.CharField(max_length=50)
     fecha_vencimiento = models.DateField()
 
-#-------------------------------------- Fin de los modelos para la RE PO 004 --------------------------------------
+#-------------------------------------- Termino de los modelos para la RE PO 004 --------------------------------------
 #
 #
 #
@@ -275,7 +275,7 @@ class DetalleRepo068(models.Model):
     comentario = models.CharField(max_length=100, null = True)
     usuario_del_registro = models.CharField(max_length=100, null = True)
     
-#-------------------------------------- Fin de los modelos para la RE PO 068 --------------------------------------
+#-------------------------------------- Termino de los modelos para la RE PO 068 --------------------------------------
 #
 #
 #
@@ -285,24 +285,38 @@ class DetalleInsumosEnvasado(models.Model):
     orden_proceso = models.OneToOneField(OrdenProceso, on_delete=models.CASCADE)
     operador = models.ForeignKey(Operador, on_delete=models.CASCADE)
     fecha = models.DateField()
+    comentario = models.CharField(max_length=100, null = True)
+    usuario_del_registro = models.CharField(max_length=100, null = True)
+
 
 class MateriaPrimaEnvasado(models.Model):
     detalle_insumo_envasado = models.ForeignKey(DetalleInsumosEnvasado, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100)
     kilos_consumo = models.IntegerField()
     lote = models.CharField(max_length=50)
-    numero_contenedor = models.IntegerField()
-    numero_usos = models.IntegerField()
+    numero_contenedor = models.IntegerField(null=True)
+    numero_usos = models.IntegerField(null=True)
     fecha_vencimiento = models.DateField()
     hora_uso = models.TimeField()
 
-#-------------------------------------- Fin de los modelos para la RE PO 005 --------------------------------------
+#-------------------------------------- Termino de los modelos para la RE PO 005 --------------------------------------
 #
 #
 #
 #-------------------------------------- Inicio de los modelos para la RE PO 017  --------------------------------------
 
+class DetalleRepo017(models.Model):
+    orden_proceso = models.OneToOneField(OrdenProceso, on_delete=models.CASCADE)
+    operador = models.ForeignKey(Operador, on_delete=models.CASCADE)
+    fecha = models.DateField()
+    comentario = models.CharField(max_length=100, null = True)
+    usuario_del_registro = models.CharField(max_length=100, null = True)
 
-
-
-#-------------------------------------- Fin de los modelos para la RE PO 017 --------------------------------------
+class MaterialEnvasado(models.Model):
+    detalle_repo017 = models.ForeignKey(DetalleRepo017, on_delete=models.CASCADE)
+    nombre = models.CharField(max_length=50)
+    kilos_consumo = models.IntegerField()
+    lote = models.CharField(max_length=50)
+    fecha_elaboracion = models.DateField()
+    
+#-------------------------------------- Termino de los modelos para la RE PO 017 --------------------------------------
