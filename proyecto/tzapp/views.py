@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import logout
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -9,6 +9,7 @@ from django.views.generic import ListView, View
 from tzapp.utils import pdfConvert
 from tzapp.models import *
 from .import forms
+from django.contrib.auth.models import User
 
 
 
@@ -30,7 +31,10 @@ class ListaRepo001Pdf(View):
 
 @login_required
 def index(request):
-    return render(request,'index\index.html')
+    user = User.objects.get(username=request.user.username)
+    groups = user.groups.all() 
+    
+    return render(request,'index\index.html', {'groups':groups})
 
 def salir(request):
     logout(request)
@@ -46,7 +50,11 @@ def repo001Listar(request):
     paginator = Paginator(repos001, 5)
     page = request.GET.get('page') or 1
     objetos_pagina = paginator.page(page)
-    data = {'repos001': objetos_pagina, 'page':page}
+    
+    user = User.objects.get(username=request.user.username)
+    groups = user.groups.all() 
+    
+    data = {'repos001': objetos_pagina, 'page':page, 'groups':groups}
     #data={'repos001': repos001}
     # Finalmente, la función renderiza una plantilla HTML llamada "listar.html" y le pasa los objetos de la página actual como el contexto.
     return render(request, 'repo001/listar.html', data)
@@ -58,6 +66,9 @@ def repo001Buscar(request):
         query = request.GET.get('repo001_buscar')
         queryset = repos001.filter(Q(fecha__icontains = query))
         
+        user = User.objects.get(username=request.user.username)
+        groups = user.groups.all() 
+        
         paginator = Paginator(queryset, 5)
         page = request.GET.get('page') or 1
         repos001 = paginator.page(page)
@@ -68,6 +79,7 @@ def repo001Buscar(request):
             'total':total,
             'query':query,
             'repos001':repos001,
+            'groups':groups,
         }
         return render(request, 'repo001/buscar.html', data)
 
@@ -82,7 +94,6 @@ def repo001Agregar(request):
             obj.usuario_del_registro = request.user.username
             obj.save()
             form.save_m2m()
-            #return repo001Listar(request)
             return redirect('/repo001_listar')
     data={'form':form}
     return render(request, 'repo001/agregar.html', data)
@@ -104,7 +115,6 @@ def repo001Editar(request, id):
             obj.usuario_del_registro = request.user.username
             obj.save()
             form.save_m2m()
-            #return repo001Listar(request)
             return redirect('/repo001_listar')
     else:
         form=forms.Repo001Form(instance=registro)
@@ -119,11 +129,11 @@ def operadorAgregar(request):
         form=forms.OperadorForm(request.POST)
         if form.is_valid():
             form.save()
-            # return repo001Agregar(request)
             return redirect('index')
     data={'form':form, 'nombre_modelo':nombre_modelo}
     return render(request, 'abstracto/agregarabstracto.html', data)
 
+@permission_required('tzapp.add_camion')
 @login_required
 def placaAgregar(request):
     nombre_modelo = Camion.__name__
@@ -132,7 +142,6 @@ def placaAgregar(request):
         form=forms.CamionForm(request.POST)
         if form.is_valid():
             form.save()
-            #return repo001Agregar(request)
             return redirect('index')
     data={'form':form, 'nombre_modelo':nombre_modelo}
     return render(request, 'abstracto/agregarabstracto.html', data)
@@ -145,7 +154,6 @@ def recorridoAgregar(request):
         form=forms.RecorridoForm(request.POST)
         if form.is_valid():
             form.save()
-            #return repo001Agregar(request)
             return redirect('index')
     data={'form':form, 'nombre_modelo':nombre_modelo}
     return render(request, 'abstracto/agregarabstracto.html', data)
@@ -158,7 +166,6 @@ def tlcAgregar(request):
         form=forms.TlcForm(request.POST)
         if form.is_valid():
             form.save()
-            #return repo001Agregar(request)
             return redirect('index')
     data={'form':form, 'nombre_modelo':nombre_modelo}
     return render(request, 'abstracto/agregarabstracto.html', data)
@@ -170,13 +177,18 @@ def tlcAgregar(request):
 #
 #-------------------------------------- Inicio de los views para la RE PO 013 --------------------------------------
 
-@login_required #si o si estar logeafo
+@login_required #si o si estar logeado
 def repo013Listar(request):
     repos013 = Detalle_pasteurizacion.objects.order_by('-fecha_registro')
     paginator = Paginator(repos013, 5)
     page = request.GET.get('page') or 1
     objetos_pagina = paginator.page(page)
-    data={'repos013': objetos_pagina, 'page': page}
+    
+    user = User.objects.get(username=request.user.username)
+    groups = user.groups.all() 
+    
+    data={
+        'repos013': objetos_pagina, 'page': page, 'groups':groups,}
     return render(request, 'repo013/listar.html', data)
 
 @login_required
@@ -191,11 +203,16 @@ def repo013Buscar(request):
         repos013 = paginator.page(page)
         #queryset = repos013.filter(Q(fecha__icontains = query) | Q(tcl__icontains = query))
         total = queryset.count()
+        
+        user = User.objects.get(username=request.user.username)
+        groups = user.groups.all() 
+    
         data = {
             'page':page,
             'total':total,
             'query':query,
             'repos013':repos013,
+            'groups':groups,
         }
         return render(request, 'repo013/buscar.html', data)
      
@@ -274,7 +291,11 @@ def repo003Listar(request):
     paginator = Paginator(repos003, 5)
     page = request.GET.get('page') or 1
     objetos_pagina = paginator.page(page)
-    data = {'repos003': objetos_pagina, 'page':page}
+    
+    user = User.objects.get(username=request.user.username)
+    groups = user.groups.all() 
+        
+    data = {'repos003': objetos_pagina, 'page':page, 'groups':groups}
     return render(request, 'repo003/listar.html', data)
 
 
@@ -289,11 +310,16 @@ def repo003Buscar(request):
         page = request.GET.get('page') or 1
         repos003 = paginator.page(page)
         total = queryset.count()
+        
+        user = User.objects.get(username=request.user.username)
+        groups = user.groups.all()
+    
         data = {
             'page':page,
             'total':total,
             'query':query,
             'repos003':repos003,
+            'groups':groups
         }
         return render(request, 'repo003/buscar.html', data)
 
@@ -374,7 +400,10 @@ def repo004Listar(request):
     page = request.GET.get('page') or 1
     objetos_pagina = paginator.page(page)
 
-    data = {'repos004': objetos_pagina, 'page':page, 'listaMateriaPrima':listaMateriaPrima}
+    user = User.objects.get(username=request.user.username)
+    groups = user.groups.all()
+        
+    data = {'repos004': objetos_pagina, 'page':page, 'listaMateriaPrima':listaMateriaPrima, 'groups':groups}
     return render(request, 'repo004/listar.html', data)
 
 
@@ -391,12 +420,17 @@ def repo004Buscar(request):
         repos004 = paginator.page(page)
         #queryset = repos004.filter(Q(fecha__icontains = query) | Q(tcl__icontains = query))
         total = queryset.count()
+        
+        user = User.objects.get(username=request.user.username)
+        groups = user.groups.all()
+        
         data = {
             'page':page,
             'total':total,
             'query':query,
             'repos004':repos004,
             'listaMateriaPrima':listaMateriaPrima,
+            'groups':groups
         }
         return render(request, 'repo004/buscar.html', data)
 
@@ -478,7 +512,11 @@ def repo068Listar(request):
     paginator = Paginator(repos068, 5)
     page = request.GET.get('page') or 1
     objetos_pagina = paginator.page(page)
-    data = {'repos068': objetos_pagina, 'page':page}
+    
+    user = User.objects.get(username=request.user.username)
+    groups = user.groups.all()
+        
+    data = {'repos068': objetos_pagina, 'page':page, 'groups':groups}
     return render(request, 'repo068/listar.html', data)
 
 @login_required
@@ -492,11 +530,16 @@ def repo068Buscar(request):
         page = request.GET.get('page') or 1
         repos068 = paginator.page(page)
         total = queryset.count()
+        
+        user = User.objects.get(username=request.user.username)
+        groups = user.groups.all()
+    
         data = {
             'page':page,
             'total':total,
             'query':query,
             'repos068':repos068,
+            'groups':groups
         }
         return render(request, 'repo068/buscar.html', data)
 
@@ -574,7 +617,10 @@ def repo005Listar(request):
     page = request.GET.get('page') or 1
     objetos_pagina = paginator.page(page)
 
-    data = {'repos005': objetos_pagina, 'page':page, 'listaMateriaPrima':listaMateriaPrima}
+    user = User.objects.get(username=request.user.username)
+    groups = user.groups.all()
+        
+    data = {'repos005': objetos_pagina, 'page':page, 'listaMateriaPrima':listaMateriaPrima, 'groups':groups}
     return render(request, 'repo005/listar.html', data)
 
 @login_required
@@ -589,12 +635,17 @@ def repo005Buscar(request):
         page = request.GET.get('page') or 1
         repos005 = paginator.page(page)
         total = queryset.count()
+        
+        user = User.objects.get(username=request.user.username)
+        groups = user.groups.all()
+    
         data = {
             'page':page,
             'total':total,
             'query':query,
             'repos005':repos005,
             'listaMateriaPrima':listaMateriaPrima,
+            'groups':groups
         }
         return render(request, 'repo005/buscar.html', data)
 
@@ -677,8 +728,16 @@ def repo017Listar(request):
     paginator = Paginator(repos017, 5)
     page = request.GET.get('page') or 1
     objetos_pagina = paginator.page(page)
+    
+    user = User.objects.get(username=request.user.username)
+    groups = user.groups.all()
 
-    data = {'repos017': objetos_pagina, 'page':page, 'listaMateriaPrima':listaMateriaPrima}
+    data = {
+        'repos017': objetos_pagina,
+        'page':page,
+        'listaMateriaPrima':listaMateriaPrima,
+        'groups':groups,
+        }
     return render(request, 'repo017/listar.html', data)
 
 @login_required
@@ -693,12 +752,17 @@ def repo017Buscar(request):
         page = request.GET.get('page') or 1
         repos017 = paginator.page(page)
         total = queryset.count()
+        
+        user = User.objects.get(username=request.user.username)
+        groups = user.groups.all()
+    
         data = {
             'page':page,
             'total':total,
             'query':query,
             'repos017':repos017,
             'listaMateriaPrima':listaMateriaPrima,
+            'groups':groups
         }
         return render(request, 'repo017/buscar.html', data)
 
@@ -773,8 +837,7 @@ def repo017Editar2(request, id):
 #
 #-------------------------------------- Inicio de los views para reportes --------------------------------------
 
-# Create your views here.
-@login_required #decorador para asegurarnos de que sólo se permita el acceso a esta vista a usuarios autenticados.
+@login_required 
 def menuReporte(request):
     return render(request, 'reporte/menureportes.html')
 
@@ -812,5 +875,18 @@ def generarReporte(request, id):
     repo017 = DetalleRepo017.objects.filter(orden_proceso_id = repo003.id)
     listaMaterialEnvasado = MaterialEnvasado.objects.all()
     
-    data={'repo003':repo003, 'tlp':tlp, 'repo013':repo013, 'tlc':tlc, 'repo001':repo001, 'repo004':repo004, 'listaMateriaPrima':listaMateriaPrima, 'repo068':repo068, 'repo005':repo005, 'listaMateriaPrimaEnvasado':listaMateriaPrimaEnvasado, 'repo017':repo017, 'listaMaterialEnvasado':listaMaterialEnvasado}
+    data={
+        'repo003':repo003,
+        'tlp':tlp,
+        'repo013':repo013,
+        'tlc':tlc,
+        'repo001':repo001,
+        'repo004':repo004,
+        'listaMateriaPrima':listaMateriaPrima,
+        'repo068':repo068,
+        'repo005':repo005,
+        'listaMateriaPrimaEnvasado':listaMateriaPrimaEnvasado,
+        'repo017':repo017,
+        'listaMaterialEnvasado':listaMaterialEnvasado,
+        }
     return render(request, 'reporte/trazabilidad.html', data)

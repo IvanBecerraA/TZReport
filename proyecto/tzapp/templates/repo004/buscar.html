@@ -48,7 +48,11 @@
                 <td>{{repo004.comentario}}</td>
                 <td>{{repo004.usuario_del_registro}}</td>
                 <td><a class="btn btn-primary" href='/repo004_editar/{{repo004.id}}'><i class="bi bi-pencil-fill"></a></td>
-                <td><a class="btn btn-danger" href='/repo004_eliminar/{{repo004.id}}'><i class="bi bi-trash-fill"></i></a></td>
+                {% for grupo in groups %}
+                    {% if grupo.name == 'Administrador'%}
+                        <td><a class="btn btn-danger" href='/repo004_eliminar/{{repo004.id}}'><i class="bi bi-trash-fill"></i></a></td>
+                    {% endif %}
+                {% endfor %}
             </tr>
             {% endfor %}
 
