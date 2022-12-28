@@ -1,0 +1,35 @@
+{% extends 'padre/padre.html' %}
+
+{% block title %} TZReport{% endblock %}
+
+{% block content %}
+<div class="alert alert-secondary display-6 text-center container mt-5">Seleccionar el producto del registro</div>
+
+{% if productos %}
+<div class="table-responsive container mt-5">
+    <table class="table table-hover table-bordered table-sm">
+        <thead class="table-light align-middle">
+            <tr>
+                <th> Producto </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="align-middle">
+            {% for producto in productos %}
+            <tr>
+                <td>{{producto.nombre}}</td>
+                <td><a class="btn btn-success" href='/repo068_agregar/{{producto.id}}'><i class="bi bi-check2-circle"></i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% else %}
+<div class="alert alert-warning text-center container mt-5">No se encuentran datos en el sistema</div>
+{% endif %}
+</div>
+
+
+{% endblock %}

@@ -219,7 +219,6 @@ class Repo003Form(forms.ModelForm):
         
     orden_proceso = forms.IntegerField()
     orden_proceso_base_blanca = forms.IntegerField()
-    producto = forms.CharField()
     sabor = forms.CharField()
     litros = forms.FloatField()
     fecha = forms.DateField(widget=forms.DateInput)
@@ -235,7 +234,6 @@ class Repo003Form(forms.ModelForm):
     
     orden_proceso.widget.attrs['class']='form-control'
     orden_proceso_base_blanca.widget.attrs['class']='form-control'
-    producto.widget.attrs['class']='form-control'
     sabor.widget.attrs['class']='form-control'
     litros.widget.attrs['class']='form-control'
     fecha.widget.attrs['class']='form-control'
@@ -253,7 +251,7 @@ class Repo003Form(forms.ModelForm):
 #
 #
 #
-#-------------------------------------- Inicio de los modelos para la RE PO 5 --------------------------------------
+#-------------------------------------- Inicio de los modelos para la RE PO 004 --------------------------------------
 
 class MateriaPrimaForm(forms.ModelForm):
     class Meta:

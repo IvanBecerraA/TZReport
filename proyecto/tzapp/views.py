@@ -8,9 +8,9 @@ from django.forms import formset_factory
 from django.views.generic import ListView, View
 from tzapp.utils import pdfConvert
 from tzapp.models import *
-from .import forms
+from tzapp.forms import *
 from django.contrib.auth.models import User
-
+from django import forms
 
 
 
@@ -85,9 +85,9 @@ def repo001Buscar(request):
 
 @login_required
 def repo001Agregar(request):
-    form=forms.Repo001Form()
+    form=Repo001Form()
     if request.method == 'POST':
-        form=forms.Repo001Form(request.POST)
+        form=Repo001Form(request.POST)
         if form.is_valid():
             #registrar usuario autenticado en el formulario
             obj = form.save(commit=False)
@@ -109,7 +109,7 @@ def repo001Editar(request, id):
     registro = get_object_or_404(DetalleCamionRecepcionLeche, pk=id)
     
     if request.method == 'POST':
-        form=forms.Repo001Form(request.POST, instance=registro)
+        form=Repo001Form(request.POST, instance=registro)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.usuario_del_registro = request.user.username
@@ -117,16 +117,16 @@ def repo001Editar(request, id):
             form.save_m2m()
             return redirect('/repo001_listar')
     else:
-        form=forms.Repo001Form(instance=registro)
+        form=Repo001Form(instance=registro)
     data={'form':form}
     return render(request, 'repo001/editar.html', data)
 
 @login_required
 def operadorAgregar(request):
     nombre_modelo = Operador.__name__
-    form=forms.OperadorForm()
+    form=OperadorForm()
     if request.method == 'POST':
-        form=forms.OperadorForm(request.POST)
+        form=OperadorForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -137,9 +137,9 @@ def operadorAgregar(request):
 @login_required
 def placaAgregar(request):
     nombre_modelo = Camion.__name__
-    form=forms.CamionForm()
+    form=CamionForm()
     if request.method == 'POST':
-        form=forms.CamionForm(request.POST)
+        form=CamionForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -149,9 +149,9 @@ def placaAgregar(request):
 @login_required
 def recorridoAgregar(request):
     nombre_modelo = Recorrido.__name__
-    form=forms.RecorridoForm()
+    form=RecorridoForm()
     if request.method == 'POST':
-        form=forms.RecorridoForm(request.POST)
+        form=RecorridoForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -161,9 +161,9 @@ def recorridoAgregar(request):
 @login_required
 def tlcAgregar(request):
     nombre_modelo = Tlc.__name__
-    form=forms.TlcForm()
+    form=TlcForm()
     if request.method == 'POST':
-        form=forms.TlcForm(request.POST)
+        form=TlcForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -218,9 +218,9 @@ def repo013Buscar(request):
      
 @login_required
 def repo013Agregar(request):
-    form=forms.Repo013Form()
+    form=Repo013Form()
     if request.method == 'POST':
-        form=forms.Repo013Form(request.POST)
+        form=Repo013Form(request.POST)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.usuario_del_registro = request.user.username
@@ -241,7 +241,7 @@ def repo013Editar(request, id):
     registro = get_object_or_404(Detalle_pasteurizacion, pk=id)
     
     if request.method == 'POST':
-        form=forms.Repo013Form(request.POST, instance=registro)
+        form=Repo013Form(request.POST, instance=registro)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.usuario_del_registro = request.user.username
@@ -250,16 +250,16 @@ def repo013Editar(request, id):
             #return repo001Listar(request)
             return redirect('/repo013_listar')
     else:
-        form=forms.Repo013Form(instance=registro)
+        form=Repo013Form(instance=registro)
     data={'form':form}
     return render(request, 'repo013/editar.html', data)
 
 @login_required
 def tctAgregar(request):
     nombre_modelo = Tct.__name__
-    form=forms.TctForm()
+    form=TctForm()
     if request.method == 'POST':
-        form=forms.TctForm(request.POST)
+        form=TctForm(request.POST)
         if form.is_valid():
             form.save()
             #return repo001Agregar(request)
@@ -270,9 +270,9 @@ def tctAgregar(request):
 @login_required
 def tlpAgregar(request):
     nombre_modelo = Tlp.__name__
-    form=forms.TlpForm()
+    form=TlpForm()
     if request.method == 'POST':
-        form=forms.TlpForm(request.POST)
+        form=TlpForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -325,9 +325,9 @@ def repo003Buscar(request):
 
 @login_required
 def repo003Agregar(request):
-    form=forms.Repo003Form()
+    form=Repo003Form()
     if request.method == 'POST':
-        form=forms.Repo003Form(request.POST)
+        form=Repo003Form(request.POST)
         if form.is_valid():
             #registrar usuario autenticado en el formulario
             obj = form.save(commit=False)
@@ -349,7 +349,7 @@ def repo003Editar(request, id):
     registro = get_object_or_404(OrdenProceso, pk=id)
     
     if request.method == 'POST':
-        form=forms.Repo003Form(request.POST, instance=registro)
+        form=Repo003Form(request.POST, instance=registro)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.usuario_del_registro = request.user.username
@@ -357,16 +357,16 @@ def repo003Editar(request, id):
             #return repo003Listar(request)
             return redirect('/repo003_listar')
     else:
-        form=forms.Repo003Form(instance=registro)
+        form=Repo003Form(instance=registro)
     data={'form':form}
     return render(request, 'repo003/editar.html', data)
 
 @login_required
 def tmyAgregar(request):
     nombre_modelo = Tmy.__name__
-    form=forms.TmyForm()
+    form=TmyForm()
     if request.method == 'POST':
-        form=forms.TmyForm(request.POST)
+        form=TmyForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -376,9 +376,9 @@ def tmyAgregar(request):
 @login_required
 def maquinaAgregar(request):
     nombre_modelo = Maquina.__name__
-    form=forms.MaquinaForm()
+    form=MaquinaForm()
     if request.method == 'POST':
-        form=forms.MaquinaForm(request.POST)
+        form=MaquinaForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -437,9 +437,9 @@ def repo004Buscar(request):
  
 @login_required
 def repo004Agregar(request):
-    form=forms.Repo004Form(request.POST or None)
+    form=Repo004Form(request.POST or None)
     
-    formMateriaPrima = formset_factory(forms.MateriaPrimaForm, extra=1)
+    formMateriaPrima = formset_factory(MateriaPrimaForm, extra=1)
     
     if request.method == 'POST':
         
@@ -472,14 +472,14 @@ def repo004Editar(request, id):
     registro = get_object_or_404(DetalleInsumosFormulacion, pk=id)
     
     if request.method == 'POST':
-        form=forms.Repo004Form(request.POST, instance=registro)
+        form=Repo004Form(request.POST, instance=registro)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.usuario_del_registro = request.user.username
             obj.save()
             return redirect('/repo004_listar')
     else:
-        form=forms.Repo004Form(instance=registro)
+        form=Repo004Form(instance=registro)
         
     data={'form':form}
     return render(request, 'repo004/editar.html', data)
@@ -490,12 +490,12 @@ def repo004Editar2(request, id):
     registro = get_object_or_404(MateriaPrima, pk=id)
     
     if request.method == 'POST':
-        form=forms.MateriaPrimaForm(request.POST, instance=registro)
+        form=MateriaPrimaForm(request.POST, instance=registro)
         if form.is_valid():
             form.save()
             return redirect('/repo004_listar')
     else:
-        form=forms.MateriaPrimaForm(instance=registro)
+        form=MateriaPrimaForm(instance=registro)
         
     data={'form':form}
     return render(request, 'repo004/editar2.html', data)
@@ -544,16 +544,67 @@ def repo068Buscar(request):
         return render(request, 'repo068/buscar.html', data)
 
 @login_required
-def repo068Agregar(request):
-    form=forms.Repo068Form()
+def repo068Agregar1(request):
+    productos = Producto.objects.all()
+        
+    data={'productos':productos}
+    return render(request, 'repo068/agregar1.html', data)
+
+@login_required
+def repo068Agregar(request, id):
+    producto = get_object_or_404(Producto, pk=id)
+    
+    
     if request.method == 'POST':
-        form=forms.Repo068Form(request.POST)
+        form=Repo068Form(request.POST)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.usuario_del_registro = request.user.username
             obj.save()
             return redirect('/repo068_listar')
-    data={'form':form}
+    else :
+        form=Repo068Form()
+        acidez_leche = form.fields['acidez_leche']
+        acidez_leche.widget.attrs['min'] = acidez_leche.min_value = producto.acidez_leche_min
+        acidez_leche.widget.attrs['max'] = acidez_leche.max_value = producto.acidez_leche_max
+        acidez_leche.label = f'Acidez de leche: (Norma {producto.acidez_leche_min} - {producto.acidez_leche_max})'
+        
+        materia_grasa_leche = form.fields['materia_grasa_leche']
+        materia_grasa_leche.widget.attrs['min'] = materia_grasa_leche.min_value = producto.mg_leche_min
+        materia_grasa_leche.widget.attrs['max'] = materia_grasa_leche.max_value = producto.mg_leche_max
+        materia_grasa_leche.label = f'Acidez de leche: (Norma {producto.mg_leche_min} - {producto.mg_leche_max})'
+    
+        densidad_leche = form.fields['densidad_leche']
+        densidad_leche.widget.attrs['min'] = densidad_leche.min_value = producto.densidad_leche_min
+        densidad_leche.widget.attrs['max'] = densidad_leche.max_value = producto.densidad_leche_max
+        densidad_leche.label = f'Acidez de leche: (Norma {producto.densidad_leche_min} - {producto.densidad_leche_max})'
+    
+        proteina_leche = form.fields['proteina_leche']
+        proteina_leche.widget.attrs['min'] = proteina_leche.min_value = producto.proteina_leche_min
+        proteina_leche.widget.attrs['max'] = proteina_leche.max_value = producto.proteina_leche_max
+        proteina_leche.label = f'Acidez de leche: (Norma {producto.proteina_leche_min} - {producto.proteina_leche_max})'
+    
+        acidez_mezcla = form.fields['acidez_mezcla']
+        acidez_mezcla.widget.attrs['min'] = acidez_mezcla.min_value = producto.acidez_mezcla_min
+        acidez_mezcla.widget.attrs['max'] = acidez_mezcla.max_value = producto.acidez_mezcla_max
+        acidez_mezcla.label = f'Acidez de leche: (Norma {producto.acidez_mezcla_min} - {producto.acidez_mezcla_max})'
+    
+        materia_grasa_mezcla = form.fields['materia_grasa_mezcla']
+        materia_grasa_mezcla.widget.attrs['min'] = materia_grasa_mezcla.min_value = producto.mg_mezcla_min
+        materia_grasa_mezcla.widget.attrs['max'] = materia_grasa_mezcla.max_value = producto.mg_mezcla_max
+        materia_grasa_mezcla.label = f'Acidez de leche: (Norma {producto.mg_mezcla_min} - {producto.mg_mezcla_max})'
+    
+        densidad_mezcla = form.fields['densidad_mezcla']
+        densidad_mezcla.widget.attrs['min'] = densidad_mezcla.min_value = producto.densidad_mezcla_min
+        densidad_mezcla.widget.attrs['max'] = densidad_mezcla.max_value = producto.densidad_mezcla_max
+        densidad_mezcla.label = f'Acidez de leche: (Norma {producto.densidad_mezcla_min} - {producto.densidad_mezcla_max})'
+    
+        solidos_totales_mezcla = form.fields['solidos_totales_mezcla']
+        solidos_totales_mezcla.widget.attrs['min'] = solidos_totales_mezcla.min_value = producto.solidos_totales_mezcla_min
+        solidos_totales_mezcla.widget.attrs['max'] = solidos_totales_mezcla.max_value = producto.solidos_totales_mezcla_max
+        solidos_totales_mezcla.label = f'Acidez de leche: (Norma {producto.solidos_totales_mezcla_min} - {producto.solidos_totales_mezcla_max})'
+    
+    data={'form':form}    
     return render(request, 'repo068/agregar.html', data)
 
 @login_required
@@ -567,23 +618,23 @@ def repo068Editar(request, id):
     registro = get_object_or_404(DetalleRepo068, pk=id)
     
     if request.method == 'POST':
-        form=forms.Repo068Form(request.POST, instance=registro)
+        form=Repo068Form(request.POST, instance=registro)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.usuario_del_registro = request.user.username
             obj.save()
             return redirect('/repo068_listar')
     else:
-        form=forms.Repo068Form(instance=registro)
+        form=Repo068Form(instance=registro)
     data={'form':form}
     return render(request, 'repo068/editar.html', data)
 
 @login_required
 def estanqueFermentacionAgregar(request):
     nombre_modelo = EstanqueFermentacion.__name__
-    form=forms.EstanqueFermentacionForm()
+    form=EstanqueFermentacionForm()
     if request.method == 'POST':
-        form=forms.EstanqueFermentacionForm(request.POST)
+        form=EstanqueFermentacionForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -593,9 +644,9 @@ def estanqueFermentacionAgregar(request):
 @login_required
 def estanqueLanzamientoAgregar(request):
     nombre_modelo = EstanqueLanzamiento.__name__
-    form=forms.EstanqueLanzamientoForm()
+    form=EstanqueLanzamientoForm()
     if request.method == 'POST':
-        form=forms.EstanqueLanzamientoForm(request.POST)
+        form=EstanqueLanzamientoForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -651,9 +702,9 @@ def repo005Buscar(request):
 
 @login_required
 def repo005Agregar(request):
-    form=forms.Repo005Form(request.POST or None)
+    form=Repo005Form(request.POST or None)
     
-    formMateriaPrima = formset_factory(forms.MateriaPrimaEnvasadoForm, extra=1)
+    formMateriaPrima = formset_factory(MateriaPrimaEnvasadoForm, extra=1)
     
     if request.method == 'POST':
         
@@ -686,14 +737,14 @@ def repo005Editar(request, id):
     registro = get_object_or_404(DetalleInsumosEnvasado, pk=id)
     
     if request.method == 'POST':
-        form=forms.Repo005Form(request.POST, instance=registro)
+        form=Repo005Form(request.POST, instance=registro)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.usuario_del_registro = request.user.username
             obj.save()
             return redirect('/repo005_listar')
     else:
-        form=forms.Repo005Form(instance=registro)
+        form=Repo005Form(instance=registro)
         
     data={'form':form}
     return render(request, 'repo005/editar.html', data)
@@ -704,12 +755,12 @@ def repo005Editar2(request, id):
     registro = get_object_or_404(MateriaPrimaEnvasado, pk=id)
     
     if request.method == 'POST':
-        form=forms.MateriaPrimaEnvasadoForm(request.POST, instance=registro)
+        form=MateriaPrimaEnvasadoForm(request.POST, instance=registro)
         if form.is_valid():
             form.save()
             return redirect('/repo005_listar')
     else:
-        form=forms.MateriaPrimaEnvasadoForm(instance=registro)
+        form=MateriaPrimaEnvasadoForm(instance=registro)
         
     data={'form':form}
     return render(request, 'repo005/editar2.html', data)
@@ -768,9 +819,9 @@ def repo017Buscar(request):
 
 @login_required
 def repo017Agregar(request):
-    form=forms.Repo017Form(request.POST or None)
+    form=Repo017Form(request.POST or None)
     
-    formMateriaPrima = formset_factory(forms.MaterialEnvasadoForm, extra=1)
+    formMateriaPrima = formset_factory(MaterialEnvasadoForm, extra=1)
     
     if request.method == 'POST':
         
@@ -803,14 +854,14 @@ def repo017Editar(request, id):
     registro = get_object_or_404(DetalleRepo017, pk=id)
     
     if request.method == 'POST':
-        form=forms.Repo017Form(request.POST, instance=registro)
+        form=Repo017Form(request.POST, instance=registro)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.usuario_del_registro = request.user.username
             obj.save()
             return redirect('/repo017_listar')
     else:
-        form=forms.Repo017Form(instance=registro)
+        form=Repo017Form(instance=registro)
         
     data={'form':form}
     return render(request, 'repo017/editar.html', data)
@@ -821,12 +872,12 @@ def repo017Editar2(request, id):
     registro = get_object_or_404(MaterialEnvasado, pk=id)
     
     if request.method == 'POST':
-        form=forms.MaterialEnvasadoForm(request.POST, instance=registro)
+        form=MaterialEnvasadoForm(request.POST, instance=registro)
         if form.is_valid():
             form.save()
             return redirect('/repo017_listar')
     else:
-        form=forms.MaterialEnvasadoForm(instance=registro)
+        form=MaterialEnvasadoForm(instance=registro)
         
     data={'form':form}
     return render(request, 'repo017/editar2.html', data)

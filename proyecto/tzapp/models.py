@@ -19,7 +19,7 @@ class Operador(models.Model):
     apellido = models.CharField(max_length=45)
     
     def __str__(self):
-        return f'{self.nombre} {self.apellido}'    
+        return f'{self.nombre} {self.apellido}'
     
 class Tlc(models.Model):
     nombre = models.CharField(max_length=20)
@@ -161,13 +161,39 @@ class Maquina(models.Model):
     def __str__(self):
         return f'{self.nombre}'
 
+class Producto(models.Model):
+    nombre = models.CharField(max_length=50)
+    acidez_leche_min = models.FloatField()
+    acidez_leche_max = models.FloatField()
+    ph_leche_min = models.FloatField()
+    ph_leche_max = models.FloatField()
+    mg_leche_min = models.FloatField()
+    mg_leche_max = models.FloatField()
+    densidad_leche_min = models.FloatField()
+    densidad_leche_max = models.FloatField()
+    proteina_leche_min = models.FloatField()
+    proteina_leche_max = models.FloatField()
+    acidez_mezcla_min = models.FloatField()
+    acidez_mezcla_max = models.FloatField()
+    ph_mezcla_min = models.FloatField()
+    ph_mezcla_max = models.FloatField()
+    densidad_mezcla_min = models.FloatField()
+    densidad_mezcla_max = models.FloatField()
+    mg_mezcla_min = models.FloatField()
+    mg_mezcla_max = models.FloatField()
+    solidos_totales_mezcla_min = models.FloatField()
+    solidos_totales_mezcla_max = models.FloatField()
+
+    def __str__(self):
+        return f'{self.nombre}'
+    
 class OrdenProceso(models.Model):
     tlp = models.ForeignKey(DetalleTlp, on_delete=models.CASCADE)
     tct = models.ForeignKey(Tct, on_delete=models.CASCADE)
     tmy = models.ForeignKey(Tmy, on_delete=models.CASCADE)
     orden_proceso = models.IntegerField()
     orden_proceso_base_blanca = models.IntegerField()
-    producto = models.CharField(max_length=50, null = True)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     sabor = models.CharField(max_length=50, null = True)
     litros = models.FloatField()
     maquina = models.ForeignKey(Maquina, on_delete=models.CASCADE)
