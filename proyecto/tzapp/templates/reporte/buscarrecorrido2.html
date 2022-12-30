@@ -1,0 +1,206 @@
+{% extends 'padre/padre.html' %}
+
+{% block title %} TZReport{% endblock %}
+
+{% block content %}
+<div class="alert alert-secondary display-6 text-center container mt-5">Listado de Productos fabricados por Recorrido</div>
+
+{% if repo001 %}
+
+<div class="container mt-5" style="border: outset">
+    <div><br>
+        <h5>1. Información del recorrido</h5><br>
+        <div class="row">
+            <div class="col"><p>Número de guía</p></div>
+            <div class="col"><p>{{repo001.numero_guia}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Recorrido</p></div>
+            <div class="col"><p>{{repo001.recorrido}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Patente</p></div>
+            <div class="col"><p>{{repo001.placa}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Fecha</p></div>
+            <div class="col"><p>{{repo001.fecha}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Inicio descarga</p></div>
+            <div class="col"><p>{{repo001.hora_inicio_descarga}}</p></div>
+        </div>
+        <div class="row">
+            <div class="col"><p>Termino descarga</p></div>
+            <div class="col"><p>{{repo001.hora_termino_descarga}}</p></div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5" style="border: outset">
+    <div><br>
+        <h5>2. TLCs llenados con el recorrido {{repo001.recorrido}}, N° guía {{repo001.numero_guia}}</h5><br>
+        <div class="row" style="background-color: rgb(236, 248, 236);">
+            <div class="col"><p>Nombre del TLC</p></div>
+            <div class="col"><p>Fecha de llenado</p></div>
+        </div>
+    {% for tlc in detalleTlc %}
+        {% if  tlc.detalle_camion_recepcion_leche_id == repo001.id %}
+        <div class="row">
+   
+            <div class="col"><p>{{tlc.tlc}}</p></div>
+            <div class="col"><p>{{tlc.fecha_creacion}}</p></div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+</div>
+
+{% for tlc in detalleTlc %}
+{% if  tlc.detalle_camion_recepcion_leche_id == repo001.id %}
+<div class="container mt-5" style="border: outset">
+    <div><br>
+        <h5>3. TLP llenados con el {{tlc.tlc}}</h5><br>
+        <div class="row" style="background-color: rgb(236, 248, 236);">
+            <div class="col"><p>Nombre del TLP</p></div>
+            <div class="col"><p>Fecha de llenado</p></div>
+        </div>
+        {% for repo013 in repos013 %}
+        {% if  tlc.id == repo013.tlc_id %}
+            {% for tlp in detalleTlp %}
+            {% if  tlp.detalle_pasteurizacion_id == repo013.id %}
+            <div class="row">
+    
+                <div class="col"><p>{{tlp.tlp}}</p></div>
+                <div class="col"><p>{{tlp.fecha_creacion}}</p></div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+
+
+
+
+<div class="container mt-5" style="border: outset">
+    <div class="table-responsive container mt-5">
+        <h5 style="text-align: center;">Total de productos fabricados con la leche del recorrido {{repo001.recorrido}}, N° guía {{repo001.numero_guia}}</h5><br>
+        <table class="table table-hover table-bordered table-sm">
+            <thead class="table-light align-middle">
+                <tr>
+                    <th>________________________________ TLC ________________________________</th>
+                    <th>________________________________ TLP ________________________________</th>
+                    <th>________________________________ TMY ________________________________</th>
+                    <th>________________________________ Orden de proceso ________________________________</th>
+                    <th>________________________________ Producto ________________________________</th>
+                    <th>________________________________ Sabor ________________________________</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="align-middle">
+                        {% for tlc in detalleTlc %}
+                        {% if  tlc.detalle_camion_recepcion_leche_id == repo001.id %}
+                                {% for repo013 in repos013 %}
+                                {% if  tlc.id == repo013.tlc_id %}
+                                        {% for tlp in detalleTlp %}
+                                        {% if  tlp.detalle_pasteurizacion_id == repo013.id %}
+                                        <tr>
+                                            <td>{{tlc.tlc}}</td>
+                                            <td>{{tlp.tlp}}</td>
+
+                                            
+                                            <td>
+                                                <ul>
+                                                        {% for repo003 in repos003 %}
+                                                            {% if  tlp.id == repo003.tlp_id %}
+                                                     
+                                                            <li>{{repo003.tmy}}</li>
+                                              
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    <ul>
+                                                </td>
+
+                                                       
+                                            <td>
+                                                <ul>
+                                                        {% for repo003 in repos003 %}
+                                                            {% if  tlp.id == repo003.tlp_id %}
+                                                     
+                                                            <li>{{repo003.orden_proceso}}</li>
+                                                    
+                                                
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    <ul>
+                                                </td>
+                                          
+
+
+                                                                 
+                                            <td>
+                                                <ul>
+                                                        {% for repo003 in repos003 %}
+                                                            {% if  tlp.id == repo003.tlp_id %}
+                                                     
+                                                            <li>{{repo003.producto}}</li>
+                                                    
+                                                           
+                                                       
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    <ul>
+                                                </td>
+                                                                 
+                                            <td>
+                                                <ul>
+                                                        {% for repo003 in repos003 %}
+                                                            {% if  tlp.id == repo003.tlp_id %}
+                                                     
+                                                            <li>{{repo003.sabor}}</li>
+                                                    
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    <ul>
+                                                </td>
+                                            <td>
+                                                <ul  style="list-style-type: none;">
+                                                        {% for repo003 in repos003 %}
+                                                            {% if  tlp.id == repo003.tlp_id %}
+                                                     
+                                                            <li style="list-style-type: none;"><a class="btn btn-primary" href='/generar_reporte/{{repo003.id}}'><i class="bi bi-clipboard-data"></i>Reporte OP {{repo003.orden_proceso}}</a><li>
+
+        
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    <ul>
+                                                </td>
+
+
+
+
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                {% endif %}
+                                {% endfor %}
+                        {% endif %}
+                        {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+{% else %}
+<div class="alert alert-warning text-center container mt-5">No se encuentran datos para la búsqueda {{query}}</div>
+{% endif %}
+</div>
+
+{% endblock %}

@@ -91,6 +91,8 @@ urlpatterns = [
     path('menu_reporte/', menuReporte ,name='menureporte'),
     path('buscar_op/', buscarOp ,name='buscar_op'),
     path('generar_reporte/<int:id>', generarReporte ,name='generar_reporte'),
+    path('buscar_fermento/', buscarFermento ,name='buscar_fermento'),
+    path('buscar_recorrido/', buscarRecorrido ,name='buscar_recorrido'),
+    path('buscar_recorrido2/<int:id>', buscarRecorrido2 ,name='buscar_recorrido2'),
  
-
 ]

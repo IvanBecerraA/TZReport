@@ -6,40 +6,49 @@
 
 <div class="alert alert-secondary display-6 text-center container mt-5">Menú de Reportes</div>
 
-<div class="container mt-5 text-center">
-  <h6 class="sidebar-title">
-      <i class="bi bi-search"></i> Búsqueda por Orden de Proceso (OP)
-  </h6>
+<br>
+<br>
+
+<div class="container mt-5 text-center" style="width: 500px;">
+  <h6 class="sidebar-title"><i class="bi bi-search"></i> Búsqueda por Orden de Proceso (OP)</h6>
   <form class="input-group" action="{% url 'buscar_op' %}" method="GET" role="form">
-      <input type="text" name="buscar_op" id="" class="form-control" placeholder="Buscar">
+      <input type="text" name="buscar_op" id="" class="form-control" placeholder="Orden de proceso">
       <div class="input-group-addon">
           <input type="submit" class="btn btn-primary"  icons="bi bi-search" value="Buscar">
       </div>
   </form>
 </div>
 
+<br>
+<br>
+<br>
 
-
-<div class="container text-center">
-  <div class="row" style="margin: 10% 5%;">
-    <div class="col">
-      <a class="btn btn-success" href="{% url 'reporte' %}" style="font-size: 20px;">RE PO 001</a>
-    </div>
-    <div class="col">
-      <a class="btn btn-success" href="{% url 'index' %}" style="font-size: 20px;">RE PO 013</a>
-    </div>
-    <div class="col">
-      <a class="btn btn-success" href="{% url 'index' %}" style="font-size: 20px;">RE PO 003</a>
-    </div>
-  </div>
-  <div class="row" style="margin: 10% 5%;">
-    <div class="col">
-      <a class="btn btn-success" href="{% url 'index' %}" style="font-size: 20px;">Reporte de producto</a>
-    </div>
-    
-  </div>
+<div class="container mt-5 text-center" style="width: 500px;">
+  <h6 class="sidebar-title"><i class="bi bi-search"></i> Búsqueda de los Productos fabricados con un fermento</h6>
+  <form class="input-group" action="{% url 'buscar_fermento' %}" method="GET" role="form">
+    <input type="text" name="buscar_fermento" id="" class="form-control" placeholder="Fermento">
+    <input type="text" name="buscar_lote" id="" class="form-control" placeholder="Lote">
+    <div class="input-group-addon">
+          <input type="submit" class="btn btn-primary"  icons="bi bi-search" value="Buscar">
+      </div>
+  </form>
 </div>
 
+<br>
+<br>
+<br>
 
+<div class="container mt-5 text-center" style="width: 500px;">
+  <h6 class="sidebar-title"><i class="bi bi-search"></i> Búsqueda Productos por Recorridos</h6>
+  <form class="input-group" action="{% url 'buscar_recorrido' %}" method="GET" role="form">
+      <input type="text" name="buscar_recorrido" id="" class="form-control" placeholder="Número de guía del recorrido">
+      <div class="input-group-addon">
+          <input type="submit" class="btn btn-primary"  icons="bi bi-search" value="Buscar">
+      </div>
+  </form>
+</div>
 
+<br>
+<br>
+<br>
 {% endblock %}

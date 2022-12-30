@@ -899,7 +899,7 @@ def buscarOp(request):
         query = request.GET.get('buscar_op')
         queryset = repos003.filter(Q(orden_proceso__icontains = query))
         
-        paginator = Paginator(queryset, 5)
+        paginator = Paginator(queryset, 1)
         page = request.GET.get('page') or 1
         repos003 = paginator.page(page)
         total = queryset.count()
@@ -941,3 +941,70 @@ def generarReporte(request, id):
         'listaMaterialEnvasado':listaMaterialEnvasado,
         }
     return render(request, 'reporte/trazabilidad.html', data)
+
+
+@login_required
+def buscarFermento(request):
+    repos068 = DetalleRepo068.objects.order_by('fermento')
+    
+    if request.method == "GET":
+        query1 = request.GET.get('buscar_fermento')
+        query2 = request.GET.get('buscar_lote')
+        queryset = repos068.filter(Q(fermento__icontains = query1) & Q(fermento_lote__icontains = query2))
+        
+        repos003 = OrdenProceso.objects.all()
+        
+        paginator = Paginator(queryset, 5)
+        page = request.GET.get('page') or 1
+        repos068 = paginator.page(page)
+        total = queryset.count()
+        
+        data = {
+            'page':page,
+            'total':total,
+            'query':query1,
+            'query2':query2,
+            'repos068':repos068,
+            'repos003':repos003,
+        }
+        return render(request, 'reporte/buscarfermento.html', data)
+
+@login_required
+def buscarRecorrido(request):
+    repos001 = DetalleCamionRecepcionLeche.objects.order_by('numero_guia')
+    
+    if request.method == "GET":
+        query = request.GET.get('buscar_recorrido')
+        queryset = repos001.filter(Q(numero_guia__icontains = query))
+        
+        paginator = Paginator(queryset, 5)
+        page = request.GET.get('page') or 1
+        repos001 = paginator.page(page)
+        total = queryset.count()
+        
+        
+        data = {
+            'page':page,
+            'total':total,
+            'query':query,
+            'repos001':repos001,
+        }
+        return render(request, 'reporte/buscarrecorrido.html', data)
+    
+@login_required
+def buscarRecorrido2(request, id):
+    repo001 = get_object_or_404(DetalleCamionRecepcionLeche, pk=id)
+    
+    detalleTlc = DetalleTlc.objects.all()
+    repos013 = Detalle_pasteurizacion.objects.all()
+    detalleTlp = DetalleTlp.objects.all()
+    repos003 = OrdenProceso.objects.all()
+    
+    data={
+        'repo001':repo001,
+        'detalleTlc':detalleTlc,
+        'repos013':repos013,
+        'detalleTlp':detalleTlp,
+        'repos003':repos003,
+        }
+    return render(request, 'reporte/buscarrecorrido2.html', data)

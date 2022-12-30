@@ -1,0 +1,82 @@
+{% extends 'padre/padre.html' %}
+
+{% block title %} TZReport{% endblock %}
+
+{% block content %}
+<div class="alert alert-secondary display-6 text-center container mt-5">Búsqueda de número de guía del recorrido</div>
+
+
+<div class="container mt-5 text-center">
+    <p>{{total}} resultado/s para búsqueda de registros que contengan {{query}} en el número de guía</p>
+</div>
+
+
+{% if repos001 %}
+<div class="table-responsive container mt-5">
+    <table class="table table-hover table-bordered table-sm">
+        <thead class="table-light align-middle">
+            <tr>
+                <th>________________________________ Número de guía ________________________________</th>
+                <th>________________________________ Fecha ________________________________</th>
+                <th>________________________________ Recorrido ________________________________</th>
+                <th>________________________________ TLC ________________________________</th>
+                <th>________________________________ Sello/s ________________________________</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="align-middle">
+            {% for repo001 in repos001 %}
+            <tr>
+                <td>{{repo001.numero_guia}}</td>
+                <td>{{repo001.fecha}}</td>
+                <td>{{repo001.recorrido}}</td>
+                <td>
+                    <ul>
+                        {% for tlc in repo001.tlc.all %}
+                            <li>{{tlc.nombre}}</li>
+                        {% endfor %}
+                    <ul>
+                </td>
+                <td>{{repo001.sello}}</td>
+                <td><a class="btn btn-primary" href='/buscar_recorrido2/{{repo001.id}}'><i class="bi bi-clipboard-data"></i>Detalle</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="" id="botones de paginacion" style="margin-top: 10px; display: flex; justify-content: center">
+    <div class="pagination">
+        {% if repos001.has_previous %}
+        <a class="btn btn-secondary" style="margin: 0px 3px" href="?buscar_recorrido={{query}}&page={{ repos001.previous_page_number }}"><i class="bi bi-arrow-left-square"></i> Anterior</a>
+        {% endif %}
+    
+        {% if 4 in repos001.paginator.page_range %}
+            {% if page|add:"-1" >= 1 %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?buscar_recorrido={{query}}&page={{ page|add:"-1" }}">{{ page|add:"-1" }}</a>
+            {%endif%}
+                <a  class="btn btn-dark" style="margin: 0px 1px" href="?buscar_recorrido={{query}}&page={{ page }}">{{ page }}</a>
+            {% if page|add:"1" in repos001.paginator.page_range %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?buscar_recorrido={{query}}&page={{ page|add:"1" }}">{{ page|add:"1" }}</a>
+            {%endif%}
+        {% else %}
+            {% for numero in repos001.paginator.page_range %}
+            {% if numero == repos001.number %}
+                <strong  class="btn btn-dark" style="margin: 0px 1px">{{ numero }}</strong>
+            {% else %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?buscar_recorrido={{query}}&page={{ numero }}">{{ numero }}</a>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+    
+        {% if repos001.has_next %}
+        <a  class="btn btn-secondary" style="margin: 0px 3px" href="?buscar_recorrido={{query}}&page={{ repos001.next_page_number }}">Siguiente <i class="bi bi-arrow-right-square"></i></a>
+        {% endif %}
+    </div>
+
+{% else %}
+<div class="alert alert-warning text-center container mt-5">No se encuentran datos para la búsqueda {{query}}</div>
+{% endif %}
+</div>
+
+{% endblock %}

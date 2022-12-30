@@ -1,0 +1,82 @@
+{% extends 'padre/padre.html' %}
+
+{% block title %} TZReport{% endblock %}
+
+{% block content %}
+<div class="alert alert-secondary display-6 text-center container mt-5">Búsqueda de Productos realizados con un fermento</div>
+
+
+<div class="container mt-5 text-center">
+    <p>{{total}} resultado/s para la búsqueda de fermento {{query}} y lote {{query2}}</p>
+</div>
+
+
+{% if repos068 %}
+<div class="table-responsive container mt-5">
+    <table class="table table-hover table-bordered table-sm">
+        <thead class="table-light align-middle">
+            <tr>
+                <th>________________________________ Orden de Proceso ________________________________</th>
+                <th>________________________________ Orden de Proceso Base Blanca ________________________________</th>
+                <th>________________________________ Producto ________________________________</th>
+                <th>________________________________ Sabor ________________________________</th>
+                <th>________________________________ Fermento ________________________________</th>
+                <th>________________________________ Lote del fermento ________________________________</th>
+            </tr>
+        </thead>
+        <tbody class="align-middle">
+            {% for repo068 in repos068 %}
+            <tr>
+                <td>{{repo068.orden_proceso}}</td>
+                {% for repo003 in repos003 %}
+                    {% if repo003.id == repo068.orden_proceso_id %}
+                        <td>{{repo003.orden_proceso_base_blanca}}</td>
+                        <td>{{repo003.producto}}</td>
+                        <td>{{repo003.sabor}}</td>
+                    {% endif %}
+                {% endfor %}
+                <td>{{repo068.fermento}}</td>
+                <td>{{repo068.fermento_lote}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<div class="" id="botones de paginacion" style="margin-top: 10px; display: flex; justify-content: center">
+    <div class="pagination">
+        {% if repos068.has_previous %}
+        <a class="btn btn-secondary" style="margin: 0px 3px" href="?buscar_fermento={{query}}&buscar_lote={{query2}}&page={{ repos068.previous_page_number }}"><i class="bi bi-arrow-left-square"></i> Anterior</a>
+        {% endif %}
+    
+        {% if 4 in repos068.paginator.page_range %}
+            {% if page|add:"-1" >= 1 %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?buscar_fermento={{query}}&buscar_lote={{query2}}&page={{ page|add:"-1" }}">{{ page|add:"-1" }}</a>
+            {%endif%}
+                <a  class="btn btn-dark" style="margin: 0px 1px" href="?buscar_fermento={{query}}&buscar_lote={{query2}}&page={{ page }}">{{ page }}</a>
+            {% if page|add:"1" in repos068.paginator.page_range %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?buscar_fermento={{query}}&buscar_lote={{query2}}&page={{ page|add:"1" }}">{{ page|add:"1" }}</a>
+            {%endif%}
+        {% else %}
+            {% for numero in repos068.paginator.page_range %}
+            {% if numero == repos068.number %}
+                <strong  class="btn btn-dark" style="margin: 0px 1px">{{ numero }}</strong>
+            {% else %}
+                <a  class="btn btn-secondary" style="margin: 0px 1px" href="?buscar_fermento={{query}}&buscar_lote={{query2}}&page={{ numero }}">{{ numero }}</a>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+    
+        {% if repos068.has_next %}
+        <a  class="btn btn-secondary" style="margin: 0px 3px" href="?buscar_fermento={{query}}&buscar_lote={{query2}}&page={{ repos068.next_page_number }}">Siguiente <i class="bi bi-arrow-right-square"></i></a>
+        {% endif %}
+    </div>
+
+
+{% else %}
+<div class="alert alert-warning text-center container mt-5">No se encuentran datos en el sistema</div>
+{% endif %}
+</div>
+
+{% endblock %}

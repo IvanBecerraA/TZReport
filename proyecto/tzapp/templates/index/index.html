@@ -10,13 +10,31 @@
 {% if grupo.name == 'Operador Recepcion de leche' or grupo.name == 'Administrador'%}
         <div class="row" style="margin: 10% 5%;">
         <div class="col">
-          <a class="btn btn-success" href="{% url 'repo001_listar' %}" style="font-size: 20px;"><i class="bi bi-file-earmark-text"></i> RE PO 001</a>
+          <div class="card text-bg-light" style="width: 300px; height: 200px;  margin: auto">
+            <div class="card-body">
+              <h5 class="card-title">Proceso Recepción de leche</h5>
+              <p>Gestión de la información del proceso inicial de la leche, parametros y recorridos.</p>
+              <a class="btn btn-success" href="{% url 'repo001_listar' %}" style="font-size: 20px;"><i class="bi bi-file-earmark-text"></i> RE PO 001</a>
+            </div>
+          </div>
         </div>
         <div class="col">
-          <a class="btn btn-success" href="{% url 'repo013_listar' %}" style="font-size: 20px;"><i class="bi bi-file-earmark-text"></i> RE PO 013</a>
+          <div class="card text-bg-light" style="width: 300px; height: 200px; margin: auto">
+            <div class="card-body">
+              <h5 class="card-title">Proceso de Pasteurización</h5>
+              <p>Gestión de la información del proceso de pasteurización de la leche cruda en recepción de leche.</p>
+              <a class="btn btn-success" href="{% url 'repo013_listar' %}" style="font-size: 20px;"><i class="bi bi-file-earmark-text"></i> RE PO 013</a>
+            </div>
+          </div>
         </div>
         <div class="col">
-          <a class="btn btn-success" href="{% url 'repo003_listar' %}" style="font-size: 20px;"><i class="bi bi-file-earmark-text"></i> RE PO 003</a>
+          <div class="card text-bg-light" style="width: 300px; height: 200px; margin: auto">
+            <div class="card-body">
+              <h5 class="card-title">Proceso llenado TMY</h5>
+              <p>Gestión de la información del proceso de llenado de tmy para la formulación.</p>
+              <a class="btn btn-success" href="{% url 'repo003_listar' %}" style="font-size: 20px;"><i class="bi bi-file-earmark-text"></i> RE PO 003</a>
+            </div>
+          </div>
         </div>
       </div>
       {% endif %}
@@ -24,19 +42,37 @@
       <div class="row" style="margin: 10% 5%;">
         {% if grupo.name == 'Operador Calan' or grupo.name == 'Operador Gea' or grupo.name == 'Administrador'%}
         <div class="col">
-          <a class="btn btn-success" href="{% url 'repo068_listar' %}" style="font-size: 20px;"><i class="bi bi-file-earmark-text"></i> RE PO 068</a>
+          <div class="card text-bg-light" style="width: 300px; height: 200px; margin: auto">
+            <div class="card-body">
+              <h5 class="card-title">Proceso de Fermentación</h5>
+              <p>Gestión de la información del proceso de fermentación y enfriamiento del la mezcla.</p>              
+              <a class="btn btn-success" href="{% url 'repo068_listar' %}" style="font-size: 20px;"><i class="bi bi-file-earmark-text"></i> RE PO 068</a>
+            </div>
+          </div>
         </div>
     {% endif %}
     
     {% if grupo.name == 'Operador Dosimetria' or grupo.name == 'Administrador'%}
         <div class="col">
-          <a class="btn btn-success" href="{% url 'repo004_listar' %}" style="font-size: 20px;"><i class="bi bi-file-earmark-text"></i> RE PO 004</a>
+          <div class="card text-bg-light" style="width: 300px; height: 200px; margin: auto">
+            <div class="card-body">
+              <h5 class="card-title">Proceso de Formulación</h5>
+              <p>Gestión de la información del proceso de insumos para la formulación.</p>
+              <a class="btn btn-success" href="{% url 'repo004_listar' %}" style="font-size: 20px;"><i class="bi bi-file-earmark-text"></i> RE PO 004</a>
+            </div>
+          </div>
         </div>
     {% endif %}
 
     {% if grupo.name == 'Operador Calan' or grupo.name == 'Operador Gea' or grupo.name == 'Administrador'%}
         <div class="col">
-          <a class="btn btn-success" href="{% url 'repo005_listar' %}" style="font-size: 20px;"><i class="bi bi-file-earmark-text"></i> RE PO 005</a>
+          <div class="card text-bg-light" style="width: 300px; height: 200px; margin: auto">
+            <div class="card-body">
+              <h5 class="card-title">Proceso de insumos en el Envasado</h5>
+              <p>Gestión de la información de insumos agregados en el envasado.</p>
+              <a class="btn btn-success" href="{% url 'repo005_listar' %}" style="font-size: 20px;"><i class="bi bi-file-earmark-text"></i> RE PO 005</a>
+            </div>
+          </div>
         </div>
       </div>
     {% endif %}
@@ -44,18 +80,32 @@
     {% if grupo.name == 'Operador Envasado' or grupo.name == 'Administrador'%}
       <div class="row" style="margin: 10% 5%;">
         <div class="col">
-          <a class="btn btn-success" href="{% url 'repo017_listar' %}" style="font-size: 20px;"><i class="bi bi-file-earmark-text"></i> RE PO 017</a>
+          <div class="card text-bg-light" style="width: 300px; height: 200px; margin: auto">
+            <div class="card-body">
+              <h5 class="card-title">Proceso de Envasado</h5>
+              <p>Gestión de la información del material utilizado en el envasado.</p>              
+              <a class="btn btn-success" href="{% url 'repo017_listar' %}" style="font-size: 20px;"><i class="bi bi-file-earmark-text"></i> RE PO 017</a>
+            </div>
+          </div>
         </div>
       </div>
     {% endif %}
 
     {% if grupo.name == 'Administrador'%}
       <div class="row" style="margin: 10% 5%;">
-        <div class="col">
-          <a class="btn btn-success" href="{% url 'menureporte' %}" style="font-size: 25px;"><i class="bi bi-graph-up"></i> Generar reporte</a>
+        <div class="col" >
+          <div class="card text-bg-light" style="width: 300PX;  margin: auto">
+            <div class="card-body">
+              <h5 class="card-title">Proceso de trazabilidad</h5>
+              <p>Historial para la trazabilidad de un producto.</p>
+              <a class="btn btn-success" href="{% url 'menureporte' %}" style="font-size: 20px;"><i class="bi bi-graph-up"></i> Generar reporte</a>
+            </div>
+          </div>
         </div>
       </div>
     {% endif %}
+
+
   {% endfor %}
 
 </div>
