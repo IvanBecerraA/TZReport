@@ -172,17 +172,14 @@
                                                         {% for repo003 in repos003 %}
                                                             {% if  tlp.id == repo003.tlp_id %}
                                                      
-                                                            <li style="list-style-type: none;"><a class="btn btn-primary" href='/generar_reporte/{{repo003.id}}'><i class="bi bi-clipboard-data"></i>Reporte OP {{repo003.orden_proceso}}</a><li>
+                                                            <li style="list-style-type: none;"><a class="btn btn-primary" style="width: 100px; height: 60px; margin: 5px 5px" href='/generar_reporte/{{repo003.id}}'><i class="bi bi-clipboard-data"></i>Reporte OP {{repo003.orden_proceso}}</a><li>
 
         
                                                             {% endif %}
                                                         {% endfor %}
                                                     <ul>
                                                 </td>
-
-
-
-
+                                                
                                         </tr>
                                         {% endif %}
                                         {% endfor %}
